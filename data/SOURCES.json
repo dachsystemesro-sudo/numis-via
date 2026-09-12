@@ -1,0 +1,7 @@
+{
+  "policy_version": "1.0",
+  "sources": [
+    {"id":"ecb-euro-common","publisher":"European Central Bank","url":"https://www.ecb.europa.eu/euro/coins/common/html/index.en.html","kind":"official","allowed_use":"facts with attribution; images require separate rights check","last_checked":"2026-09-11"},
+    {"id":"wikidata","publisher":"Wikimedia Foundation","url":"https://www.wikidata.org/wiki/Wikidata:Data_access","kind":"open structured data","license":"CC0","allowed_use":"structured data","last_checked":"2026-09-11"}
+  ]
+}

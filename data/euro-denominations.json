@@ -1,0 +1,16 @@
+{
+  "source": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+  "publisher": "European Central Bank",
+  "checked_at": "2026-09-11",
+  "currency": "EUR",
+  "records": [
+    {"denomination":"2 EUR","mass_g":8.50,"diameter_mm":25.75,"thickness_mm":2.20,"shape":"round","edge":"edge lettering, fine milled","composition":"copper-nickel outer; nickel-brass/nickel/nickel-brass inner"},
+    {"denomination":"1 EUR","mass_g":7.50,"diameter_mm":23.25,"thickness_mm":2.33,"shape":"round","edge":"interrupted milled","composition":"nickel-brass outer; copper-nickel/nickel/copper-nickel inner"},
+    {"denomination":"50 cent","mass_g":7.80,"diameter_mm":24.25,"thickness_mm":2.38,"shape":"round","edge":"fine scallops","composition":"Nordic gold"},
+    {"denomination":"20 cent","mass_g":5.74,"diameter_mm":22.25,"thickness_mm":2.14,"shape":"Spanish flower","edge":"plain","composition":"Nordic gold"},
+    {"denomination":"10 cent","mass_g":4.10,"diameter_mm":19.75,"thickness_mm":1.93,"shape":"round","edge":"fine scallops","composition":"Nordic gold"},
+    {"denomination":"5 cent","mass_g":3.92,"diameter_mm":21.25,"thickness_mm":1.67,"shape":"round","edge":"smooth","composition":"copper-covered steel"},
+    {"denomination":"2 cent","mass_g":3.06,"diameter_mm":18.75,"thickness_mm":1.67,"shape":"round","edge":"smooth with groove","composition":"copper-covered steel"},
+    {"denomination":"1 cent","mass_g":2.30,"diameter_mm":16.25,"thickness_mm":1.67,"shape":"round","edge":"smooth","composition":"copper-covered steel"}
+  ]
+}
