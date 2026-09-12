@@ -1,1 +1,9 @@
-{"name":"numis-via-v12","version":"12.1.0","private":true,"type":"module"}
+{
+  "name": "numis-via-coinprint",
+  "version": "13.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check api/analyze.js && node --test"
+  }
+}
