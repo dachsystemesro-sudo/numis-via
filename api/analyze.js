@@ -3,7 +3,8 @@ import {catalogueCandidates,catalogueGate,denominationPhysicalGate} from './cata
 const URL='https://ai-gateway.vercel.sh/v1/chat/completions';
 const MODEL=process.env.COINPRINT_MODEL||'openai/gpt-5.4';
 const FEATURES=['denomination','country_text','date','main_motif','coat_of_arms','mint_mark','engraver_mark','micro_symbols','geometry','edge'];
-const CRITICAL=['denomination','country_text','date','main_motif','geometry'];
+const BASE_CRITICAL=['denomination','country_text','date','main_motif','geometry'];
+const DETAIL_FEATURES=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
 const clamp=n=>Math.max(0,Math.min(100,Number(n)||0));
 const norm=v=>String(v??'').toLocaleLowerCase('sk').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
 const agrees=(a,b)=>norm(a)===norm(b)||(norm(a).length>5&&norm(b).includes(norm(a)))||(norm(b).length>5&&norm(a).includes(norm(b)));
@@ -36,6 +37,21 @@ function merge(passes){
   return out;
 }
 
+function applicableCritical(features,catalogueMatches=[]){
+  const required=new Set(BASE_CRITICAL);
+  // A detail becomes a hard identifier when it is visibly detected OR when a close
+  // catalogue candidate defines it. This prevents tiny mint/designer marks from
+  // being silently ignored while avoiding impossible requirements on coins that lack them.
+  for(const name of DETAIL_FEATURES){
+    if(features[name]?.value)required.add(name);
+    for(const record of catalogueMatches){
+      const expected=record?.record?.[name]??record?.[name];
+      if(expected!==undefined&&expected!==null&&String(expected).trim())required.add(name);
+    }
+  }
+  return [...required];
+}
+
 function candidates(passes){const map=new Map();for(const p of passes)for(const c of p.candidates||[]){const key=[c.country,c.denomination,c.date,c.variant,c.label].map(norm).join('|');if(!map.has(key)||clamp(c.confidence)>clamp(map.get(key).confidence))map.set(key,c)}return [...map.values()].sort((a,b)=>clamp(b.confidence)-clamp(a.confidence)).slice(0,8)}
 
 function verifyPrompt(features,pool){return `NUMIS VIA CoinPrint, oponentský priechod. Pokús sa VYVRÁTIŤ každého kandidáta podľa fotografií. Over nominál, presný text a krajinu, letopočet, motív, znak, mincovňu, autora, mikrosymboly, geometriu a hranu. Predošlé dôkazy: ${JSON.stringify(features)}. Kandidáti: ${JSON.stringify(pool)}. Vráť iba JSON: {"features":[],"candidate_verdicts":[{"label":"","supported":false,"score":0,"matched_features":[""],"contradictions":[""],"missing_decisive_features":[""],"catalogue_identity":""}],"quality":{"sharpness":0,"exposure":0,"coverage":0,"glare_control":0},"missing_views":[""]}. supported smie byť true iba bez kritického rozporu a bez chýbajúceho rozhodujúceho znaku.`}
@@ -55,12 +71,13 @@ export default async function handler(req,res){
     const measurements=req.body?.measurements||{};
     const catalogueMatches=catalogueCandidates(features,measurements);
     const catalogue=catalogueGate(catalogueMatches);
+    const critical=applicableCritical(features,catalogueMatches);
     const physicalGate=denominationPhysicalGate(features.denomination,measurements);
-    const missing=CRITICAL.filter(k=>!features[k].value||features[k].agreement_count<2||features[k].confidence<78);
-    const conflicts=CRITICAL.flatMap(k=>features[k].conflicts.map(x=>k+': '+x));
+    const missing=critical.filter(k=>!features[k]?.value||features[k].agreement_count<2||features[k].confidence<78);
+    const conflicts=critical.flatMap(k=>features[k].conflicts.map(x=>k+': '+x));
     const supported=(verifier.candidate_verdicts||[]).filter(v=>v.supported&&clamp(v.score)>=90&&!(v.contradictions||[]).length&&!(v.missing_decisive_features||[]).length).sort((x,y)=>clamp(y.score)-clamp(x.score));
     const blockers=[...photoQuality.failures.map(x=>'Nedostatočná kvalita: '+x),...conflicts.map(x=>'Kritický rozpor: '+x),...missing.map(x=>'Chýba nezávislé potvrdenie: '+x),...(supported.length?[]:['Žiadny kandidát neprešiel oponentským overením.']),...(supported.length>1&&clamp(supported[0].score)-clamp(supported[1].score)<8?['Kandidáti sú príliš podobní.']:[]),...(physicalGate.passed===false?[physicalGate.reason]:[]),...(catalogue.passed?[]:[catalogue.reason])];
     const verified=!blockers.length;
-    return res.status(200).json({coinprint_version:'13.3.0',status:verified?'VERIFIED':'BLOCKED',valuation_allowed:verified,identity:verified?{...supported[0],catalogue_id:catalogue.record.catalogue_id}:null,confidence:verified?Math.min(clamp(supported[0].score),catalogue.record.score):0,blockers:[...new Set(blockers)],quality:photoQuality,features,measurements,physical_gate:physicalGate,catalogue:{matched:catalogueMatches.map(x=>({catalogue_id:x.catalogue_id,identity_level:x.identity_level,label:x.label,score:x.score,contradictions:x.contradictions})),gate:catalogue.reason},candidate_verdicts:verifier.candidate_verdicts||[],next_needed:[...new Set([...(a.missing_views||[]),...(b.missing_views||[]),...(verifier.missing_views||[])])].filter(Boolean),audit:{passes:3,independent_primary_passes:2,catalogue_schema:'1.1',timestamp:new Date().toISOString()}});
+    return res.status(200).json({coinprint_version:'13.6.0',status:verified?'VERIFIED':'BLOCKED',valuation_allowed:verified,identity:verified?{...supported[0],catalogue_id:catalogue.record.catalogue_id}:null,confidence:verified?Math.min(clamp(supported[0].score),catalogue.record.score):0,blockers:[...new Set(blockers)],quality:photoQuality,features,measurements,physical_gate:physicalGate,catalogue:{matched:catalogueMatches.map(x=>({catalogue_id:x.catalogue_id,identity_level:x.identity_level,label:x.label,score:x.score,contradictions:x.contradictions})),gate:catalogue.reason},candidate_verdicts:verifier.candidate_verdicts||[],next_needed:[...new Set([...(a.missing_views||[]),...(b.missing_views||[]),...(verifier.missing_views||[])])].filter(Boolean),audit:{passes:3,independent_primary_passes:2,critical_features:critical,catalogue_schema:'1.1',timestamp:new Date().toISOString()}});
   }catch(error){return res.status(500).json({error:error.message||'CoinPrint analýza zlyhala.'})}
 }
