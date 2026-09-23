@@ -1,5 +1,5 @@
 {
-  "policy_version": "1.0",
+  "policy_version": "1.1",
   "sources": [
     {"id":"ecb-euro-common","publisher":"European Central Bank","url":"https://www.ecb.europa.eu/euro/coins/common/html/index.en.html","kind":"official","allowed_use":"facts with attribution; images require separate rights check","last_checked":"2026-09-11"},
     {"id":"ecb-sk-national-sides","publisher":"European Central Bank","url":"https://www.ecb.europa.eu/euro/coins/html/sk.en.html","kind":"official","allowed_use":"descriptive facts with attribution; images require separate rights check","last_checked":"2026-09-23"},

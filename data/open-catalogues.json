@@ -1,0 +1,10 @@
+{
+  "registry_version": "1.0",
+  "sources": [
+    {"id":"wikidata","name":"Wikidata","scope":"global structured facts","access":"https://query.wikidata.org/sparql","license":"CC0-1.0","commercial_use":true,"images":false,"mode":"automatic","status":"enabled"},
+    {"id":"nomisma","name":"Nomisma.org","scope":"numismatic concepts and linked datasets","access":"https://nomisma.org/sparql","license":"CC-BY-3.0","commercial_use":true,"images":false,"mode":"automatic","status":"enabled"},
+    {"id":"ocre","name":"Online Coins of the Roman Empire","scope":"Roman imperial coin types","access":"https://numismatics.org/ocre/apis","license":"ODbL-1.0","commercial_use":true,"images":false,"mode":"automatic","status":"enabled"},
+    {"id":"numista","name":"Numista API","scope":"world coins and banknotes","access":"https://en.numista.com/api/","license":"contractual-api","commercial_use":null,"images":false,"mode":"api-key-and-agreement","status":"blocked_pending_licence"},
+    {"id":"british-museum","name":"British Museum Collection","scope":"museum objects and metadata","access":"https://www.britishmuseum.org/collection","license":"mixed","commercial_use":null,"images":false,"mode":"record-by-record","status":"metadata_review_required"}
+  ]
+}
