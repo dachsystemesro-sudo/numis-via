@@ -3,15 +3,27 @@ import euro from '../data/euro-denominations.json' with {type:'json'};
 
 const norm=value=>String(value??'').toLocaleLowerCase('sk').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
 const equal=(a,b)=>norm(a)===norm(b);
+const matchesAlias=(actual,expected,aliases=[])=>[expected,...aliases].filter(Boolean).some(value=>{
+  const a=norm(actual),b=norm(value);
+  return a===b||(a.length>=4&&b.includes(a))||(b.length>=4&&a.includes(b));
+});
 const close=(actual,expected,tolerance)=>actual==null||expected==null?null:Math.abs(Number(actual)-Number(expected))<=Number(tolerance);
+const yearMatches=(actual,record)=>{
+  const year=Number(String(actual??'').match(/\b(1[0-9]{3}|20[0-9]{2})\b/)?.[1]);
+  if(!year)return null;
+  if(record.date)return String(year)===String(record.date);
+  if(record.year_from&&year<record.year_from)return false;
+  if(record.year_to&&year>record.year_to)return false;
+  return Boolean(record.year_from||record.year_to);
+};
 
 export function catalogueCandidates(features,measurements={}){
   return catalogue.records.map(record=>{
     const checks={
-      denomination:equal(features.denomination?.value,record.denomination),
-      country_text:equal(features.country_text?.value,record.country_text),
-      date:equal(features.date?.value,record.date),
-      main_motif:equal(features.main_motif?.value,record.main_motif),
+      denomination:matchesAlias(features.denomination?.value,record.denomination,record.denomination_aliases),
+      country_text:matchesAlias(features.country_text?.value,record.country_text,record.country_text_aliases),
+      date:yearMatches(features.date?.value,record),
+      main_motif:matchesAlias(features.main_motif?.value,record.main_motif,record.main_motif_aliases),
       mint_mark:record.mint_mark?equal(features.mint_mark?.value,record.mint_mark):null,
       edge:record.edge?equal(features.edge?.value,record.edge):null,
       mass_g:close(measurements.mass_g,record.physical?.mass_g,record.physical?.mass_tolerance_g),
@@ -28,7 +40,7 @@ export function catalogueCandidates(features,measurements={}){
 }
 
 export function catalogueGate(matches){
-  const valid=matches.filter(x=>x.score>=90&&!x.contradictions.length&&!x.missing.length&&x.sources?.length>=1);
+  const valid=matches.filter(x=>x.identity_level==='variant'&&x.score>=90&&!x.contradictions.length&&!x.missing.length&&x.sources?.length>=1);
   if(!valid.length)return {passed:false,record:null,reason:'Minca alebo jej presný variant ešte nie je potvrdený v internom katalógu.'};
   if(valid.length>1&&valid[0].score-valid[1].score<8)return {passed:false,record:null,reason:'Katalóg obsahuje viac nerozlíšených variantov.'};
   return {passed:true,record:valid[0],reason:'Všetky rozhodujúce údaje súhlasia s katalógovým variantom.'};
