@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {rowsToStaging,mergeStaging} from '../scripts/sync-open-catalogues.mjs';
+import {rowsToStaging,mergeStaging,syncOcreBatches} from '../scripts/sync-open-catalogues.mjs';
 
 const cell=value=>({type:'literal',value});
 
@@ -22,4 +22,27 @@ test('resume merge replaces a known staging record without duplication',()=>{
   const result=mergeStaging(old,incoming);
   assert.equal(result.length,2);
   assert.equal(result.find(x=>x.staging_id==='OCRE-a').label,'new');
+});
+
+
+test('multi-batch sync stops as soon as the source is complete',async()=>{
+  let calls=0;
+  const syncOnce=async()=>{
+    calls++;
+    return {complete:true};
+  };
+  const result=await syncOcreBatches(null,10,syncOnce);
+  assert.equal(calls,1);
+  assert.equal(result.complete,true);
+  assert.equal(result.completed_batches,1);
+});
+
+test('multi-batch sync limits a single run to twenty batches',async()=>{
+  let calls=0;
+  const syncOnce=async()=>{
+    calls++;
+    return {complete:false};
+  };
+  await syncOcreBatches(null,100,syncOnce);
+  assert.equal(calls,20);
 });
