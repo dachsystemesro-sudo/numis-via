@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check api/analyze.js && node --check scripts/sync-open-catalogues.mjs && node --test",
+    "check": "node --check api/analyze.js && node --check api/catalogue-search.js && node --check scripts/sync-open-catalogues.mjs && node --test",
     "catalogue:sync": "node scripts/sync-open-catalogues.mjs"
   }
 }
