@@ -38,3 +38,12 @@ Taký znak už nemožno ignorovať pri uzamknutí identity.
 
 Pravidlo je fail-closed: chýbajúce nezávislé potvrdenie alebo rozpor v
 kritickom mikroidentifikátore zablokuje stav VERIFIED aj ocenenie.
+
+
+## Špecializovaný mikropriechod 13.7
+
+Tretí primárny priechod analyzuje fotografiu od nuly a sústreďuje sa na
+letopočet číslicu po číslici, názov krajiny písmeno po písmene, mincovné
+značky, monogram autora, mikrosymboly, interpunkciu a ich polohu. Nečitateľný
+znak musí zostať null; model ho nesmie doplniť podľa očakávaného typu mince.
+Štvrtý priechod zostáva oponentský a pokúša sa výsledok vyvrátiť.
