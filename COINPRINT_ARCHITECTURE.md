@@ -19,3 +19,11 @@ pokračovať do cenového modulu.
 
 Žiadny obrazový systém nie je bez omylu na ľubovoľnej fotografii. Bezpečnosť
 CoinPrintu spočíva v tom, že pri nedostatku dôkazov výsledok odmietne.
+
+## Otvorené katalógy
+
+Hromadný import povoľuje iba zdroje s potvrdenou otvorenou licenciou a
+komerčným použitím. Každý záznam uchováva zdrojový identifikátor, pôvodnú URL,
+licenciu a čas importu. Obrázky sa neposudzujú podľa licencie metadát; každý
+obrázok musí mať vlastné povolenie na komerčné použitie. Záznam bez presného
+variantu môže pomôcť určiť rodinu mince, ale nikdy neodomkne ocenenie.
