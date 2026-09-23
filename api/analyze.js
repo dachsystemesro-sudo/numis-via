@@ -26,6 +26,8 @@ async function call(images,prompt,model=MODEL){
 
 function prompt(pass){return `NUMIS VIA CoinPrint, nezávislý priechod ${pass}. Analyzuj fotografie tej istej mince. Prvá je líce, druhá rub, ďalšie môžu byť hrana alebo detail. Neodhaduj nič neviditeľné. Reliéf nie je text, farba neurčuje kov, všeobecný motív neurčuje krajinu. Čítaj každý znak, interpunkciu, mincovnú značku, značku autora a mikrosymboly. Geometriu opíš polohami rozhodujúcich prvkov. Istotu nad 90 povoľ iba pri jasnom dôkaze. Vráť iba JSON: {"features":[{"name":"denomination|country_text|date|main_motif|coat_of_arms|mint_mark|engraver_mark|micro_symbols|geometry|edge","value":null,"confidence":0,"side":"obverse|reverse|edge|unknown","visible_evidence":"","region":""}],"quality":{"sharpness":0,"exposure":0,"coverage":0,"glare_control":0},"candidates":[{"label":"","country":"","denomination":"","date":"","variant":"","confidence":0,"evidence":[""]}],"missing_views":[""]}. Max päť kandidátov.`}
 
+function specialistPrompt(){return `NUMIS VIA CoinPrint, špecializovaný mikroskopický priechod. ZABUDNI predchádzajúce hypotézy a čítaj fotografie od nuly. Sústreď sa na presný letopočet číslicu po číslici, celý názov krajiny písmeno po písmene, mincovné značky, podpis/monogram autora, drobné symboly, interpunkciu, hviezdy, perlovec a polohu týchto prvkov. Pri každom tvrdení uveď konkrétny viditeľný dôkaz a oblasť fotografie. Ak znak nie je čitateľný, value musí byť null; nikdy nedopĺňaj pravdepodobný znak podľa typu mince. Vráť iba JSON v rovnakej schéme features/quality/candidates/missing_views ako primárny priechod.`}
+
 function merge(passes){
   const out={};
   for(const name of FEATURES){
@@ -64,10 +66,14 @@ export default async function handler(req,res){
   if(!Array.isArray(images)||images.length<2||images.length>5||images.some(x=>typeof x!=='string'||!x.startsWith('data:image/')))return res.status(400).json({error:'Nahraj líce a rub mince; voliteľne aj hranu.'});
   if(!process.env.AI_GATEWAY_API_KEY)return res.status(503).json({error:'Analytická služba nie je nakonfigurovaná.'});
   try{
-    const [a,b]=await Promise.all([call(images,prompt('A: text a drobné značky')),call(images,prompt('B: motívy a geometria'))]);
-    const features=merge([a,b]); const pool=candidates([a,b]);
+    const [a,b,micro]=await Promise.all([
+      call(images,prompt('A: text, číslice a drobné značky')),
+      call(images,prompt('B: motívy a geometria')),
+      call(images,specialistPrompt(),process.env.COINPRINT_MICRO_MODEL||MODEL)
+    ]);
+    const features=merge([a,b,micro]); const pool=candidates([a,b,micro]);
     const verifier=await call(images,verifyPrompt(features,pool),process.env.COINPRINT_VERIFY_MODEL||MODEL);
-    const photoQuality=quality([a,b,verifier],req.body?.client_quality);
+    const photoQuality=quality([a,b,micro,verifier],req.body?.client_quality);
     const measurements=req.body?.measurements||{};
     const catalogueMatches=catalogueCandidates(features,measurements);
     const catalogue=catalogueGate(catalogueMatches);
@@ -78,6 +84,6 @@ export default async function handler(req,res){
     const supported=(verifier.candidate_verdicts||[]).filter(v=>v.supported&&clamp(v.score)>=90&&!(v.contradictions||[]).length&&!(v.missing_decisive_features||[]).length).sort((x,y)=>clamp(y.score)-clamp(x.score));
     const blockers=[...photoQuality.failures.map(x=>'Nedostatočná kvalita: '+x),...conflicts.map(x=>'Kritický rozpor: '+x),...missing.map(x=>'Chýba nezávislé potvrdenie: '+x),...(supported.length?[]:['Žiadny kandidát neprešiel oponentským overením.']),...(supported.length>1&&clamp(supported[0].score)-clamp(supported[1].score)<8?['Kandidáti sú príliš podobní.']:[]),...(physicalGate.passed===false?[physicalGate.reason]:[]),...(catalogue.passed?[]:[catalogue.reason])];
     const verified=!blockers.length;
-    return res.status(200).json({coinprint_version:'13.6.0',status:verified?'VERIFIED':'BLOCKED',valuation_allowed:verified,identity:verified?{...supported[0],catalogue_id:catalogue.record.catalogue_id}:null,confidence:verified?Math.min(clamp(supported[0].score),catalogue.record.score):0,blockers:[...new Set(blockers)],quality:photoQuality,features,measurements,physical_gate:physicalGate,catalogue:{matched:catalogueMatches.map(x=>({catalogue_id:x.catalogue_id,identity_level:x.identity_level,label:x.label,score:x.score,contradictions:x.contradictions})),gate:catalogue.reason},candidate_verdicts:verifier.candidate_verdicts||[],next_needed:[...new Set([...(a.missing_views||[]),...(b.missing_views||[]),...(verifier.missing_views||[])])].filter(Boolean),audit:{passes:3,independent_primary_passes:2,critical_features:critical,catalogue_schema:'1.1',timestamp:new Date().toISOString()}});
+    return res.status(200).json({coinprint_version:'13.7.0',status:verified?'VERIFIED':'BLOCKED',valuation_allowed:verified,identity:verified?{...supported[0],catalogue_id:catalogue.record.catalogue_id}:null,confidence:verified?Math.min(clamp(supported[0].score),catalogue.record.score):0,blockers:[...new Set(blockers)],quality:photoQuality,features,measurements,physical_gate:physicalGate,catalogue:{matched:catalogueMatches.map(x=>({catalogue_id:x.catalogue_id,identity_level:x.identity_level,label:x.label,score:x.score,contradictions:x.contradictions})),gate:catalogue.reason},candidate_verdicts:verifier.candidate_verdicts||[],next_needed:[...new Set([...(a.missing_views||[]),...(b.missing_views||[]),...(micro.missing_views||[]),...(verifier.missing_views||[])])].filter(Boolean),audit:{passes:4,independent_primary_passes:3,micro_specialist:true,critical_features:critical,catalogue_schema:'1.1',timestamp:new Date().toISOString()}});
   }catch(error){return res.status(500).json({error:error.message||'CoinPrint analýza zlyhala.'})}
 }
