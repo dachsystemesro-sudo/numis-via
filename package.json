@@ -1,9 +1,10 @@
 {
   "name": "numis-via-coinprint",
-  "version": "13.4.0",
+  "version": "13.5.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check api/analyze.js && node --test"
+    "check": "node --check api/analyze.js && node --check scripts/sync-open-catalogues.mjs && node --test",
+    "catalogue:sync": "node scripts/sync-open-catalogues.mjs"
   }
 }

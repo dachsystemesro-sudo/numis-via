@@ -1,0 +1,35 @@
+name: Synchronizácia otvoreného katalógu
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: catalogue-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-ocre:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Načítať ďalšiu dávku OCRE
+        run: node scripts/sync-open-catalogues.mjs
+        env:
+          CATALOGUE_BATCH_SIZE: '250'
+      - name: Overiť projekt
+        run: npm run check
+      - name: Uložiť nové katalógové dáta
+        run: |
+          git config user.name "NUMIS VIA catalogue bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/import-state.json data/staging/ocre.json
+          git diff --cached --quiet || git commit -m "Catalogue: import next OCRE batch"
+          git push

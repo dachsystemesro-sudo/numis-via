@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "sources": {
+    "ocre": {"offset": 0, "complete": false, "last_batch": 0, "total_staged": 0, "last_sync": null}
+  }
+}
