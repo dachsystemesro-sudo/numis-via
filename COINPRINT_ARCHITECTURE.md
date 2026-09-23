@@ -1,4 +1,4 @@
-# CoinPrint verzia trinásť
+# CoinPrint verzia trinásť – fail-closed CoinPrint 13.6
 
 Identita sa uzamkne iba vtedy, keď dva nezávislé primárne priechody súhlasia
 na nomináli, texte alebo krajine, letopočte, hlavnom motíve a geometrii a tretí
@@ -27,3 +27,14 @@ komerčným použitím. Každý záznam uchováva zdrojový identifikátor, pôv
 licenciu a čas importu. Obrázky sa neposudzujú podľa licencie metadát; každý
 obrázok musí mať vlastné povolenie na komerčné použitie. Záznam bez presného
 variantu môže pomôcť určiť rodinu mince, ale nikdy neodomkne ocenenie.
+
+
+## Mikroidentifikátory ako tvrdé brány
+
+Od verzie 13.6 sa štátny znak, mincovná značka, značka autora/rytca,
+mikrosymboly a hrana automaticky stávajú kritickými znakmi vždy, keď ich
+analýza na fotografii zistí alebo ich definuje blízky katalógový kandidát.
+Taký znak už nemožno ignorovať pri uzamknutí identity.
+
+Pravidlo je fail-closed: chýbajúce nezávislé potvrdenie alebo rozpor v
+kritickom mikroidentifikátore zablokuje stav VERIFIED aj ocenenie.
