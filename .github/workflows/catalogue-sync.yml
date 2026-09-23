@@ -27,6 +27,7 @@ jobs:
         run: node scripts/sync-open-catalogues.mjs
         env:
           CATALOGUE_BATCH_SIZE: '250'
+          CATALOGUE_BATCHES_PER_RUN: '10'
       - name: Overiť projekt
         run: npm run check
       - name: Uložiť nové katalógové dáta
