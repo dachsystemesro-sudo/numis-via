@@ -70,4 +70,16 @@ export async function syncOcre(fetchImpl=fetch){
   return state.sources.ocre;
 }
 
-if(process.argv[1]===fileURLToPath(import.meta.url))console.log(JSON.stringify(await syncOcre(),null,2));
+export async function syncOcreBatches(fetchImpl=fetch,batches=Number(process.env.CATALOGUE_BATCHES_PER_RUN)||1,syncOnce=syncOcre){
+  const requested=Math.min(20,Math.max(1,Number(batches)||1));
+  let result;
+  let completedBatches=0;
+  for(let index=0;index<requested;index++){
+    result=await syncOnce(fetchImpl);
+    completedBatches++;
+    if(result.complete)break;
+  }
+  return {...result,completed_batches:completedBatches};
+}
+
+if(process.argv[1]===fileURLToPath(import.meta.url))console.log(JSON.stringify(await syncOcreBatches(),null,2));
