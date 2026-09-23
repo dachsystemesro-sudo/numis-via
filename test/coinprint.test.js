@@ -26,3 +26,19 @@ test('does not expose analysis without gateway configuration', async()=>{
   assert.equal(statusCode,503);
   if(previous)process.env.AI_GATEWAY_API_KEY=previous;
 });
+
+
+test('source requires micro identifiers to participate in identity lock', async()=>{
+  const fs=await import('node:fs/promises');
+  const source=await fs.readFile(new URL('../api/analyze.js',import.meta.url),'utf8');
+  assert.match(source,/DETAIL_FEATURES=.*coat_of_arms.*mint_mark.*engraver_mark.*micro_symbols.*edge/s);
+  assert.match(source,/applicableCritical/);
+  assert.match(source,/critical_features:critical/);
+});
+
+test('CoinPrint prompt explicitly forbids invented invisible details', async()=>{
+  const fs=await import('node:fs/promises');
+  const source=await fs.readFile(new URL('../api/analyze.js',import.meta.url),'utf8');
+  assert.match(source,/Neodhaduj nič neviditeľné/);
+  assert.match(source,/Čítaj každý znak/);
+});
