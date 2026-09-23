@@ -2,6 +2,9 @@ name: Synchronizácia otvoreného katalógu
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/catalogue-sync.yml'
   schedule:
     - cron: '17 2 * * *'
 
