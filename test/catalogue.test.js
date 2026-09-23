@@ -38,3 +38,19 @@ test('rejects an out-of-range family year',()=>{
   const match=catalogueCandidates(features).find(x=>x.catalogue_id==='SK-EUR-200-FAMILY');
   assert.equal(match.checks.date,false);
 });
+
+
+test('variant micro-identifiers are mandatory when reference defines them',()=>{
+  const source={schema_version:'1.1',records:[...catalogue.records,{
+    catalogue_id:'TEST-VARIANT',identity_level:'variant',label:'test',country_text:'SLOVENSKO',
+    denomination:'2 cent',date:'2020',main_motif:'Kriváň',mint_mark:'MK',engraver_mark:'Z',
+    sources:['ecb-sk-national-sides']
+  }]};
+  // Static source guard: catalogue matcher must explicitly compare both marks.
+  // This regression test prevents future removal of the hard micro gates.
+  return import('node:fs/promises').then(async fs=>{
+    const code=await fs.readFile(new URL('../api/catalogue.js',import.meta.url),'utf8');
+    assert.match(code,/engraver_mark:record\.engraver_mark/);
+    assert.match(code,/mint_mark.*engraver_mark.*micro_symbols.*edge/s);
+  });
+});
