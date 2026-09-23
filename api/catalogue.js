@@ -24,13 +24,17 @@ export function catalogueCandidates(features,measurements={}){
       country_text:matchesAlias(features.country_text?.value,record.country_text,record.country_text_aliases),
       date:yearMatches(features.date?.value,record),
       main_motif:matchesAlias(features.main_motif?.value,record.main_motif,record.main_motif_aliases),
+      coat_of_arms:record.coat_of_arms?matchesAlias(features.coat_of_arms?.value,record.coat_of_arms,record.coat_of_arms_aliases):null,
       mint_mark:record.mint_mark?equal(features.mint_mark?.value,record.mint_mark):null,
+      engraver_mark:record.engraver_mark?equal(features.engraver_mark?.value,record.engraver_mark):null,
+      micro_symbols:record.micro_symbols?matchesAlias(features.micro_symbols?.value,record.micro_symbols,record.micro_symbols_aliases):null,
       edge:record.edge?equal(features.edge?.value,record.edge):null,
       mass_g:close(measurements.mass_g,record.physical?.mass_g,record.physical?.mass_tolerance_g),
       diameter_mm:close(measurements.diameter_mm,record.physical?.diameter_mm,record.physical?.diameter_tolerance_mm),
       thickness_mm:close(measurements.thickness_mm,record.physical?.thickness_mm,record.physical?.thickness_tolerance_mm)
     };
-    const required=['denomination','country_text','date','main_motif'];
+    const required=['denomination','country_text','date','main_motif',
+      ...['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'].filter(key=>record[key]!=null)];
     const contradictions=Object.entries(checks).filter(([,value])=>value===false).map(([key])=>key);
     const matched=Object.entries(checks).filter(([,value])=>value===true).map(([key])=>key);
     const missing=required.filter(key=>!features[key]?.value);
