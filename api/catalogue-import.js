@@ -18,10 +18,25 @@ export function normalizeOpenRecord(raw,source){
     year_to:Number(raw.year_to)||undefined,
     material:clean(raw.material)||undefined,
     mint:clean(raw.mint)||undefined,
+    coat_of_arms:clean(raw.coat_of_arms)||undefined,
+    mint_mark:clean(raw.mint_mark)||undefined,
+    engraver_mark:clean(raw.engraver_mark)||undefined,
+    micro_symbols:clean(raw.micro_symbols)||undefined,
+    edge:clean(raw.edge)||undefined,
     sources:[source.id],
-    provenance:[provenance]
+    provenance:[provenance],
+    verification_state:'reference_only'
   };
+  const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
+  const evidence=(raw.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&clean(e?.source_url));
+  if(evidence.length)record.reference_evidence=evidence.map(e=>({source_id:clean(e.source_id),field:clean(e.field),source_url:clean(e.source_url)}));
   if(record.identity_level==='variant'&&!record.date)record.identity_level='family';
+  // Open imports may propose candidates, but may not become identity-locking variants
+  // until decisive micro evidence has explicit provenance.
+  if(record.identity_level==='variant'&&(!record.reference_evidence?.length||!decisive.some(key=>record[key]))){
+    record.identity_level='family';
+    record.verification_state='needs_micro_evidence';
+  }
   return Object.fromEntries(Object.entries(record).filter(([,value])=>value!==undefined));
 }
 
