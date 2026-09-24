@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import registry from '../data/open-catalogues.json' with {type:'json'};
 import {sourceDecision} from '../api/source-policy.js';
-import {normalizeOpenRecord,deduplicateRecords} from '../api/catalogue-import.js';
+import {normalizeOpenRecord,deduplicateRecords,promotionDecision,promoteVerifiedReference} from '../api/catalogue-import.js';
 
 test('only explicitly open commercial sources are auto-enabled',()=>{
   const decisions=Object.fromEntries(registry.sources.map(source=>[source.id,sourceDecision(source)]));
@@ -46,4 +46,32 @@ test('open variant retains variant level only with decisive sourced micro eviden
   assert.equal(record.identity_level,'variant');
   assert.equal(record.mint_mark,'M');
   assert.equal(record.reference_evidence[0].field,'mint_mark');
+});
+
+
+test('reference promotion requires two independent micro-evidence sources',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'}
+  ]};
+  const decision=promotionDecision(record);
+  assert.equal(decision.promotable,false);
+  assert.match(decision.reasons.join(' '),/dva nezávislé zdroje/);
+});
+
+test('two independent agreeing sources can promote a variant reference',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'},
+    {source_id:'two',field:'mint_mark',source_url:'https://two.example/x'}
+  ]};
+  const promoted=promoteVerifiedReference(record);
+  assert.equal(promoted.verification_state,'verified_reference');
+  assert.equal(promoted.promotion.independent_sources.length,2);
+});
+
+test('reference conflict blocks promotion despite multiple sources',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'},
+    {source_id:'two',field:'mint_mark',source_url:'https://two.example/x'}
+  ],reference_conflicts:['mint_mark']};
+  assert.equal(promotionDecision(record).promotable,false);
 });
