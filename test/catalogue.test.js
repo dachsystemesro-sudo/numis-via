@@ -54,3 +54,26 @@ test('variant micro-identifiers are mandatory when reference defines them',()=>{
     assert.match(code,/mint_mark.*engraver_mark.*micro_symbols.*edge/s);
   });
 });
+
+
+test('variant catalogue records require decisive micro evidence and provenance',()=>{
+  const bad={schema_version:'1.1',records:[{
+    catalogue_id:'X',identity_level:'variant',label:'X',country_code:'XX',country_text:'X',
+    denomination:'1',main_motif:'X',date:'2020',sources:['official']
+  }]};
+  const result=validateCatalogue(bad);
+  assert.equal(result.valid,false);
+  assert.ok(result.errors.some(x=>/mikroidentifikátor/.test(x)));
+  assert.ok(result.errors.some(x=>/reference_evidence/.test(x)));
+});
+
+test('variant provenance must name source, field and URL',()=>{
+  const bad={schema_version:'1.1',records:[{
+    catalogue_id:'X2',identity_level:'variant',label:'X',country_code:'XX',country_text:'X',
+    denomination:'1',main_motif:'X',date:'2020',mint_mark:'M',sources:['official'],
+    reference_evidence:[{source_id:'official',field:'mint_mark'}]
+  }]};
+  const result=validateCatalogue(bad);
+  assert.equal(result.valid,false);
+  assert.ok(result.errors.some(x=>/reference_evidence\[0\]/.test(x)));
+});
