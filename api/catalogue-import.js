@@ -50,3 +50,25 @@ export function deduplicateRecords(records){
   }
   return [...map.values()];
 }
+
+
+export function promotionDecision(record,{minimumIndependentSources=2}={}){
+  const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
+  const reasons=[];
+  if(record.identity_level!=='variant')reasons.push('záznam nie je presný variant');
+  if(!record.date)reasons.push('chýba presný ročník');
+  const evidence=(record.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&clean(e?.source_url));
+  const sources=new Set(evidence.map(e=>e.source_id));
+  const evidencedFields=new Set(evidence.map(e=>e.field));
+  if(sources.size<minimumIndependentSources)reasons.push('chýbajú dva nezávislé zdroje mikroidentifikátorov');
+  if(!decisive.some(key=>record[key]&&evidencedFields.has(key)))reasons.push('mikroidentifikátor nemá priamy dôkaz');
+  const contradictory=(record.reference_conflicts||[]).filter(Boolean);
+  if(contradictory.length)reasons.push('referenčné zdroje si odporujú');
+  return {promotable:reasons.length===0,reasons,independent_sources:[...sources],evidenced_fields:[...evidencedFields]};
+}
+
+export function promoteVerifiedReference(record,options={}){
+  const decision=promotionDecision(record,options);
+  if(!decision.promotable)return {...record,verification_state:'needs_reference_review',promotion:decision};
+  return {...record,verification_state:'verified_reference',promotion:decision};
+}
