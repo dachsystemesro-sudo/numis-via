@@ -47,3 +47,12 @@ letopočet číslicu po číslici, názov krajiny písmeno po písmene, mincovn�
 značky, monogram autora, mikrosymboly, interpunkciu a ich polohu. Nečitateľný
 znak musí zostať null; model ho nesmie doplniť podľa očakávaného typu mince.
 Štvrtý priechod zostáva oponentský a pokúša sa výsledok vyvrátiť.
+
+
+## Produkčná brána 14.3
+
+Každá zmena vetvy main musí prejsť automatickou kontrolou syntaxe a regresnými testami.
+Nasadenie samo osebe nie je dôkaz správnosti. Projekt je pripravený na verejné spustenie
+až po splnení samostatného release checklistu: zelené CI, funkčný produkčný endpoint,
+overené referencie, nulové kritické regresie na testovacej sade a fail-closed správanie
+pri nečitateľnej alebo konfliktnej minci.
