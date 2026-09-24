@@ -28,3 +28,22 @@ test('deduplicates matching records without losing provenance',()=>{
   assert.equal(result.length,1);
   assert.equal(result[0].provenance.length,2);
 });
+
+
+test('open variant cannot become identity-locking without micro provenance',()=>{
+  const source={id:'wikidata',status:'enabled',commercial_use:true,license:'CC0-1.0',images:false};
+  const raw={external_id:'x1',source_url:'https://www.wikidata.org/entity/Q1',label:'x',country_text:'X',denomination:'1',main_motif:'X',date:'2020',identity_level:'variant'};
+  const record=normalizeOpenRecord(raw,source);
+  assert.equal(record.identity_level,'family');
+  assert.equal(record.verification_state,'needs_micro_evidence');
+});
+
+test('open variant retains variant level only with decisive sourced micro evidence',()=>{
+  const source={id:'wikidata',status:'enabled',commercial_use:true,license:'CC0-1.0',images:false};
+  const url='https://www.wikidata.org/entity/Q2';
+  const raw={external_id:'x2',source_url:url,label:'x',country_text:'X',denomination:'1',main_motif:'X',date:'2020',identity_level:'variant',mint_mark:'M',reference_evidence:[{source_id:'wikidata',field:'mint_mark',source_url:url}]};
+  const record=normalizeOpenRecord(raw,source);
+  assert.equal(record.identity_level,'variant');
+  assert.equal(record.mint_mark,'M');
+  assert.equal(record.reference_evidence[0].field,'mint_mark');
+});
