@@ -90,3 +90,17 @@ test('catalogue gate accepts only a fully matching verified reference',()=>{
   assert.equal(result.passed,true);
   assert.equal(result.record.catalogue_id,'X');
 });
+
+
+test('unreadable expected micro mark is missing evidence, not contradiction',async()=>{
+  const fs=await import('node:fs/promises');
+  const code=await fs.readFile(new URL('../api/catalogue.js',import.meta.url),'utf8');
+  assert.match(code,/const equal=.*\?null:/);
+  assert.match(code,/if\(!observed\(actual\).*return null/);
+});
+
+test('a confidently different observed value remains a contradiction primitive',async()=>{
+  const fs=await import('node:fs/promises');
+  const code=await fs.readFile(new URL('../api/catalogue.js',import.meta.url),'utf8');
+  assert.match(code,/norm\(a\)===norm\(b\)/);
+});
