@@ -77,3 +77,16 @@ test('variant provenance must name source, field and URL',()=>{
   assert.equal(result.valid,false);
   assert.ok(result.errors.some(x=>/reference_evidence\[0\]/.test(x)));
 });
+
+
+test('catalogue gate refuses a matching variant that is not verified_reference',()=>{
+  const result=catalogueGate([{identity_level:'variant',verification_state:'reference_only',score:100,contradictions:[],missing:[],sources:['x'],catalogue_id:'X'}]);
+  assert.equal(result.passed,false);
+  assert.match(result.reason,/verified_reference/);
+});
+
+test('catalogue gate accepts only a fully matching verified reference',()=>{
+  const result=catalogueGate([{identity_level:'variant',verification_state:'verified_reference',score:100,contradictions:[],missing:[],sources:['one','two'],catalogue_id:'X'}]);
+  assert.equal(result.passed,true);
+  assert.equal(result.record.catalogue_id,'X');
+});
