@@ -12,6 +12,14 @@ export function validateCatalogue(catalogue){
     if(record.catalogue_id&&ids.has(record.catalogue_id))errors.push(`${at}.catalogue_id je duplicitné`);
     ids.add(record.catalogue_id);
     if(record.identity_level==='variant'&&!record.date)errors.push(`${at}.date je povinný pre variant`);
+    if(record.identity_level==='variant'){
+      const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
+      if(!decisive.some(key=>text(record[key])))errors.push(`${at}: variant nemá žiadny rozhodujúci mikroidentifikátor`);
+      if(!Array.isArray(record.reference_evidence)||!record.reference_evidence.length)errors.push(`${at}.reference_evidence chýba pre variant`);
+      for(const [eIndex,e] of (record.reference_evidence||[]).entries()){
+        if(!text(e?.source_id)||!text(e?.field)||!text(e?.source_url))errors.push(`${at}.reference_evidence[${eIndex}] je neúplný`);
+      }
+    }
     if(record.identity_level==='family'&&!record.year_from)errors.push(`${at}.year_from je povinný pre rodinu`);
     if(!Array.isArray(record.sources)||!record.sources.length)errors.push(`${at}.sources chýbajú`);
   }
