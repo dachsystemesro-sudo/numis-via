@@ -44,8 +44,8 @@ export function catalogueCandidates(features,measurements={}){
 }
 
 export function catalogueGate(matches){
-  const valid=matches.filter(x=>x.identity_level==='variant'&&x.score>=90&&!x.contradictions.length&&!x.missing.length&&x.sources?.length>=1);
-  if(!valid.length)return {passed:false,record:null,reason:'Minca alebo jej presný variant ešte nie je potvrdený v internom katalógu.'};
+  const valid=matches.filter(x=>x.identity_level==='variant'&&x.verification_state==='verified_reference'&&x.score>=90&&!x.contradictions.length&&!x.missing.length&&x.sources?.length>=1);
+  if(!valid.length)return {passed:false,record:null,reason:'Minca alebo jej presný variant ešte nemá stav verified_reference v internom katalógu.'};
   if(valid.length>1&&valid[0].score-valid[1].score<8)return {passed:false,record:null,reason:'Katalóg obsahuje viac nerozlíšených variantov.'};
   return {passed:true,record:valid[0],reason:'Všetky rozhodujúce údaje súhlasia s katalógovým variantom.'};
 }
