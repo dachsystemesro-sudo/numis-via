@@ -2,11 +2,15 @@ import catalogue from '../data/catalogue.json' with {type:'json'};
 import euro from '../data/euro-denominations.json' with {type:'json'};
 
 const norm=value=>String(value??'').toLocaleLowerCase('sk').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
-const equal=(a,b)=>norm(a)===norm(b);
-const matchesAlias=(actual,expected,aliases=[])=>[expected,...aliases].filter(Boolean).some(value=>{
+const observed=value=>value!==undefined&&value!==null&&norm(value)!=='';
+const equal=(a,b)=>!observed(a)||!observed(b)?null:norm(a)===norm(b);
+const matchesAlias=(actual,expected,aliases=[])=>{
+  if(!observed(actual)||!observed(expected))return null;
+  return [expected,...aliases].filter(Boolean).some(value=>{
   const a=norm(actual),b=norm(value);
   return a===b||(a.length>=4&&b.includes(a))||(b.length>=4&&a.includes(b));
-});
+  });
+};
 const close=(actual,expected,tolerance)=>actual==null||expected==null?null:Math.abs(Number(actual)-Number(expected))<=Number(tolerance);
 const yearMatches=(actual,record)=>{
   const year=Number(String(actual??'').match(/\b(1[0-9]{3}|20[0-9]{2})\b/)?.[1]);
@@ -38,7 +42,8 @@ export function catalogueCandidates(features,measurements={}){
     const contradictions=Object.entries(checks).filter(([,value])=>value===false).map(([key])=>key);
     const matched=Object.entries(checks).filter(([,value])=>value===true).map(([key])=>key);
     const missing=required.filter(key=>!features[key]?.value);
-    const score=Math.round(100*matched.length/Object.values(checks).filter(value=>value!==null).length)||0;
+    const comparable=Object.values(checks).filter(value=>value!==null).length;
+    const score=comparable?Math.round(100*matched.length/comparable):0;
     return {...record,checks,matched,contradictions,missing,score};
   }).filter(x=>x.matched.length>=2).sort((a,b)=>b.score-a.score).slice(0,12);
 }
