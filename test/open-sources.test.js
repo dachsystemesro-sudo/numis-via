@@ -60,12 +60,12 @@ test('reference promotion requires two independent micro-evidence sources',()=>{
 
 test('two independent agreeing sources can promote a variant reference',()=>{
   const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
-    {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'},
+    {source_id:'one',field:'mint_mark',value:'M',source_url:'https://one.example/x'},
     {source_id:'two',field:'mint_mark',value:'M',source_url:'https://two.example/x'}
   ]};
   const promoted=promoteVerifiedReference(record);
   assert.equal(promoted.verification_state,'verified_reference');
-  assert.equal(promoted.promotion.independent_sources.length,2);
+  assert.equal(promoted.promotion.consensus[0].independent_groups.length,2);
 });
 
 test('reference conflict blocks promotion despite multiple sources',()=>{
