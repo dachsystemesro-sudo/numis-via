@@ -63,7 +63,7 @@ test('variant catalogue records require decisive micro evidence and provenance',
   }]};
   const result=validateCatalogue(bad);
   assert.equal(result.valid,false);
-  assert.ok(result.errors.some(x=>/mikroidentifikátor/.test(x)));
+  assert.ok(result.errors.some(x=>/rozhodujúci identifikátor/.test(x)));
   assert.ok(result.errors.some(x=>/reference_evidence/.test(x)));
 });
 
@@ -103,4 +103,23 @@ test('a confidently different observed value remains a contradiction primitive',
   const fs=await import('node:fs/promises');
   const code=await fs.readFile(new URL('../api/catalogue.js',import.meta.url),'utf8');
   assert.match(code,/norm\(a\)===norm\(b\)/);
+});
+
+
+test('variant may use an explicit decisive discriminator without a mint mark',()=>{
+  const good={schema_version:'1.1',records:[{
+    catalogue_id:'D1',identity_level:'variant',label:'dated variant',country_code:'XX',country_text:'X',
+    denomination:'1',main_motif:'X',date:'2020',decisive_discriminators:['date'],sources:['official'],
+    reference_evidence:[{source_id:'official',field:'date',value:'2020',source_url:'https://official.example/x'}]
+  }]};
+  assert.equal(validateCatalogue(good).valid,true);
+});
+
+test('variant evidence requires the asserted value',()=>{
+  const bad={schema_version:'1.1',records:[{
+    catalogue_id:'D2',identity_level:'variant',label:'x',country_code:'XX',country_text:'X',
+    denomination:'1',main_motif:'X',date:'2020',decisive_discriminators:['date'],sources:['official'],
+    reference_evidence:[{source_id:'official',field:'date',source_url:'https://official.example/x'}]
+  }]};
+  assert.equal(validateCatalogue(bad).valid,false);
 });
