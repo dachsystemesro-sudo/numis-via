@@ -41,7 +41,7 @@ test('open variant cannot become identity-locking without micro provenance',()=>
 test('open variant retains variant level only with decisive sourced micro evidence',()=>{
   const source={id:'wikidata',status:'enabled',commercial_use:true,license:'CC0-1.0',images:false};
   const url='https://www.wikidata.org/entity/Q2';
-  const raw={external_id:'x2',source_url:url,label:'x',country_text:'X',denomination:'1',main_motif:'X',date:'2020',identity_level:'variant',mint_mark:'M',reference_evidence:[{source_id:'wikidata',field:'mint_mark',source_url:url}]};
+  const raw={external_id:'x2',source_url:url,label:'x',country_text:'X',denomination:'1',main_motif:'X',date:'2020',identity_level:'variant',mint_mark:'M',reference_evidence:[{source_id:'wikidata',field:'mint_mark',value:'M',source_url:url}]};
   const record=normalizeOpenRecord(raw,source);
   assert.equal(record.identity_level,'variant');
   assert.equal(record.mint_mark,'M');
@@ -51,7 +51,7 @@ test('open variant retains variant level only with decisive sourced micro eviden
 
 test('reference promotion requires two independent micro-evidence sources',()=>{
   const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
-    {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'}
+    {source_id:'one',field:'mint_mark',value:'M',source_url:'https://one.example/x'}
   ]};
   const decision=promotionDecision(record);
   assert.equal(decision.promotable,false);
@@ -61,7 +61,7 @@ test('reference promotion requires two independent micro-evidence sources',()=>{
 test('two independent agreeing sources can promote a variant reference',()=>{
   const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
     {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'},
-    {source_id:'two',field:'mint_mark',source_url:'https://two.example/x'}
+    {source_id:'two',field:'mint_mark',value:'M',source_url:'https://two.example/x'}
   ]};
   const promoted=promoteVerifiedReference(record);
   assert.equal(promoted.verification_state,'verified_reference');
@@ -71,7 +71,26 @@ test('two independent agreeing sources can promote a variant reference',()=>{
 test('reference conflict blocks promotion despite multiple sources',()=>{
   const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
     {source_id:'one',field:'mint_mark',source_url:'https://one.example/x'},
-    {source_id:'two',field:'mint_mark',source_url:'https://two.example/x'}
+    {source_id:'two',field:'mint_mark',value:'M',source_url:'https://two.example/x'}
   ],reference_conflicts:['mint_mark']};
+  assert.equal(promotionDecision(record).promotable,false);
+});
+
+
+test('different values from two sources are detected automatically as conflict',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'one',independence_group:'publisher-a',field:'mint_mark',value:'M',source_url:'https://one.example/x'},
+    {source_id:'two',independence_group:'publisher-b',field:'mint_mark',value:'N',source_url:'https://two.example/x'}
+  ]};
+  const decision=promotionDecision(record);
+  assert.equal(decision.promotable,false);
+  assert.equal(decision.conflicts[0].field,'mint_mark');
+});
+
+test('two mirrors from the same independence group count as one source',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'one',independence_group:'same-publisher',field:'mint_mark',value:'M',source_url:'https://one.example/x'},
+    {source_id:'two',independence_group:'same-publisher',field:'mint_mark',value:'M',source_url:'https://two.example/x'}
+  ]};
   assert.equal(promotionDecision(record).promotable,false);
 });
