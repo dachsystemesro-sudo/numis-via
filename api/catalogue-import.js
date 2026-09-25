@@ -29,7 +29,7 @@ export function normalizeOpenRecord(raw,source){
   };
   const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
   const evidence=(raw.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&clean(e?.source_url));
-  if(evidence.length)record.reference_evidence=evidence.map(e=>({source_id:clean(e.source_id),field:clean(e.field),source_url:clean(e.source_url)}));
+  if(evidence.length)record.reference_evidence=evidence.map(e=>({source_id:clean(e.source_id),independence_group:clean(e.independence_group||e.source_id),field:clean(e.field),value:clean(e.value),source_url:clean(e.source_url)}));
   if(record.identity_level==='variant'&&!record.date)record.identity_level='family';
   // Open imports may propose candidates, but may not become identity-locking variants
   // until decisive micro evidence has explicit provenance.
@@ -57,14 +57,29 @@ export function promotionDecision(record,{minimumIndependentSources=2}={}){
   const reasons=[];
   if(record.identity_level!=='variant')reasons.push('záznam nie je presný variant');
   if(!record.date)reasons.push('chýba presný ročník');
-  const evidence=(record.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&clean(e?.source_url));
-  const sources=new Set(evidence.map(e=>e.source_id));
-  const evidencedFields=new Set(evidence.map(e=>e.field));
-  if(sources.size<minimumIndependentSources)reasons.push('chýbajú dva nezávislé zdroje mikroidentifikátorov');
-  if(!decisive.some(key=>record[key]&&evidencedFields.has(key)))reasons.push('mikroidentifikátor nemá priamy dôkaz');
-  const contradictory=(record.reference_conflicts||[]).filter(Boolean);
-  if(contradictory.length)reasons.push('referenčné zdroje si odporujú');
-  return {promotable:reasons.length===0,reasons,independent_sources:[...sources],evidenced_fields:[...evidencedFields]};
+  const evidence=(record.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&clean(e?.source_url)&&clean(e?.value));
+  const groups=new Map();
+  for(const e of evidence){
+    const field=clean(e.field), value=clean(e.value).toLowerCase();
+    const key=field+'|'+value;
+    if(!groups.has(key))groups.set(key,new Set());
+    groups.get(key).add(clean(e.independence_group||e.source_id));
+  }
+  const consensus=[...groups.entries()].map(([key,sources])=>{const [field,...rest]=key.split('|');return {field,value:rest.join('|'),independent_groups:[...sources]}}).filter(x=>x.independent_groups.length>=minimumIndependentSources);
+  const fieldValues=new Map();
+  for(const e of evidence){
+    const field=clean(e.field),value=clean(e.value).toLowerCase();
+    if(!fieldValues.has(field))fieldValues.set(field,new Set());
+    fieldValues.get(field).add(value);
+  }
+  const conflicts=[...fieldValues.entries()].filter(([,values])=>values.size>1).map(([field,values])=>({field,values:[...values]}));
+  if(!consensus.length)reasons.push('chýbajú dva nezávislé zdroje zhodné na rovnakom mikroidentifikátore a hodnote');
+  if(conflicts.length)reasons.push('referenčné zdroje si odporujú');
+  const recordMismatch=consensus.filter(x=>clean(record[x.field]).toLowerCase()!==x.value);
+  if(recordMismatch.length)reasons.push('katalógová hodnota nesúhlasí s referenčným konsenzom');
+  const explicit=(record.reference_conflicts||[]).filter(Boolean);
+  if(explicit.length)reasons.push('referenčné zdroje obsahujú explicitný konflikt');
+  return {promotable:reasons.length===0,reasons,consensus,conflicts,record_mismatch:recordMismatch};
 }
 
 export function promoteVerifiedReference(record,options={}){
