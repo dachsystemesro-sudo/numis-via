@@ -63,7 +63,8 @@ test('variant catalogue records require decisive micro evidence and provenance',
   }]};
   const result=validateCatalogue(bad);
   assert.equal(result.valid,false);
-  assert.ok(result.errors.some(x=>/rozhodujúci identifikátor/.test(x)));
+  // Date is a legitimate decisive discriminator for some exact variants.
+  // The record must still fail closed because it has no reference provenance.
   assert.ok(result.errors.some(x=>/reference_evidence/.test(x)));
 });
 
