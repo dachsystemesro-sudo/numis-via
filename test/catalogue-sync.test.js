@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {rowsToStaging,mergeStaging,syncOcreBatches} from '../scripts/sync-open-catalogues.mjs';
+import {rowsToStaging,mergeStaging,syncOcreBatches,fetchWithRetry} from '../scripts/sync-open-catalogues.mjs';
 
 const cell=value=>({type:'literal',value});
 
@@ -45,4 +45,24 @@ test('multi-batch sync limits a single run to twenty batches',async()=>{
   };
   await syncOcreBatches(null,100,syncOnce);
   assert.equal(calls,20);
+});
+
+
+test('fetch retry recovers from transient 503',async()=>{
+  let calls=0;
+  const fetchImpl=async()=>{
+    calls++;
+    if(calls<2)return {ok:false,status:503};
+    return {ok:true,status:200};
+  };
+  const response=await fetchWithRetry(fetchImpl,'https://example.invalid',{},2);
+  assert.equal(response.ok,true);
+  assert.equal(calls,2);
+});
+
+test('fetch retry does not retry permanent 404',async()=>{
+  let calls=0;
+  const fetchImpl=async()=>{calls++;return {ok:false,status:404}};
+  await assert.rejects(()=>fetchWithRetry(fetchImpl,'https://example.invalid',{},4),/HTTP 404/);
+  assert.equal(calls,1);
 });
