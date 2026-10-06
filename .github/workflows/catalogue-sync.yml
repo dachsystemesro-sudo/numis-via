@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - '.github/workflows/catalogue-sync.yml'
+      - 'scripts/sync-open-catalogues.mjs'
   schedule:
     - cron: '17 2 * * *'
 
