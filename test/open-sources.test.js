@@ -94,3 +94,22 @@ test('two mirrors from the same independence group count as one source',()=>{
   ]};
   assert.equal(promotionDecision(record).promotable,false);
 });
+
+
+test('registered evidence cannot spoof its independence group',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'wikidata',independence_group:'fake-a',field:'mint_mark',value:'M',source_url:'https://www.wikidata.org/x'},
+    {source_id:'wikidata',independence_group:'fake-b',field:'mint_mark',value:'M',source_url:'https://www.wikidata.org/y'}
+  ]};
+  assert.equal(promotionDecision(record).promotable,false);
+});
+
+test('OCRE and its declared Nomisma upstream do not count as independent corroboration',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'ocre',field:'mint_mark',value:'M',source_url:'https://numismatics.org/ocre/x'},
+    {source_id:'nomisma',field:'mint_mark',value:'M',source_url:'https://nomisma.org/x'}
+  ]};
+  const decision=promotionDecision(record);
+  assert.equal(decision.promotable,false);
+  assert.equal(decision.consensus.length,0);
+});
