@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const statePath=path.join(root,'data','import-state.json');
 const stagingPath=path.join(root,'data','staging','ocre.json');
-const limit=Math.min(500,Math.max(10,Number(process.env.CATALOGUE_BATCH_SIZE)||250));
+const limit=Math.min(500,Math.max(10,Number(process.env.CATALOGUE_BATCH_SIZE)||100));
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
 const query=`PREFIX nmo: <http://nomisma.org/ontology#>
@@ -74,7 +74,7 @@ export async function syncOcre(fetchImpl=fetch){
   const endpoint=new URL('https://nomisma.org/query');
   endpoint.searchParams.set('query',query.replace('__OFFSET__',String(offset)));
   endpoint.searchParams.set('output','json');
-  const response=await fetchWithRetry(fetchImpl,endpoint,{headers:{accept:'application/sparql-results+json','user-agent':'NUMIS-VIA/1.0 catalogue importer'}});
+  const response=await fetchWithRetry(fetchImpl,endpoint,{headers:{accept:'application/sparql-results+json','user-agent':'NUMIS-VIA/1.0 catalogue importer'},signal:AbortSignal.timeout(45000)});
   const payload=await response.json();
   const bindings=payload.results?.bindings||[];
   const rawCount=bindings.length;
@@ -101,6 +101,7 @@ export async function syncOcreBatches(fetchImpl=fetch,batches=Number(process.env
     result=await syncOnce(fetchImpl);
     completedBatches++;
     if(result.complete)break;
+    if(index<requested-1)await sleep(750);
   }
   return {...result,completed_batches:completedBatches};
 }
