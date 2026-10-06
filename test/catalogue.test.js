@@ -124,3 +124,14 @@ test('variant evidence requires the asserted value',()=>{
   }]};
   assert.equal(validateCatalogue(bad).valid,false);
 });
+
+
+test('physical gate blocks non-numeric measurements instead of passing them',()=>{
+  const result=denominationPhysicalGate({value:'2 EUR'},{mass_g:'not-a-number',diameter_mm:25.75,thickness_mm:2.20});
+  assert.equal(result.passed,false);
+});
+
+test('physical gate blocks zero or negative measurements',()=>{
+  assert.equal(denominationPhysicalGate({value:'2 EUR'},{mass_g:0}).passed,false);
+  assert.equal(denominationPhysicalGate({value:'2 EUR'},{diameter_mm:-25.75}).passed,false);
+});
