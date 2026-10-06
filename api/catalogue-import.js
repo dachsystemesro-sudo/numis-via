@@ -1,4 +1,15 @@
 import {provenanceFor} from './source-policy.js';
+import sourceRegistry from '../data/open-catalogues.json' with {type:'json'};
+
+const registeredSources=new Map(sourceRegistry.sources.map(source=>[source.id,source]));
+const trustedIndependenceGroup=sourceId=>{
+  const source=registeredSources.get(sourceId);
+  if(!source)return sourceId;
+  // Conservative rule: a source declaring an upstream dependency is grouped with
+  // that upstream source, so linked/mirrored data cannot manufacture consensus.
+  const upstream=(source.upstream_sources||[]).map(id=>registeredSources.get(id)).find(Boolean);
+  return upstream?.independence_group||source.independence_group||source.id;
+};
 
 const clean=value=>String(value??'').normalize('NFKC').replace(/\s+/g,' ').trim();
 const slug=value=>clean(value).toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
@@ -29,7 +40,7 @@ export function normalizeOpenRecord(raw,source){
   };
   const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
   const evidence=(raw.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&clean(e?.source_url));
-  if(evidence.length)record.reference_evidence=evidence.map(e=>({source_id:clean(e.source_id),independence_group:clean(e.independence_group||e.source_id),field:clean(e.field),value:clean(e.value),source_url:clean(e.source_url)}));
+  if(evidence.length)record.reference_evidence=evidence.map(e=>{const sourceId=clean(e.source_id);return {source_id:sourceId,independence_group:trustedIndependenceGroup(sourceId),field:clean(e.field),value:clean(e.value),source_url:clean(e.source_url)}});
   if(record.identity_level==='variant'&&!record.date)record.identity_level='family';
   // Open imports may propose candidates, but may not become identity-locking variants
   // until decisive micro evidence has explicit provenance.
@@ -63,7 +74,7 @@ export function promotionDecision(record,{minimumIndependentSources=2}={}){
     const field=clean(e.field), value=clean(e.value).toLowerCase();
     const key=field+'|'+value;
     if(!groups.has(key))groups.set(key,new Set());
-    groups.get(key).add(clean(e.independence_group||e.source_id));
+    groups.get(key).add(trustedIndependenceGroup(clean(e.source_id)));
   }
   const consensus=[...groups.entries()].map(([key,sources])=>{const [field,...rest]=key.split('|');return {field,value:rest.join('|'),independent_groups:[...sources]}}).filter(x=>x.independent_groups.length>=minimumIndependentSources);
   const fieldValues=new Map();
