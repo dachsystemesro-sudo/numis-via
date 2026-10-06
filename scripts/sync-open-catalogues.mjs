@@ -54,8 +54,7 @@ export async function fetchWithRetry(fetchImpl,url,options={},attempts=4){
     try{
       const response=await fetchImpl(url,options);
       if(response.ok)return response;
-      const body=await response.text().catch(()=> '');
-      lastError=Error(`OCRE import zlyhal: HTTP ${response.status}${body?` - ${body.slice(0,300).replace(/\\s+/g,' ')}`:''}`);
+      lastError=Error(`OCRE import zlyhal: HTTP ${response.status}`);
       if(![429,500,502,503,504].includes(response.status)){
         lastError.retryable=false;
         throw lastError;
