@@ -52,7 +52,9 @@ export async function fetchWithRetry(fetchImpl,url,options={},attempts=4){
   let lastError;
   for(let attempt=1;attempt<=attempts;attempt++){
     try{
-      const response=await fetchImpl(url,options);
+      const timeoutMs=Number(options.timeoutMs)||45000;
+      const {timeoutMs:_timeoutMs,...fetchOptions}=options;
+      const response=await fetchImpl(url,{...fetchOptions,signal:AbortSignal.timeout(timeoutMs)});
       if(response.ok)return response;
       lastError=Error(`OCRE import zlyhal: HTTP ${response.status}`);
       if(![429,500,502,503,504].includes(response.status)){
@@ -63,7 +65,11 @@ export async function fetchWithRetry(fetchImpl,url,options={},attempts=4){
       if(error?.retryable===false)throw error;
       lastError=error;
     }
-    if(attempt<attempts)await sleep(500*2**(attempt-1));
+    if(attempt<attempts){
+      const status=lastError?.message?.match(/HTTP (\d+)/)?.[1];
+      const baseDelay=status==='503'||status==='429'?5000:1000;
+      await sleep(baseDelay*2**(attempt-1));
+    }
   }
   throw lastError;
 }
@@ -74,7 +80,7 @@ export async function syncOcre(fetchImpl=fetch){
   const endpoint=new URL('https://nomisma.org/query');
   endpoint.searchParams.set('query',query.replace('__OFFSET__',String(offset)));
   endpoint.searchParams.set('output','json');
-  const response=await fetchWithRetry(fetchImpl,endpoint,{headers:{accept:'application/sparql-results+json','user-agent':'NUMIS-VIA/1.0 catalogue importer'},signal:AbortSignal.timeout(45000)});
+  const response=await fetchWithRetry(fetchImpl,endpoint,{headers:{accept:'application/sparql-results+json','user-agent':'NUMIS-VIA/1.0 catalogue importer'},timeoutMs:45000});
   const payload=await response.json();
   const bindings=payload.results?.bindings||[];
   const rawCount=bindings.length;
