@@ -66,3 +66,31 @@ test('fetch retry does not retry permanent 404',async()=>{
   await assert.rejects(()=>fetchWithRetry(fetchImpl,'https://example.invalid',{},4),/HTTP 404/);
   assert.equal(calls,1);
 });
+
+
+test('fetch retry recovers from a transient network exception',async()=>{
+  let calls=0;
+  const fetchImpl=async()=>{
+    calls++;
+    if(calls===1)throw new TypeError('temporary network failure');
+    return {ok:true,status:200};
+  };
+  const response=await fetchWithRetry(fetchImpl,'https://example.invalid',{timeoutMs:1000},2);
+  assert.equal(response.ok,true);
+  assert.equal(calls,2);
+});
+
+test('fetch retry creates a fresh timeout signal for every attempt',async()=>{
+  const signals=[];
+  let calls=0;
+  const fetchImpl=async(_url,options)=>{
+    calls++;
+    signals.push(options.signal);
+    if(calls===1)return {ok:false,status:500};
+    return {ok:true,status:200};
+  };
+  const response=await fetchWithRetry(fetchImpl,'https://example.invalid',{timeoutMs:1000},2);
+  assert.equal(response.ok,true);
+  assert.equal(calls,2);
+  assert.notEqual(signals[0],signals[1]);
+});
