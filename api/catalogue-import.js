@@ -2,7 +2,7 @@ import {provenanceFor} from './source-policy.js';
 import sourceRegistry from '../data/open-catalogues.json' with {type:'json'};
 
 const registeredSources=new Map(sourceRegistry.sources.map(source=>[source.id,source]));
-const isTrustedSource=sourceId=>registeredSources.has(sourceId)&&registeredSources.get(sourceId)?.enabled!==false;
+const isTrustedSource=sourceId=>registeredSources.get(sourceId)?.status==='enabled';
 const trustedIndependenceGroup=sourceId=>{
   const source=registeredSources.get(sourceId);
   if(!source)return sourceId;
