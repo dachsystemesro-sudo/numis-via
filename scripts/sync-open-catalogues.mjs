@@ -46,7 +46,13 @@ export function mergeStaging(existing,incoming){
   return [...map.values()].sort((a,b)=>a.staging_id.localeCompare(b.staging_id));
 }
 
-async function readJson(file,fallback){try{return JSON.parse(await fs.readFile(file,'utf8'))}catch{return fallback}}
+async function readJson(file,fallback){
+  let raw;
+  try{raw=await fs.readFile(file,'utf8')}
+  catch(error){if(error?.code==='ENOENT')return fallback;throw error}
+  // A damaged existing state must never be mistaken for a fresh import.
+  return JSON.parse(raw);
+}
 
 export async function fetchWithRetry(fetchImpl,url,options={},attempts=4){
   let lastError;
@@ -76,12 +82,24 @@ export async function fetchWithRetry(fetchImpl,url,options={},attempts=4){
 
 export function requireBindings(payload){
   if(!payload||typeof payload!=='object'||!payload.results||!Array.isArray(payload.results.bindings))throw Error('OCRE import zlyhal: neplatná SPARQL odpoveď');
-  return payload.results.bindings;
+  const bindings=payload.results.bindings;
+  // Never advance the offset past rows whose OCRE identity is missing or invalid.
+  for(const row of bindings){
+    const type=row?.type?.value;
+    if(typeof type!=='string'||!/^https?:\\/\\/numismatics\\.org\\/ocre\\/id\\/[^/?#]+$/.test(type)){
+      throw Error('OCRE import zlyhal: neplatný identifikátor typu v SPARQL odpovedi');
+    }
+  }
+  return bindings;
 }
 
 export async function syncOcre(fetchImpl=fetch){
   const state=await readJson(statePath,{version:1,sources:{ocre:{offset:0,complete:false}}});
-  const offset=state.sources.ocre.offset||0;
+  const sourceState=state?.sources?.ocre;
+  if(!sourceState||!Number.isSafeInteger(sourceState.offset)||sourceState.offset<0||typeof sourceState.complete!=='boolean'){
+    throw Error('OCRE import zlyhal: neplatný stav importu');
+  }
+  const offset=sourceState.offset;
   const endpoint=new URL('https://nomisma.org/query');
   endpoint.searchParams.set('query',query.replace('__OFFSET__',String(offset)));
   endpoint.searchParams.set('output','json');
@@ -91,7 +109,10 @@ export async function syncOcre(fetchImpl=fetch){
   const rawCount=bindings.length;
   const incoming=rowsToStaging(bindings);
   const existing=await readJson(stagingPath,{schema_version:'1.0',records:[]});
-  const records=mergeStaging(existing.records||[],incoming);
+  if(!existing||!Array.isArray(existing.records)||existing.schema_version!=='1.0'){
+    throw Error('OCRE import zlyhal: neplatné existujúce staging dáta');
+  }
+  const records=mergeStaging(existing.records,incoming);
   state.sources.ocre.offset=offset+rawCount;
   state.sources.ocre.complete=rawCount===0;
   state.sources.ocre.last_batch=incoming.length;
