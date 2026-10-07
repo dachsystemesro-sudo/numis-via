@@ -58,6 +58,11 @@ export function catalogueGate(matches){
 export function denominationPhysicalGate(feature,measurements={}){
   const supplied=['mass_g','diameter_mm','thickness_mm'].filter(key=>measurements[key]!=null&&measurements[key]!=='');
   if(!supplied.length)return {passed:null,reason:'Fyzické rozmery neboli zadané.',matches:[]};
+  const invalid=supplied.filter(key=>{
+    const value=typeof measurements[key]==='number'?measurements[key]:Number(String(measurements[key]).trim());
+    return !Number.isFinite(value)||value<=0;
+  });
+  if(invalid.length)return {passed:false,reason:'Fyzické parametre obsahujú neplatnú hodnotu: '+invalid.join(', ')+'.',matches:[]};
   const detected=norm(feature?.value);
   const tolerance={mass_g:0.18,diameter_mm:0.30,thickness_mm:0.30};
   const matches=euro.records.map(record=>{
