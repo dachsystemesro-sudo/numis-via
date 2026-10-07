@@ -74,6 +74,11 @@ export async function fetchWithRetry(fetchImpl,url,options={},attempts=4){
   throw lastError;
 }
 
+export function requireBindings(payload){
+  if(!payload||typeof payload!=='object'||!payload.results||!Array.isArray(payload.results.bindings))throw Error('OCRE import zlyhal: neplatná SPARQL odpoveď');
+  return payload.results.bindings;
+}
+
 export async function syncOcre(fetchImpl=fetch){
   const state=await readJson(statePath,{version:1,sources:{ocre:{offset:0,complete:false}}});
   const offset=state.sources.ocre.offset||0;
@@ -82,7 +87,7 @@ export async function syncOcre(fetchImpl=fetch){
   endpoint.searchParams.set('output','json');
   const response=await fetchWithRetry(fetchImpl,endpoint,{headers:{accept:'application/sparql-results+json','user-agent':'NUMIS-VIA/1.0 catalogue importer'},timeoutMs:45000});
   const payload=await response.json();
-  const bindings=payload.results?.bindings||[];
+  const bindings=requireBindings(payload);
   const rawCount=bindings.length;
   const incoming=rowsToStaging(bindings);
   const existing=await readJson(stagingPath,{schema_version:'1.0',records:[]});
