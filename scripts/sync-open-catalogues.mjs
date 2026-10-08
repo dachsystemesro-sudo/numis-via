@@ -11,16 +11,13 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const query=`PREFIX nmo: <http://nomisma.org/ontology#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-SELECT DISTINCT ?type ?title ?denomination ?denominationLabel ?material ?materialLabel ?mint ?mintLabel ?issuer ?issuerLabel ?obv ?rev WHERE {
+SELECT DISTINCT ?type ?title ?denomination ?denominationLabel ?material ?materialLabel ?mint ?mintLabel WHERE {
   ?type a nmo:TypeSeriesItem .
   FILTER(STRSTARTS(STR(?type), "http://numismatics.org/ocre/id/"))
   OPTIONAL { ?type dcterms:title ?title . FILTER(LANG(?title)="en" || LANG(?title)="") }
   OPTIONAL { ?type nmo:hasDenomination ?denomination . ?denomination skos:prefLabel ?denominationLabel . FILTER(LANG(?denominationLabel)="en") }
   OPTIONAL { ?type nmo:hasMaterial ?material . ?material skos:prefLabel ?materialLabel . FILTER(LANG(?materialLabel)="en") }
   OPTIONAL { ?type nmo:hasMint ?mint . ?mint skos:prefLabel ?mintLabel . FILTER(LANG(?mintLabel)="en") }
-  OPTIONAL { ?type nmo:hasAuthority ?issuer . ?issuer skos:prefLabel ?issuerLabel . FILTER(LANG(?issuerLabel)="en") }
-  OPTIONAL { ?type nmo:hasObverse/dcterms:description ?obv . FILTER(LANG(?obv)="en" || LANG(?obv)="") }
-  OPTIONAL { ?type nmo:hasReverse/dcterms:description ?rev . FILTER(LANG(?rev)="en" || LANG(?rev)="") }
 } ORDER BY ?type LIMIT ${limit} OFFSET __OFFSET__`;
 
 const value=(row,key)=>row[key]?.value?.trim()||null;
@@ -33,7 +30,7 @@ export function rowsToStaging(bindings,importedAt=new Date().toISOString()){
     if(!sourceUrl)continue;
     const id=idFrom(sourceUrl);
     const current=map.get(id)||{staging_id:`OCRE-${id}`,source_id:'ocre',external_id:id,source_url:sourceUrl,license:'ODbL-1.0',status:'staged',imported_at:importedAt};
-    const data={label:value(row,'title')||id,denomination:value(row,'denominationLabel'),material:value(row,'materialLabel'),mint:value(row,'mintLabel'),issuer:value(row,'issuerLabel'),obverse_description:value(row,'obv'),reverse_description:value(row,'rev')};
+    const data={label:value(row,'title')||id,denomination:value(row,'denominationLabel'),material:value(row,'materialLabel'),mint:value(row,'mintLabel')};
     for(const [key,item] of Object.entries(data))if(item&&!current[key])current[key]=item;
     map.set(id,current);
   }
