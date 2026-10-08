@@ -86,7 +86,7 @@ export function requireBindings(payload){
   // Never advance the offset past rows whose OCRE identity is missing or invalid.
   for(const row of bindings){
     const type=row?.type?.value;
-    if(typeof type!=='string'||!/^https?:\\/\\/numismatics\\.org\\/ocre\\/id\\/[^/?#]+$/.test(type)){
+    if(typeof type!=='string'||!/^https?:\/\/numismatics\.org\/ocre\/id\/[^/?#]+$/.test(type)){
       throw Error('OCRE import zlyhal: neplatný identifikátor typu v SPARQL odpovedi');
     }
   }
