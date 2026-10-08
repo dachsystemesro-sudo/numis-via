@@ -27,8 +27,8 @@ jobs:
       - name: Načítať ďalšiu dávku OCRE
         run: node scripts/sync-open-catalogues.mjs
         env:
-          CATALOGUE_BATCH_SIZE: '100'
-          CATALOGUE_BATCHES_PER_RUN: '5'
+          CATALOGUE_BATCH_SIZE: '50'
+          CATALOGUE_BATCHES_PER_RUN: '4'
       - name: Overiť projekt
         run: npm run check
       - name: Uložiť nové katalógové dáta
