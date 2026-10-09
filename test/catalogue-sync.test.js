@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {rowsToStaging,mergeStaging,syncOcreBatches,fetchWithRetry} from '../scripts/sync-open-catalogues.mjs';
+import {rowsToStaging,mergeStaging,syncOcreBatches,fetchWithRetry,requireBindings} from '../scripts/sync-open-catalogues.mjs';
 
 const cell=value=>({type:'literal',value});
 
@@ -93,4 +93,27 @@ test('fetch retry creates a fresh timeout signal for every attempt',async()=>{
   assert.equal(response.ok,true);
   assert.equal(calls,2);
   assert.notEqual(signals[0],signals[1]);
+});
+
+test('rejects malformed SPARQL payload instead of treating it as empty completion',()=>{
+  for(const payload of [null,{}, {results:{}}, {results:{bindings:null}}]){
+    assert.throws(()=>requireBindings(payload),/neplatná SPARQL odpoveď/);
+  }
+});
+
+test('rejects missing, foreign, or malformed OCRE identifiers without advancing import',()=>{
+  const invalid=[
+    {},{type:{value:'https://example.org/ocre/id/a'}},
+    {type:{value:'https://numismatics.org/ocre/id/a?next=1'}},
+    {type:{value:'https://numismatics.org/ocre/id/'}},
+    {type:{value:42}}
+  ];
+  for(const row of invalid){
+    assert.throws(()=>requireBindings({results:{bindings:[{type:{value:'https://numismatics.org/ocre/id/ric.1.aug.1'}},row]}}),/neplatný identifikátor/);
+  }
+});
+
+test('accepts valid OCRE identifiers and genuine empty result sets',()=>{
+  assert.equal(requireBindings({results:{bindings:[{type:{value:'http://numismatics.org/ocre/id/ric.1.aug.1'}}]}}).length,1);
+  assert.deepEqual(requireBindings({results:{bindings:[]}}),[]);
 });
