@@ -8,6 +8,7 @@ on:
       - 'scripts/sync-open-catalogues.mjs'
   schedule:
     - cron: '17 2 * * *'
+    - cron: '47 14 * * *'
 
 permissions:
   contents: write
