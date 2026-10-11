@@ -12,6 +12,21 @@ const trustedIndependenceGroup=sourceId=>{
   return upstream?.independence_group||source.independence_group||source.id;
 };
 
+const trustedEvidenceUrl=(sourceId,rawUrl)=>{
+  const source=registeredSources.get(sourceId);
+  if(!source||source.status!=='enabled')return false;
+  try{
+    const url=new URL(rawUrl);
+    if(url.protocol!=='https:')return false;
+    const host=url.hostname.toLowerCase();
+    if(url.username||url.password||url.port)return false;
+    if(sourceId==='wikidata')return host==='www.wikidata.org'||host==='wikidata.org';
+    if(sourceId==='nomisma')return host==='nomisma.org'||host==='www.nomisma.org';
+    if(sourceId==='ocre')return (host==='numismatics.org'||host==='www.numismatics.org')&&url.pathname.startsWith('/ocre/');
+    return false; // New sources need explicit, reviewed origin policy.
+  }catch{return false}
+};
+
 const clean=value=>String(value??'').normalize('NFKC').replace(/\s+/g,' ').trim();
 const slug=value=>clean(value).toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 
@@ -69,7 +84,7 @@ export function promotionDecision(record,{minimumIndependentSources=2}={}){
   const reasons=[];
   if(record.identity_level!=='variant')reasons.push('záznam nie je presný variant');
   if(!record.date)reasons.push('chýba presný ročník');
-  const evidence=(record.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&isTrustedSource(clean(e.source_id))&&clean(e?.source_url)&&clean(e?.value));
+  const evidence=(record.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&isTrustedSource(clean(e.source_id))&&trustedEvidenceUrl(clean(e.source_id),clean(e?.source_url))&&clean(e?.value));
   const groups=new Map();
   for(const e of evidence){
     const field=clean(e.field), value=clean(e.value).toLowerCase();
@@ -86,7 +101,7 @@ export function promotionDecision(record,{minimumIndependentSources=2}={}){
   }
   const conflicts=[...fieldValues.entries()].filter(([,values])=>values.size>1).map(([field,values])=>({field,values:[...values]}));
   const suppliedEvidence=(record.reference_evidence||[]).filter(Boolean);
-  if(suppliedEvidence.length!==evidence.length)reasons.push('referenčný dôkaz obsahuje neregistrovaný alebo vypnutý zdroj');
+  if(suppliedEvidence.length!==evidence.length)reasons.push('referenčný dôkaz obsahuje neregistrovaný, vypnutý zdroj alebo nedôveryhodnú adresu');
   if(!consensus.length)reasons.push('chýbajú dva nezávislé zdroje zhodné na rovnakom mikroidentifikátore a hodnote');
   if(conflicts.length)reasons.push('referenčné zdroje si odporujú');
   const recordMismatch=consensus.filter(x=>clean(record[x.field]).toLowerCase()!==x.value);
