@@ -131,3 +131,21 @@ test('OCRE and its declared Nomisma upstream do not count as independent corrobo
   assert.equal(decision.promotable,false);
   assert.equal(decision.consensus.length,0);
 });
+
+test('spoofed reference domains cannot promote a variant',()=>{
+  for(const badUrl of ['https://www.wikidata.org.evil.example/x','https://evil.example/wiki/Q2','http://www.wikidata.org/x','https://www.wikidata.org@evil.example/x']){
+    const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+      {source_id:'wikidata',field:'mint_mark',value:'M',source_url:badUrl},
+      {source_id:'nomisma',field:'mint_mark',value:'M',source_url:'https://nomisma.org/x'}
+    ]};
+    assert.equal(promotionDecision(record).promotable,false,badUrl);
+  }
+});
+
+test('OCRE evidence must point to its own catalogue path',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'ocre',field:'mint_mark',value:'M',source_url:'https://numismatics.org/unrelated'},
+    {source_id:'wikidata',field:'mint_mark',value:'M',source_url:'https://www.wikidata.org/x'}
+  ]};
+  assert.equal(promotionDecision(record).promotable,false);
+});
