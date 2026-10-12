@@ -94,7 +94,7 @@ test('registered but disabled or review-only sources cannot promote a reference'
   ]};
   const decision=promotionDecision(record);
   assert.equal(decision.promotable,false);
-  assert.match(decision.reasons.join(' '),/neregistrovaný alebo vypnutý zdroj/);
+  assert.match(decision.reasons.join(' '),/neregistrovaný, vypnutý zdroj alebo nedôveryhodnú adresu/);
 });
 
 test('unregistered sources cannot manufacture reference consensus',()=>{
