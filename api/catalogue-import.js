@@ -79,7 +79,7 @@ export function deduplicateRecords(records){
 }
 
 
-export function promotionDecision(record,{minimumIndependentSources=2}={}){
+export function promotionDecision(record){
   const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
   const reasons=[];
   if(record.identity_level!=='variant')reasons.push('záznam nie je presný variant');
@@ -92,7 +92,7 @@ export function promotionDecision(record,{minimumIndependentSources=2}={}){
     if(!groups.has(key))groups.set(key,new Set());
     groups.get(key).add(trustedIndependenceGroup(clean(e.source_id)));
   }
-  const consensus=[...groups.entries()].map(([key,sources])=>{const [field,...rest]=key.split('|');return {field,value:rest.join('|'),independent_groups:[...sources]}}).filter(x=>x.independent_groups.length>=minimumIndependentSources);
+  const consensus=[...groups.entries()].map(([key,sources])=>{const [field,...rest]=key.split('|');return {field,value:rest.join('|'),independent_groups:[...sources]}}).filter(x=>x.independent_groups.length>=2);
   const fieldValues=new Map();
   for(const e of evidence){
     const field=clean(e.field),value=clean(e.value).toLowerCase();
