@@ -149,3 +149,12 @@ test('OCRE evidence must point to its own catalogue path',()=>{
   ]};
   assert.equal(promotionDecision(record).promotable,false);
 });
+
+
+test('caller cannot lower the independent-source quorum',()=>{
+  const record={identity_level:'variant',date:'2020',mint_mark:'M',reference_evidence:[
+    {source_id:'wikidata',field:'mint_mark',value:'M',source_url:'https://www.wikidata.org/x'}
+  ]};
+  assert.equal(promotionDecision(record,{minimumIndependentSources:1}).promotable,false);
+  assert.equal(promoteVerifiedReference(record,{minimumIndependentSources:1}).verification_state,'needs_reference_review');
+});
