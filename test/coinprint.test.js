@@ -65,3 +65,12 @@ test('micro identifiers cannot be guessed when unreadable', async()=>{
   assert.match(source,/engraver_mark/);
   assert.match(source,/micro_symbols/);
 });
+
+
+test('verifier must explicitly return empty contradiction and missing-feature arrays', async()=>{
+  const fs=await import('node:fs/promises');
+  const source=await fs.readFile(new URL('../api/analyze.js',import.meta.url),'utf8');
+  assert.match(source,/Array\.isArray\(v\.contradictions\)&&v\.contradictions\.length===0/);
+  assert.match(source,/Array\.isArray\(v\.missing_decisive_features\)&&v\.missing_decisive_features\.length===0/);
+  assert.match(source,/v\.supported===true/);
+});
