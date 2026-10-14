@@ -2,11 +2,11 @@
   "version": 1,
   "sources": {
     "ocre": {
-      "offset": 25450,
+      "offset": 25650,
       "complete": false,
       "last_batch": 50,
-      "total_staged": 23301,
-      "last_sync": "2026-10-13T20:25:09.329Z",
+      "total_staged": 23501,
+      "last_sync": "2026-10-14T07:44:15.649Z",
       "last_raw_batch": 50
     }
   }
