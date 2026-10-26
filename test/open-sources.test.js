@@ -158,3 +158,15 @@ test('caller cannot lower the independent-source quorum',()=>{
   assert.equal(promotionDecision(record,{minimumIndependentSources:1}).promotable,false);
   assert.equal(promoteVerifiedReference(record,{minimumIndependentSources:1}).verification_state,'needs_reference_review');
 });
+
+test('ambiguous and malformed dates cannot promote a precise variant',()=>{
+  for(const date of ['2020-2021','2020/2021','20','unknown','']){
+    const record={identity_level:'variant',date,mint_mark:'M',reference_evidence:[
+      {source_id:'wikidata',field:'mint_mark',value:'M',source_url:'https://www.wikidata.org/wiki/Q1'},
+      {source_id:'nomisma',field:'mint_mark',value:'M',source_url:'https://nomisma.org/id/example'}
+    ]};
+    const decision=promotionDecision(record);
+    assert.equal(decision.promotable,false,'date '+date);
+    assert.match(decision.reasons.join(' '),/jednoznačný štvorciferný ročník/);
+  }
+});
