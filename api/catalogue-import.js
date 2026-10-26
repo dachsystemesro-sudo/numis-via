@@ -83,7 +83,7 @@ export function promotionDecision(record){
   const decisive=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
   const reasons=[];
   if(record.identity_level!=='variant')reasons.push('záznam nie je presný variant');
-  if(!record.date)reasons.push('chýba presný ročník');
+  if(!/^\d{4}$/.test(clean(record.date)))reasons.push('chýba jednoznačný štvorciferný ročník');
   const evidence=(record.reference_evidence||[]).filter(e=>decisive.includes(e?.field)&&clean(e?.source_id)&&isTrustedSource(clean(e.source_id))&&trustedEvidenceUrl(clean(e.source_id),clean(e?.source_url))&&clean(e?.value));
   const groups=new Map();
   for(const e of evidence){
