@@ -1,3 +1,5 @@
+import {reviewPilotReference} from './pilot-reference.js';
+import pilotSources from '../data/pilot/sources.json' with {type:'json'};
 import catalogue from '../data/catalogue.json' with {type:'json'};
 import euro from '../data/euro-denominations.json' with {type:'json'};
 
@@ -15,19 +17,20 @@ const close=(actual,expected,tolerance)=>actual==null||expected==null?null:Math.
 const yearMatches=(actual,record)=>{
   const year=Number(String(actual??'').match(/\b(1[0-9]{3}|20[0-9]{2})\b/)?.[1]);
   if(!year)return null;
-  if(record.date)return String(year)===String(record.date);
+  if(record.date)return /^\d{4}$/.test(String(actual??'').trim())&&String(actual).trim()===String(record.date);
   if(record.year_from&&year<record.year_from)return false;
   if(record.year_to&&year>record.year_to)return false;
   return Boolean(record.year_from||record.year_to);
 };
 
-export function catalogueCandidates(features,measurements={}){
-  return catalogue.records.map(record=>{
+export function catalogueCandidates(features,measurements={},records=catalogue.records){
+  return records.map(record=>{
     const checks={
       denomination:matchesAlias(features.denomination?.value,record.denomination,record.denomination_aliases),
       country_text:matchesAlias(features.country_text?.value,record.country_text,record.country_text_aliases),
       date:yearMatches(features.date?.value,record),
       main_motif:matchesAlias(features.main_motif?.value,record.main_motif,record.main_motif_aliases),
+      geometry:record.geometry?equal(features.geometry?.value,record.geometry):null,
       coat_of_arms:record.coat_of_arms?matchesAlias(features.coat_of_arms?.value,record.coat_of_arms,record.coat_of_arms_aliases):null,
       mint_mark:record.mint_mark?equal(features.mint_mark?.value,record.mint_mark):null,
       engraver_mark:record.engraver_mark?equal(features.engraver_mark?.value,record.engraver_mark):null,
@@ -41,15 +44,15 @@ export function catalogueCandidates(features,measurements={}){
       ...['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'].filter(key=>record[key]!=null)];
     const contradictions=Object.entries(checks).filter(([,value])=>value===false).map(([key])=>key);
     const matched=Object.entries(checks).filter(([,value])=>value===true).map(([key])=>key);
-    const missing=required.filter(key=>!features[key]?.value);
+    const missing=[...new Set([...required,...(record.decisive_discriminators||[])])].filter(key=>!features[key]?.value);
     const comparable=Object.values(checks).filter(value=>value!==null).length;
     const score=comparable?Math.round(100*matched.length/comparable):0;
     return {...record,checks,matched,contradictions,missing,score};
   }).filter(x=>x.matched.length>=2).sort((a,b)=>b.score-a.score).slice(0,12);
 }
 
-export function catalogueGate(matches){
-  const valid=matches.filter(x=>x.identity_level==='variant'&&x.verification_state==='verified_reference'&&x.score>=90&&!x.contradictions.length&&!x.missing.length&&x.sources?.length>=1);
+export function catalogueGate(matches,referenceReviewer=record=>reviewPilotReference(record,pilotSources)){
+  const valid=matches.filter(x=>x.identity_level==='variant'&&x.verification_state==='verified_reference'&&x.score>=90&&!x.contradictions.length&&!x.missing.length&&x.sources?.length>=1&&referenceReviewer(x).valid);
   if(!valid.length)return {passed:false,record:null,reason:'Minca alebo jej presný variant ešte nemá stav verified_reference v internom katalógu.'};
   if(valid.length>1&&valid[0].score-valid[1].score<8)return {passed:false,record:null,reason:'Katalóg obsahuje viac nerozlíšených variantov.'};
   return {passed:true,record:valid[0],reason:'Všetky rozhodujúce údaje súhlasia s katalógovým variantom.'};

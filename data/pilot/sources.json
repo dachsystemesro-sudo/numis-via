@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-11-09",
+  "sources": [
+    {
+      "id": "nbs-national",
+      "publisher": "Národná banka Slovenska",
+      "independence_group": "official-sk-design",
+      "urls": [
+        "https://nbs.sk/en/banknotes-and-coins/euro-coins/circulation-coins/national-sides-of-slovak-euro-coins/"
+      ],
+      "supports": [
+        "main_motif",
+        "designer"
+      ],
+      "limits": "General design; does not attest marks on a specific 2019–2021 specimen."
+    },
+    {
+      "id": "nbs-mintage",
+      "publisher": "Národná banka Slovenska",
+      "independence_group": "official-sk-design",
+      "urls": [
+        "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/"
+      ],
+      "supports": [
+        "year_issue"
+      ],
+      "limits": "Issue table; does not prove a specimen or its exact mint/designer marks."
+    },
+    {
+      "id": "ecb-sk",
+      "publisher": "European Central Bank",
+      "independence_group": "official-sk-design",
+      "urls": [
+        "https://www.ecb.europa.eu/euro/coins/html/sk.en.html"
+      ],
+      "supports": [
+        "main_motif",
+        "coat_of_arms"
+      ],
+      "limits": "Treat as shared official design lineage, not independent specimen evidence."
+    },
+    {
+      "id": "ecb-common",
+      "publisher": "European Central Bank",
+      "independence_group": "official-euro-specification",
+      "urls": [
+        "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html"
+      ],
+      "supports": [
+        "physical.mass_g",
+        "physical.diameter_mm",
+        "physical.thickness_mm",
+        "edge"
+      ],
+      "limits": "Nominal values only. Pilot tolerances are protocol decisions, not official manufacturing tolerances."
+    }
+  ]
+}

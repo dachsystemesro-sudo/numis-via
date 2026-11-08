@@ -31,3 +31,12 @@ jobs:
           node-version: '22'
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
+      - name: Audit referencií a pripravenosti (zelené CI neznamená READY)
+        run: node scripts/audit-readiness.mjs > readiness-report.json
+      - name: Uchovať dôkaz auditu
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: readiness-report
+          path: readiness-report.json
+          if-no-files-found: error
