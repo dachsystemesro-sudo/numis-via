@@ -35,13 +35,13 @@ test('catalogue gate rejects contradictions, missing decisive features, weak sco
 });
 
 test('catalogue gate refuses two indistinguishable verified variants',()=>{
-  const result=catalogueGate([reference(),reference({catalogue_id:'FIXTURE-SECOND',score:95})]);
+  const result=catalogueGate([reference(),reference({catalogue_id:'FIXTURE-SECOND',score:95})],()=>({valid:true}));
   assert.equal(result.passed,false);
   assert.match(result.reason,/viac nerozlíšených variantov/);
 });
 
 test('catalogue gate selects a uniquely supported verified variant',()=>{
-  const result=catalogueGate([reference(),reference({catalogue_id:'FIXTURE-SECOND',score:90})]);
+  const result=catalogueGate([reference(),reference({catalogue_id:'FIXTURE-SECOND',score:90})],()=>({valid:true}));
   assert.equal(result.passed,true);
   assert.equal(result.record.catalogue_id,'FIXTURE-VERIFIED');
 });

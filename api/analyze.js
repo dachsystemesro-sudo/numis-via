@@ -1,3 +1,4 @@
+import {valuationAllowed} from './valuation-policy.js';
 import {catalogueCandidates,catalogueGate,denominationPhysicalGate} from './catalogue.js';
 
 const URL='https://ai-gateway.vercel.sh/v1/chat/completions';
@@ -58,9 +59,11 @@ function candidates(passes){const map=new Map();for(const p of passes)for(const 
 
 function verifyPrompt(features,pool){return `NUMIS VIA CoinPrint, oponentský priechod. Pokús sa VYVRÁTIŤ každého kandidáta podľa fotografií. Over nominál, presný text a krajinu, letopočet, motív, znak, mincovňu, autora, mikrosymboly, geometriu a hranu. Predošlé dôkazy: ${JSON.stringify(features)}. Kandidáti: ${JSON.stringify(pool)}. Vráť iba JSON: {"features":[],"candidate_verdicts":[{"label":"","supported":false,"score":0,"matched_features":[""],"contradictions":[""],"missing_decisive_features":[""],"catalogue_identity":""}],"quality":{"sharpness":0,"exposure":0,"coverage":0,"glare_control":0},"missing_views":[""]}. supported smie byť true iba bez kritického rozporu a bez chýbajúceho rozhodujúceho znaku.`}
 
-function quality(passes,client={}){const limits={sharpness:65,exposure:55,coverage:75,glare_control:55};const scores={};for(const key of Object.keys(limits)){const values=passes.map(p=>clamp(p.quality?.[key])).filter(Boolean);if(clamp(client[key]))values.push(clamp(client[key]));scores[key]=values.length?Math.round(Math.min(...values)):0}const failures=Object.keys(limits).filter(k=>scores[k]<limits[k]);return {scores,passed:!failures.length,failures}}
+function quality(passes,client={}){const limits={sharpness:65,exposure:55,coverage:75,glare_control:55};const scores={};for(const key of Object.keys(limits)){const values=passes.map(p=>clamp(p.quality?.[key]));if(client[key]!=null)values.push(clamp(client[key]));scores[key]=values.length?Math.round(Math.min(...values)):0}const failures=Object.keys(limits).filter(k=>scores[k]<limits[k]);return {scores,passed:!failures.length,failures}}
 
-export default async function handler(req,res){
+// Dependencies are server-owned test seams; request bodies cannot replace them.
+export function createAnalysisHandler({findCandidates=catalogueCandidates,checkCatalogue=catalogueGate}={}){
+return async function handler(req,res){
   if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});
   const images=req.body?.images;
   if(!Array.isArray(images)||images.length<2||images.length>5||images.some(x=>typeof x!=='string'||!x.startsWith('data:image/')))return res.status(400).json({error:'Nahraj líce a rub mince; voliteľne aj hranu.'});
@@ -75,8 +78,8 @@ export default async function handler(req,res){
     const verifier=await call(images,verifyPrompt(features,pool),process.env.COINPRINT_VERIFY_MODEL||MODEL);
     const photoQuality=quality([a,b,micro,verifier],req.body?.client_quality);
     const measurements=req.body?.measurements||{};
-    const catalogueMatches=catalogueCandidates(features,measurements);
-    const catalogue=catalogueGate(catalogueMatches);
+    const catalogueMatches=findCandidates(features,measurements);
+    const catalogue=checkCatalogue(catalogueMatches);
     const critical=applicableCritical(features,catalogueMatches);
     const physicalGate=denominationPhysicalGate(features.denomination,measurements);
     const missing=critical.filter(k=>!features[k]?.value||features[k].agreement_count<2||features[k].confidence<78);
@@ -84,6 +87,11 @@ export default async function handler(req,res){
     const supported=(Array.isArray(verifier.candidate_verdicts)?verifier.candidate_verdicts:[]).filter(v=>v&&v.supported===true&&clamp(v.score)>=90&&Array.isArray(v.contradictions)&&v.contradictions.length===0&&Array.isArray(v.missing_decisive_features)&&v.missing_decisive_features.length===0).sort((x,y)=>clamp(y.score)-clamp(x.score));
     const blockers=[...photoQuality.failures.map(x=>'Nedostatočná kvalita: '+x),...conflicts.map(x=>'Kritický rozpor: '+x),...missing.map(x=>'Chýba nezávislé potvrdenie: '+x),...(supported.length?[]:['Žiadny kandidát neprešiel oponentským overením.']),...(supported.length>1&&clamp(supported[0].score)-clamp(supported[1].score)<8?['Kandidáti sú príliš podobní.']:[]),...(physicalGate.passed===false?[physicalGate.reason]:[]),...(catalogue.passed?[]:[catalogue.reason])];
     const verified=!blockers.length;
-    return res.status(200).json({coinprint_version:'14.7.0',status:verified?'VERIFIED':'BLOCKED',valuation_allowed:verified,identity:verified?{...supported[0],catalogue_id:catalogue.record.catalogue_id}:null,confidence:verified?Math.min(clamp(supported[0].score),catalogue.record.score):0,blockers:[...new Set(blockers)],quality:photoQuality,features,measurements,physical_gate:physicalGate,catalogue:{matched:catalogueMatches.map(x=>({catalogue_id:x.catalogue_id,identity_level:x.identity_level,label:x.label,score:x.score,contradictions:x.contradictions})),gate:catalogue.reason},candidate_verdicts:verifier.candidate_verdicts||[],next_needed:[...new Set([...(a.missing_views||[]),...(b.missing_views||[]),...(micro.missing_views||[]),...(verifier.missing_views||[])])].filter(Boolean),audit:{passes:4,independent_primary_passes:3,micro_specialist:true,critical_features:critical,catalogue_schema:'1.1',timestamp:new Date().toISOString()}});
+    const analysis={coinprint_version:'14.8.0',status:verified?'VERIFIED':'BLOCKED',valuation_allowed:verified,identity:verified?{...supported[0],catalogue_id:catalogue.record.catalogue_id}:null,confidence:verified?Math.min(clamp(supported[0].score),catalogue.record.score):0,blockers:[...new Set(blockers)],quality:photoQuality,features,measurements,physical_gate:physicalGate,catalogue:{matched:catalogueMatches.map(x=>({catalogue_id:x.catalogue_id,identity_level:x.identity_level,label:x.label,score:x.score,contradictions:x.contradictions})),gate:catalogue.reason},candidate_verdicts:verifier.candidate_verdicts||[],next_needed:[...new Set([...(a.missing_views||[]),...(b.missing_views||[]),...(micro.missing_views||[]),...(verifier.missing_views||[])])].filter(Boolean),audit:{passes:4,independent_primary_passes:3,micro_specialist:true,critical_features:critical,catalogue_schema:'1.1',timestamp:new Date().toISOString()}};
+    analysis.valuation_allowed=valuationAllowed(analysis);
+    return res.status(200).json(analysis);
   }catch(error){return res.status(500).json({error:error.message||'CoinPrint analýza zlyhala.'})}
 }
+
+}
+export default createAnalysisHandler();
