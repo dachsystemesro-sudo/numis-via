@@ -31,3 +31,5 @@ jobs:
           node-version: '22'
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
+      - name: Audit pripravenosti fyzického pilotu (informatívny)
+        run: node scripts/audit-readiness.mjs
