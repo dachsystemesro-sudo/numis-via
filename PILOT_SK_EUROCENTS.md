@@ -115,7 +115,7 @@ Zostáva: nezávislé podklady konkrétnych variantov a ich review, licencie, zb
 
 ## Bezpečnostné sprísnenie pri kontrole 2026-11-11
 
-Následná kontrola PR #11 našla sedem reprodukovateľných falošných potvrdení na syntetických odpovediach modelu. Oprava vyžaduje presnú normalizovanú zhodu (alebo explicitný katalógový alias), viditeľný dôkaz a oblasť fotografie v aspoň dvoch priechodoch, presné serverové catalogue_id v oponentskom verdikte a žiadne požadované chýbajúce pohľady. Každý dodaný fyzický rozmer musí vyhovieť; dve zhodné merania neprebijú tretie rozporné. Prísnejšia zhoda môže zvýšiť podiel blokovaní; reálny vplyv treba zmerať na nezávislej sade.
+Následná kontrola PR #11 našla sedem reprodukovateľných falošných potvrdení na syntetických odpovediach modelu. Oprava vyžaduje presnú normalizovanú zhodu zachovávajúcu interpunkciu a otázniky (alebo explicitný katalógový alias), viditeľný dôkaz a oblasť fotografie v aspoň dvoch priechodoch, presné serverové catalogue_id v oponentskom verdikte a žiadne požadované chýbajúce pohľady. Každý dodaný fyzický rozmer musí vyhovieť; dve zhodné merania neprebijú tretie rozporné. Prísnejšia zhoda môže zvýšiť podiel blokovaní; reálny vplyv treba zmerať na nezávislej sade.
 
 Register zdrojov musí pre každé tvrdenie explicitne povoľovať príslušné pole v `supports`. Zhodné URL, hash a dve skupiny pôvodu samy osebe nepovoľujú použiť všeobecný opis dizajnu ako dôkaz ročníka alebo značky. Aktuálny register a návrhy sa týmto nepovyšujú ani nedopĺňajú o neoverené tvrdenia.
 

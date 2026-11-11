@@ -3,7 +3,7 @@ import pilotSources from '../data/pilot/sources.json' with {type:'json'};
 import catalogue from '../data/catalogue.json' with {type:'json'};
 import euro from '../data/euro-denominations.json' with {type:'json'};
 
-const norm=value=>String(value??'').toLocaleLowerCase('sk').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+const norm=value=>String(value??'').toLocaleLowerCase('sk').normalize('NFC').replace(/\s+/g,' ').trim();
 const observed=value=>value!==undefined&&value!==null&&norm(value)!=='';
 const equal=(a,b)=>!observed(a)||!observed(b)?null:norm(a)===norm(b);
 const matchesAlias=(actual,expected,aliases=[])=>{

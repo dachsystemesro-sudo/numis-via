@@ -7,7 +7,7 @@ const FEATURES=['denomination','country_text','date','main_motif','coat_of_arms'
 const BASE_CRITICAL=['denomination','country_text','date','main_motif','geometry'];
 const DETAIL_FEATURES=['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'];
 const clamp=n=>Math.max(0,Math.min(100,Number(n)||0));
-const norm=v=>String(v??'').toLocaleLowerCase('sk').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+const norm=v=>String(v??'').toLocaleLowerCase('sk').normalize('NFC').replace(/\s+/g,' ').trim();
 const agrees=(a,b)=>typeof a==='string'&&typeof b==='string'&&norm(a)!==''&&norm(a)===norm(b);
 const evidence=x=>typeof x.visible_evidence==='string'&&x.visible_evidence.trim()&&typeof x.region==='string'&&x.region.trim();
 

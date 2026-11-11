@@ -77,7 +77,7 @@ test('one contradictory dimension blocks even when the other two match',async t=
   assert.equal(body.status,'BLOCKED');assert.throws(()=>requireValuation(body));
 });
 
-for(const [field,values] of Object.entries({date:['2009','2016','2022','2020 or 2021'],country_text:['SLOVENIJA','SLOVENSKO or SLOVENIJA'],mint_mark:['LP','unreadable'],engraver_mark:['LP'],geometry:['OTHER']})){
+for(const [field,values] of Object.entries({date:['2009','2016','2022','2020 or 2021'],country_text:['SLOVENIJA','SLOVENSKO or SLOVENIJA','SLOVENSKO?'],mint_mark:['LP','unreadable','FIXTURE M?','FIXTURE.M'],engraver_mark:['LP'],geometry:['OTHER']})){
   for(const value of values)test(`all primary passes agree on wrong ${field} ${value}: catalogue still blocks`,async t=>{
     const {body}=await invoke(t,{mutate:p=>{for(const pass of p.slice(0,3))pass.features.find(f=>f.name===field).value=value;}});
     assert.equal(body.status,'BLOCKED');assert.equal(body.identity,null);assert.throws(()=>requireValuation(body));
