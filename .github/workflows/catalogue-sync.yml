@@ -3,6 +3,7 @@ name: Synchronizácia otvoreného katalógu
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - '.github/workflows/catalogue-sync.yml'
       - 'scripts/sync-open-catalogues.mjs'
@@ -19,6 +20,8 @@ concurrency:
 
 jobs:
   sync-ocre:
+    # Manual dispatch from a feature branch must never write its HEAD to main.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
