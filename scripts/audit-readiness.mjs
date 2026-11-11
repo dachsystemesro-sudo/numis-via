@@ -34,7 +34,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   const manifestRaw=fs.readFileSync(new URL('../data/pilot/blind-manifest.json',import.meta.url));
   const runURL=new URL('../data/pilot/blind-run.json',import.meta.url);
   const run=fs.existsSync(runURL)?JSON.parse(fs.readFileSync(runURL,'utf8')):{};
-  const benchmark=evaluatePilot(JSON.parse(manifestRaw),run,createHash('sha256').update(manifestRaw).digest('hex'));
+  const referenceRaw=fs.readFileSync(new URL('../data/catalogue.json',import.meta.url));
+  const benchmark=evaluatePilot(JSON.parse(manifestRaw),run,createHash('sha256').update(manifestRaw).digest('hex'),createHash('sha256').update(referenceRaw).digest('hex'));
   const report=auditReadiness({catalogue,state,pilot,sources,checklist,benchmark});
   console.log(JSON.stringify(report,null,2));
   if(!report.integrity_passed||(process.argv.includes('--require-ready')&&!report.readiness.ready_for_physical_pilot))process.exitCode=1;

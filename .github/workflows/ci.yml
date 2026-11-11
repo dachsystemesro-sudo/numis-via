@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -32,6 +32,7 @@ jobs:
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
       - name: Audit pripravenosti fyzického pilotu (informatívny)
+        shell: bash
         run: node scripts/audit-readiness.mjs | tee readiness-report.json
       - name: Uchovať dôkaz auditu
         if: always()
