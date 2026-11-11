@@ -3,11 +3,12 @@ export const TARGET_IDS=[1,2,5].flatMap(n=>[2019,2020,2021].map(y=>`SK-EUR-${Str
 export const NEGATIVE_CATEGORIES=['similar_year','other_country','damaged','unreadable','unsupported','missing_view'];
 const sha=x=>typeof x==='string'&&/^[a-f0-9]{64}$/.test(x);
 
-export function evaluatePilot(manifest,run,manifestHash){
+export function evaluatePilot(manifest,run,manifestHash,referenceHash){
   const errors=[];
   const cases=Array.isArray(manifest?.cases)?manifest.cases:[];
   if(manifest?.schema_version!=='1.0'||manifest?.status!=='LOCKED'||!manifest?.locked_at||!manifest?.custodian)errors.push('manifest_not_locked');
   if(!sha(manifestHash)||run?.manifest_sha256!==manifestHash)errors.push('manifest_hash_mismatch');
+  if(referenceHash!==undefined&&(!sha(referenceHash)||run?.reference_sha256!==referenceHash))errors.push('reference_hash_mismatch');
   if(!/^[a-f0-9]{40}$/.test(run?.commit||'')||!run?.model||!run?.micro_model||!run?.verify_model||!run?.coinprint_version||!run?.started_at||!run?.finished_at||!sha(run?.reference_sha256))errors.push('run_metadata_missing');
   if(!Number.isFinite(Date.parse(manifest?.locked_at))||!Number.isFinite(Date.parse(run?.started_at))||Date.parse(manifest.locked_at)>Date.parse(run.started_at)||!Number.isFinite(Date.parse(run?.finished_at))||Date.parse(run.finished_at)<Date.parse(run.started_at))errors.push('invalid_run_chronology');
   const ids=new Set(),specimens=new Set(),hashes=new Set();

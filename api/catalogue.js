@@ -10,7 +10,7 @@ const matchesAlias=(actual,expected,aliases=[])=>{
   if(!observed(actual)||!observed(expected))return null;
   return [expected,...aliases].filter(Boolean).some(value=>{
   const a=norm(actual),b=norm(value);
-  return a===b||(a.length>=4&&b.includes(a))||(b.length>=4&&a.includes(b));
+  return a===b;
   });
 };
 const close=(actual,expected,tolerance)=>actual==null||expected==null?null:Math.abs(Number(actual)-Number(expected))<=Number(tolerance);
@@ -41,7 +41,7 @@ export function catalogueCandidates(features,measurements={},records=catalogue.r
       thickness_mm:close(measurements.thickness_mm,record.physical?.thickness_mm,record.physical?.thickness_tolerance_mm)
     };
     const required=['denomination','country_text','date','main_motif',
-      ...['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge'].filter(key=>record[key]!=null)];
+      ...['coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge','geometry'].filter(key=>record[key]!=null)];
     const contradictions=Object.entries(checks).filter(([,value])=>value===false).map(([key])=>key);
     const matched=Object.entries(checks).filter(([,value])=>value===true).map(([key])=>key);
     const missing=[...new Set([...required,...(record.decisive_discriminators||[])])].filter(key=>!features[key]?.value);
@@ -72,7 +72,7 @@ export function denominationPhysicalGate(feature,measurements={}){
     const checks=Object.fromEntries(supplied.map(key=>[key,Math.abs(Number(measurements[key])-record[key])<=tolerance[key]]));
     const score=Math.round(100*Object.values(checks).filter(Boolean).length/supplied.length);
     return {denomination:record.denomination,score,checks,agrees_with_image:detected?equal(detected,record.denomination):null};
-  }).filter(item=>item.score>=67).sort((a,b)=>b.score-a.score);
+  }).filter(item=>item.score===100).sort((a,b)=>b.score-a.score);
   const best=matches[0];
   if(!best)return {passed:false,reason:'Rozmery nezodpovedajú žiadnemu štandardnému eurovému nominálu.',matches:[]};
   if(best.agrees_with_image===false)return {passed:false,reason:'Obrazovo určený nominál odporuje fyzickým parametrom.',matches};

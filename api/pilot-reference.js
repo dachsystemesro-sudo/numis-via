@@ -18,7 +18,7 @@ export function reviewPilotReference(record,registry){
       const source=registry?.sources?.find(s=>s.id===e.source_id);
       let urlOK=false;
       try{const url=new URL(e.source_url);urlOK=url.protocol==='https:'&&!url.username&&!url.password&&!url.port&&source?.urls?.includes(url.href);}catch{}
-      if(!source||!text(source.independence_group)||!urlOK||e.value!==expected||!text(e.locator)||!text(e.reviewed_by)||!date(e.reviewed_at)||e.review_status!=='approved'||!text(e.snapshot_sha256)||!/^[a-f0-9]{64}$/.test(e.snapshot_sha256)){
+      if(!source||!Array.isArray(source.supports)||!source.supports.includes(field)||!text(source.independence_group)||!urlOK||e.value!==expected||!text(e.locator)||!text(e.reviewed_by)||!date(e.reviewed_at)||e.review_status!=='approved'||!text(e.snapshot_sha256)||!/^[a-f0-9]{64}$/.test(e.snapshot_sha256)){
         errors.push('invalid_evidence:'+field);continue;
       }
       groups.add(source.independence_group);
