@@ -7,7 +7,7 @@ import {validateCatalogue} from '../api/catalogue-validator.js';
 import {catalogueCandidates} from '../api/catalogue.js';
 const fixture=()=>{
   const record={catalogue_id:'FIXTURE',label:'FIXTURE',sources:['a','b'],identity_level:'variant',verification_state:'verified_reference',country_code:'FIXTURE',country_text:'FIXTURE',denomination:'FIXTURE',date:'2020',main_motif:'FIXTURE',coat_of_arms:'FIXTURE',mint_mark:'FIXTURE',engraver_mark:'FIXTURE',geometry:'FIXTURE',edge:'FIXTURE',physical:{mass_g:1,diameter_mm:1,thickness_mm:1},rights:{metadata:{status:'approved',basis:'SYNTHETIC ONLY'},images:{status:'no_images_used'}},review:{status:'approved',reviewed_by:'FIXTURE',reviewed_at:'2026-11-09'}};
-  const registry={sources:['a','b'].map(id=>({id,independence_group:id,urls:[`https://${id}.example/fixture`]}))};
+  const registry={sources:['a','b'].map(id=>({id,independence_group:id,supports:[...PILOT_FIELDS],urls:[`https://${id}.example/fixture`]}))};
   record.reference_evidence=PILOT_FIELDS.flatMap(field=>['a','b'].map(id=>({source_id:id,field,value:field.split('.').reduce((v,k)=>v[k],record),source_url:`https://${id}.example/fixture`,locator:'SYNTHETIC',snapshot_sha256:'a'.repeat(64),review_status:'approved',reviewed_by:'FIXTURE',reviewed_at:'2026-11-09'})));
   return {record,registry};
 };
@@ -31,6 +31,8 @@ test('variant matching rejects ambiguous years, wrong geometry and unreadable de
 });
 for(const [name,mutate] of Object.entries({
   mirror:({registry})=>{registry.sources[1].independence_group='a';},
+  unrelated_source:({registry})=>{registry.sources[1].supports=['main_motif'];},
+  undeclared_source_scope:({registry})=>{delete registry.sources[1].supports;},
   spoofed_url:({record})=>{record.reference_evidence[0].source_url='https://a.example.evil.test/fixture';},
   wrong_value:({record})=>{record.reference_evidence[0].value='OTHER';},
   missing_snapshot:({record})=>{delete record.reference_evidence[0].snapshot_sha256;},

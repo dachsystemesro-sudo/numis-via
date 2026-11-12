@@ -8,9 +8,11 @@ if(!manifestPath||!endpoint||!configPath||!outputPath)throw Error('Usage: node s
 const raw=fs.readFileSync(manifestPath),manifest=JSON.parse(raw);
 const config=JSON.parse(fs.readFileSync(configPath,'utf8'));
 const hash=buffer=>createHash('sha256').update(buffer).digest('hex');
+const referenceHash=hash(fs.readFileSync(new URL('../data/catalogue.json',import.meta.url)));
+if(config.reference_sha256!==referenceHash)throw Error('Run config does not match the local frozen catalogue.');
 const run={...config,manifest_sha256:hash(raw),started_at:new Date().toISOString(),finished_at:new Date().toISOString(),results:[]};
 // Preflight validates quotas, separation, review, rights, configuration and lock.
-const preflight=evaluatePilot(manifest,run,hash(raw));
+const preflight=evaluatePilot(manifest,run,hash(raw),referenceHash);
 const errors=preflight.errors.filter(e=>!e.startsWith('missing_or_invalid_response:')&&e!=='result_set_mismatch');
 if(errors.length)throw Error('Preflight failed: '+errors.join(', '));
 if(fs.existsSync(outputPath))throw Error('Output exists; preserve prior run evidence.');
@@ -39,6 +41,6 @@ for(const request of requests){
   run.finished_at=new Date().toISOString();
   fs.writeFileSync(outputPath,JSON.stringify(run,null,2)+'\n');
 }
-const report=evaluatePilot(manifest,run,hash(raw));
+const report=evaluatePilot(manifest,run,hash(raw),referenceHash);
 console.log(JSON.stringify(report,null,2));
 if(!report.accepted)process.exitCode=1;
