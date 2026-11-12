@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, pilot/sk-eurocents-evidence-and-safety]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
