@@ -5,19 +5,20 @@ import euro from '../data/euro-denominations.json' with {type:'json'};
 
 const norm=value=>String(value??'').toLocaleLowerCase('sk').normalize('NFC').replace(/\s+/g,' ').trim();
 const observed=value=>value!==undefined&&value!==null&&norm(value)!=='';
-const equal=(a,b)=>!observed(a)||!observed(b)?null:norm(a)===norm(b);
-const matchesAlias=(actual,expected,aliases=[])=>{
+const exact=value=>String(value??'').normalize('NFC').replace(/\s+/g,' ').trim();
+const equal=(a,b,caseSensitive=false)=>!observed(a)||!observed(b)?null:(caseSensitive?exact(a)===exact(b):norm(a)===norm(b));
+const matchesAlias=(actual,expected,aliases=[],caseSensitive=false)=>{
   if(!observed(actual)||!observed(expected))return null;
   return [expected,...aliases].filter(Boolean).some(value=>{
-  const a=norm(actual),b=norm(value);
+  const a=caseSensitive?exact(actual):norm(actual),b=caseSensitive?exact(value):norm(value);
   return a===b;
   });
 };
 const close=(actual,expected,tolerance)=>actual==null||expected==null?null:Math.abs(Number(actual)-Number(expected))<=Number(tolerance);
 const yearMatches=(actual,record)=>{
+  if(record.date)return typeof actual==='string'&&/^\d{4}$/.test(actual.trim())&&actual.trim()===record.date;
   const year=Number(String(actual??'').match(/\b(1[0-9]{3}|20[0-9]{2})\b/)?.[1]);
   if(!year)return null;
-  if(record.date)return /^\d{4}$/.test(String(actual??'').trim())&&String(actual).trim()===String(record.date);
   if(record.year_from&&year<record.year_from)return false;
   if(record.year_to&&year>record.year_to)return false;
   return Boolean(record.year_from||record.year_to);
@@ -32,9 +33,9 @@ export function catalogueCandidates(features,measurements={},records=catalogue.r
       main_motif:matchesAlias(features.main_motif?.value,record.main_motif,record.main_motif_aliases),
       geometry:record.geometry?equal(features.geometry?.value,record.geometry):null,
       coat_of_arms:record.coat_of_arms?matchesAlias(features.coat_of_arms?.value,record.coat_of_arms,record.coat_of_arms_aliases):null,
-      mint_mark:record.mint_mark?equal(features.mint_mark?.value,record.mint_mark):null,
-      engraver_mark:record.engraver_mark?equal(features.engraver_mark?.value,record.engraver_mark):null,
-      micro_symbols:record.micro_symbols?matchesAlias(features.micro_symbols?.value,record.micro_symbols,record.micro_symbols_aliases):null,
+      mint_mark:record.mint_mark?equal(features.mint_mark?.value,record.mint_mark,true):null,
+      engraver_mark:record.engraver_mark?equal(features.engraver_mark?.value,record.engraver_mark,true):null,
+      micro_symbols:record.micro_symbols?matchesAlias(features.micro_symbols?.value,record.micro_symbols,record.micro_symbols_aliases,true):null,
       edge:record.edge?equal(features.edge?.value,record.edge):null,
       mass_g:close(measurements.mass_g,record.physical?.mass_g,record.physical?.mass_tolerance_g),
       diameter_mm:close(measurements.diameter_mm,record.physical?.diameter_mm,record.physical?.diameter_tolerance_mm),
@@ -62,7 +63,8 @@ export function denominationPhysicalGate(feature,measurements={}){
   const supplied=['mass_g','diameter_mm','thickness_mm'].filter(key=>measurements[key]!=null&&measurements[key]!=='');
   if(!supplied.length)return {passed:null,reason:'Fyzické rozmery neboli zadané.',matches:[]};
   const invalid=supplied.filter(key=>{
-    const value=typeof measurements[key]==='number'?measurements[key]:Number(String(measurements[key]).trim());
+    if(!['number','string'].includes(typeof measurements[key]))return true;
+    const value=typeof measurements[key]==='number'?measurements[key]:Number(measurements[key].trim());
     return !Number.isFinite(value)||value<=0;
   });
   if(invalid.length)return {passed:false,reason:'Fyzické parametre obsahujú neplatnú hodnotu: '+invalid.join(', ')+'.',matches:[]};

@@ -30,6 +30,13 @@ test('variant matching rejects ambiguous years, wrong geometry and unreadable de
   const missing=catalogueCandidates({...features,mint_mark:{value:null}},{},[record])[0];assert.ok(missing.missing.includes('mint_mark'));
 });
 for(const [name,mutate] of Object.entries({
+  unknown_decisive_field:({record})=>{record.decisive_discriminators=['made_up'];},
+  unsourced_symbols:({record})=>{record.micro_symbols='★';record.decisive_discriminators=['micro_symbols'];},
+  nontext_geometry:({record})=>{record.geometry=false;for(const e of record.reference_evidence.filter(e=>e.field==='geometry'))e.value=false;},
+  unlisted_evidence_source:({record})=>{record.sources=['OTHER'];},
+  impossible_review_date:({record})=>{record.review.reviewed_at='2026-02-30';},
+  approved_image_rights_without_basis:({record})=>{record.rights.images={status:'approved'};},
+  malformed_reference_conflicts:({record})=>{record.reference_conflicts={critical:'wrong mark'};},
   mirror:({registry})=>{registry.sources[1].independence_group='a';},
   unrelated_source:({registry})=>{registry.sources[1].supports=['main_motif'];},
   undeclared_source_scope:({registry})=>{delete registry.sources[1].supports;},
@@ -42,3 +49,12 @@ for(const [name,mutate] of Object.entries({
   missing_review:({record})=>{record.review.status='pending';},
   missing_physical:({record})=>{record.physical.mass_g=0;}
 }))test('reference review refuses '+name,()=>{const f=fixture();mutate(f);assert.equal(reviewPilotReference(f.record,f.registry).valid,false);});
+test('optional decisive symbols need their own independent evidence and source scope',()=>{
+  const {record,registry}=fixture();record.micro_symbols='★';record.decisive_discriminators=['micro_symbols'];
+  assert.equal(reviewPilotReference(record,registry).valid,false);
+  for(const source of registry.sources){
+    source.supports.push('micro_symbols');
+    record.reference_evidence.push({...record.reference_evidence.find(e=>e.source_id===source.id),field:'micro_symbols',value:'★'});
+  }
+  assert.deepEqual(reviewPilotReference(record,registry),{valid:true,errors:[]});
+});
