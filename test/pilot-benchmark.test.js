@@ -18,6 +18,12 @@ function fixture(){
   return {manifest,run};
 }
 test('benchmark evaluator accepts a complete synthetic positive control',()=>{const {manifest,run}=fixture();assert.equal(evaluatePilot(manifest,run,'a'.repeat(64)).accepted,true);});
+test('benchmark cannot be reused after the frozen catalogue changes',()=>{
+  const {manifest,run}=fixture();
+  assert.equal(evaluatePilot(manifest,run,'a'.repeat(64),'b'.repeat(64)).accepted,true);
+  const changed=evaluatePilot(manifest,run,'a'.repeat(64),'c'.repeat(64));
+  assert.equal(changed.accepted,false);assert.ok(changed.errors.includes('reference_hash_mismatch'));
+});
 for(const [name,mutate] of Object.entries({
   empty:({manifest,run})=>{manifest.cases=[];run.results=[];},
   always_blocked:({run})=>{for(const r of run.results)r.body={status:'BLOCKED',valuation_allowed:false,identity:null,blockers:['FIXTURE']};},

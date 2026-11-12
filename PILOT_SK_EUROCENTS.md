@@ -112,3 +112,13 @@ Vstup: všetkých 11 bodov PRODUCTION_READINESS.md s dátumom, výsledkom PASS a
 CI spúšťa npm run check a readiness:audit a uchová JSON artifact. Audit odmietne neúplné claimed verified_reference. Bežné CI môže byť zelené so správou NOT READY; npm run readiness:require je tvrdá predpilotná kontrola a musí teraz skončiť kódom 1. Ani prechod tohto inventúrneho auditu sám neosvedčuje pravdivosť dôkazov.
 
 Zostáva: nezávislé podklady konkrétnych variantov a ich review, licencie, zber/uzamknutie skutočných fotografií, slepé meranie presnosti, produkčné a mobilné skúšky, schválenie a uplatnenie pilotných meracích limitov a dôkaz cenovej hranice v skutočnej integrácii. Fyzický pilot sa zatiaľ nezačal.
+
+## Bezpečnostné sprísnenie pri kontrole 2026-11-11
+
+Následná kontrola PR #11 našla sedem reprodukovateľných falošných potvrdení na syntetických odpovediach modelu. Oprava vyžaduje presnú normalizovanú zhodu zachovávajúcu interpunkciu a otázniky (alebo explicitný katalógový alias), viditeľný dôkaz a oblasť fotografie v aspoň dvoch priechodoch, presné serverové catalogue_id v oponentskom verdikte a žiadne požadované chýbajúce pohľady. Každý dodaný fyzický rozmer musí vyhovieť; dve zhodné merania neprebijú tretie rozporné. Prísnejšia zhoda môže zvýšiť podiel blokovaní; reálny vplyv treba zmerať na nezávislej sade.
+
+Register zdrojov musí pre každé tvrdenie explicitne povoľovať príslušné pole v `supports`. Zhodné URL, hash a dve skupiny pôvodu samy osebe nepovoľujú použiť všeobecný opis dizajnu ako dôkaz ročníka alebo značky. Aktuálny register a návrhy sa týmto nepovyšujú ani nedopĺňajú o neoverené tvrdenia.
+
+Collector vyžaduje `reference_sha256` z aktuálnych bajtov `data/catalogue.json`; CLI evaluator aj audit porovnávajú hash s týmto súborom. Zmena katalógu zneplatní starý benchmark. Hash lokálneho katalógu však sám nedokazuje zhodu so vzdialeným deploymentom: jeho commit, modely, prahy a použité referencie musí doložiť runtime audit. CI používa explicitný Bash s pipefail, aby `tee` neskrylo chybu integrity auditu.
+
+Nové regresie zahŕňajú nesprávne roky 2009/2016/2022, SLOVENIJA, alternatívy v texte, značku LP, nečitateľné značky, rozpornú geometriu, chýbajúci dôkaz/pohľad, nesprávne ID oponenta a nahlásené podozrenie na falzifikát. Ide o simulované výstupy, nie dôkaz rozpoznania falzifikátov z fotografií. Produkčný cenový endpoint stále chýba a reálny cenový tok nebol overený.
