@@ -64,3 +64,13 @@ test('failed validation after rebase cannot push the import',t=>{
 test('no-op import does not create or push a commit',t=>{
   const f=fixture(t);assert.equal(f.run().status,0);assert.equal(f.head(),f.before);
 });
+test('concurrent main changes are preserved by a successful import rebase',t=>{
+  const f=fixture(t);f.change();writeFileSync(join(f.seed,'new-main.txt'),'concurrent main change');f.git(f.seed,'add','.');f.git(f.seed,'commit','-m','Concurrent main change');f.git(f.seed,'push','origin','main');
+  const current=f.head();const r=f.run();assert.equal(r.status,0,r.stderr);
+  assert.notEqual(f.head(),current);assert.equal(f.git(f.root,'--git-dir',f.origin,'show','main:new-main.txt'),'concurrent main change');
+  assert.equal(f.git(f.root,'--git-dir',f.origin,'show','main:data/staging/ocre.json'),'new-staging');
+});
+test('unexpected unstaged source edits cannot be included in a publication',t=>{
+  const f=fixture(t);f.change();writeFileSync(join(f.checkout,'check.cjs'),'process.exit(0); // unreviewed change\n');
+  assert.notEqual(f.run().status,0);assert.equal(f.head(),f.before);
+});
