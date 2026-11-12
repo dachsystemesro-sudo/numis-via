@@ -55,29 +55,9 @@ Správca sady skontroluje ročník, nominál, krajinu a variant nezávisle od v�
 
 ### Manifest a spustenie
 
-`data/pilot/blind-manifest.json` zostáva prázdny, nie je fiktívnym výsledkom. Pred skúškou doplniť cases, source/reference specimen IDs a hashe všetkých referenčných fotografií. Každý prípad:
+`data/pilot/blind-manifest.json` zostáva prázdnym PENDING_COLLECTION placeholderom v1, nie fiktívnym výsledkom. Aktuálny benchmark používa **oddelené súkromné súbory v2**: manifest, zapečatené štítky, konfiguráciu, projektové tréningové/referenčné inventáre a runtime atestáciu. Očakávané štítky nepatria do manifestu, API payloadu ani konzoly.
 
-```json
-{
-  "case_id": "slepý identifikátor",
-  "specimen_id": "jedinečný fyzický kus",
-  "category": "supported",
-  "expected_catalogue_id": "SK-EUR-002-2020-PILOT",
-  "images": [{"path":"images/lice.jpg","mime":"image/jpeg","sha256":"skutočný SHA-256"}, {"path":"images/rub.jpg","mime":"image/jpeg","sha256":"skutočný SHA-256"}],
-  "measurements": {},
-  "label_review": {"reviewer":"skutočný posudzovateľ","reviewed_at":"YYYY-MM-DD"},
-  "rights": {"status":"approved","basis":"doložené právo na konkrétne fotografie"}
-}
-```
-
-Negatívny prípad má expected_catalogue_id null. missing_view obsahuje iba jeden pohľad. Uzamknúť status LOCKED, locked_at a custodian; uchovať hash súboru, referencií, commit, konfiguráciu modelov a prahy PRED odhalením výsledkov. Konfigurácia behu je JSON s commit (40 hex), model, micro_model, verify_model, coinprint_version a reference_sha256; overiť ju oproti nasadeniu. Kolektor posiela iba fotografie a merania, nikdy očakávané štítky:
-
-```
-node scripts/run-pilot.mjs MANIFEST.json https://TESTOVACIE-NASADENIE/api/analyze RUN-CONFIG.json RUN.json
-npm run pilot:evaluate -- MANIFEST.json RUN.json
-```
-
-Kolektor pred prvou požiadavkou kontroluje všetky lokálne hashe obrázkov, práva a minimálne počty. Vyžaduje autenticky zdokumentovanú konfiguráciu testovacieho nasadenia; deklarovaný model v konfiguračnom súbore sám osebe nie je dôkazom runtime modelu. Spúšťanie môže spotrebovať AI kredit; nevykonáva sa v CI ani bez skutočných podkladov. Po odhalení výsledkov neladiť a znovu nemerať na tej istej finálnej sade.
+Úplná schéma, minimálne počty, ľudský zberový protokol, fingerprinty a nové CLI sú v [docs/BLIND_BENCHMARK_PROTOCOL.md](docs/BLIND_BENCHMARK_PROTOCOL.md). `npm run pilot:preflight` nad dnešným prázdnym stavom musí hlásiť NOT_MEASURED/NOT_READY a exit 1. Kolektor sa bez `--execute` vôbec nepokúša o modelové požiadavky a reálny beh zostáva osobitne nepovolený. Syntetické regresie nikdy nepreukazujú nameranú presnosť.
 
 ### Kritériá digitálneho prijatia
 
@@ -86,7 +66,7 @@ Kolektor pred prvou požiadavkou kontroluje všetky lokálne hashe obrázkov, pr
 - Aspoň 80 % správnych automatických potvrdení v KAŽDEJ podporovanej kombinácii. Všetko blokujúci systém nesmie prejsť len vďaka nulovým falošným potvrdeniam.
 - Uviesť počty správnych/nesprávnych potvrdení, odmietnutí a chýb po kombinácii a kategórii. Pri nule chýb zo 120 nezávislých prípadov je jednostranná 95 % horná binomická hranica približne 2,47 %; nejde o dôkaz nulovej prevádzkovej chybovosti.
 
-Pri kritickej chybe STOP, analýza príčiny, oprava a nová nezávislá finálna sada. Audit pripravenosti nenahrádza vyhodnotenie obrazovej sady. Pre tvrdú kontrolu pripravenosti uložiť uzamknutý manifest do data/pilot/blind-manifest.json a skutočný beh do data/pilot/blind-run.json; audit ich znovu vyhodnotí. Obrázky nezverejňovať bez práv a rozhodnutia správcu sady.
+Pri kritickej chybe STOP, analýza príčiny, oprava a nová nezávislá finálna sada. Audit pripravenosti nenahrádza vyhodnotenie obrazovej sady. Pre tvrdú kontrolu pripravenosti použiť súkromný zväzok v2 mimo repozitára a `node scripts/audit-readiness.mjs --benchmark-dir PRIVATE_ROOT --require-ready`; audit zopakuje preflight aj vyhodnotenie. Samotný run JSON bez obrázkov, štítkov, konfigurácie a dôkazov nesmie povoliť pripravenosť. Obrázky ani individuálne štítky nepublikovať.
 
 ## Oceňovanie a produkčné overenie
 
