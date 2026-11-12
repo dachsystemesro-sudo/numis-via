@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # Verify current main after the catalogue bot has pushed its commit.
-          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.ref }}
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
