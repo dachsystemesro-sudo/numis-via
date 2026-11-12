@@ -8,6 +8,10 @@
     "catalogue:sync": "node scripts/sync-open-catalogues.mjs",
     "readiness:audit": "node scripts/audit-readiness.mjs",
     "readiness:require": "node scripts/audit-readiness.mjs --require-ready",
-    "pilot:evaluate": "node scripts/evaluate-pilot.mjs"
+    "pilot:evaluate": "node scripts/evaluate-pilot.mjs",
+    "pilot:preflight": "node scripts/pilot-preflight.mjs"
+  },
+  "devDependencies": {
+    "sharp": "0.35.5"
   }
 }

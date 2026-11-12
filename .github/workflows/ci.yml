@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, pilot/sk-eurocents-evidence-and-safety]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -29,6 +29,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install locked test dependencies
+        run: npm ci
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
       - name: Audit pripravenosti fyzického pilotu (informatívny)
