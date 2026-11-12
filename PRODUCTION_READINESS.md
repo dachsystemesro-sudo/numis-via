@@ -37,3 +37,5 @@ Vyžaduje úspešný fyzický pilot, bezpečné spracovanie súkromných údajov
 | Fyzický pilot | nevykonaný | — | čaká |
 
 Podrobný rozsah overenia, nálezy PR #11 a limity sú v [REVIEW_2026-11-11.md](REVIEW_2026-11-11.md). Predpilotné políčka ostávajú otvorené; historický úspech CI nie je potvrdením aktuálnej pracovnej vetvy ani celkovej pripravenosti.
+
+Aktuálny integračný návrh a zostávajúce blokátory k 2026-11-12: [INTEGRATION_2026-11-12.md](INTEGRATION_2026-11-12.md). Stav zostáva NOT READY FOR PHYSICAL PILOT.
