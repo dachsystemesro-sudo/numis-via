@@ -59,7 +59,7 @@ test('future runtime evidence cannot be used for an earlier preflight',()=>{
   const f=syntheticFixture();f.input.now='2026-11-12T00:00:00Z';assert.ok(validatePilotInputs(f.input).errors.includes('future_freeze_or_runtime'));
 });
 test('frozen rights that have since expired cannot authorize processing',()=>{
-  const f=syntheticFixture();f.input.now='2028-01-01T00:00:00Z';assert.ok(validatePilotInputs(f.input).errors.includes('photo_rights_expired'));
+  const f=syntheticFixture();f.input.manifest.cases[0].rights.retention_until='2027-11-12T00:00:00Z';f.input.now='2028-01-01T00:00:00Z';sealFixture(f);assert.ok(validatePilotInputs(f.input).errors.includes('photo_rights_expired'));
 });
 
 for(const [index,value] of [null,[],{manifest:{cases:[null]}},{manifest:{cases:'private malformed data'}}].entries())test('malformed input '+index+' produces a safe deterministic report',()=>{
