@@ -10,12 +10,12 @@ export function outsideRepository(value){
   if(relative===''||(!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative)))throw Error('vault_must_be_outside_repository');
   return target;
 }
-export function windowsStorage(target,{create=false,protectedRoot=false,run=spawnSync}={}){
-  const args=['-NoProfile','-NonInteractive','-File',helper,'-Mode',create?'Create':'Check','-TargetPath',target,...(protectedRoot?['-RequireProtected']:[])];
+export function windowsStorage(target,{create=false,claimNew=false,protectedRoot=false,run=spawnSync}={}){
+  const args=['-NoProfile','-NonInteractive','-File',helper,'-Mode',create?'Create':claimNew?'ClaimNew':'Check','-TargetPath',target,...(protectedRoot?['-RequireProtected']:[])];
   const r=run('powershell.exe',args,{encoding:'utf8',timeout:30000,windowsHide:true});
   let report;try{report=JSON.parse(r.stdout.replace(/^\uFEFF/,''));}catch{}
   if(r.status!==0||report?.valid!==true){
-    const stage=['path','drive','parents','create','acl','owner','rules'].includes(report?.stage)?report.stage:'probe';
+    const stage=['path','drive','parents','create','acl','owner','rules','new_owner'].includes(report?.stage)?report.stage:'probe';
     const line=Number.isInteger(report?.line)?report.line:0;
     const category=typeof report?.category==='string'&&/^[A-Za-z]+$/.test(report.category)?report.category.toLowerCase():'unknown';
     const kind=typeof report?.exception_type==='string'&&/^[A-Za-z]+$/.test(report.exception_type)?report.exception_type.toLowerCase():'unknown';
@@ -55,6 +55,8 @@ export function privateRead(root,relative,max=2*1024*1024){
 }
 export function privateWrite(root,relative,content){
   const target=path.join(root,relative);checkStorage(path.dirname(target));
-  fs.writeFileSync(target,content,{flag:'wx',mode:0o600});checkStorage(target);
+  fs.writeFileSync(target,content,{flag:'wx',mode:0o600});
+  if(process.platform==='win32')windowsStorage(target,{claimNew:true});
+  checkStorage(target);
 }
-export function privateDir(root,name){const target=path.join(root,name);fs.mkdirSync(target,{mode:0o700});checkStorage(target);return target;}
+export function privateDir(root,name){const target=path.join(root,name);fs.mkdirSync(target,{mode:0o700});if(process.platform==='win32')windowsStorage(target,{claimNew:true});checkStorage(target);return target;}

@@ -1,5 +1,5 @@
 param(
-  [ValidateSet('Create','Check')][string]$Mode,
+  [ValidateSet('Create','Check','ClaimNew')][string]$Mode,
   [Parameter(Mandatory=$true)][string]$TargetPath,
   [switch]$RequireProtected
 )
@@ -68,7 +68,6 @@ public static class NumisPrivateDirectory {
   # does not require privileged SACL access or localized account translation.
   $acl = $item.GetAccessControl(([Security.AccessControl.AccessControlSections]::Owner -bor [Security.AccessControl.AccessControlSections]::Access))
   $stage = 'owner'
-  if ($acl.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $sid.Value) { throw 'owner_mismatch' }
   if ($RequireProtected -and -not $acl.AreAccessRulesProtected) { throw 'protected_acl_required' }
   $rules = @($acl.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]))
   if ($rules.Count -eq 0) { throw 'empty_acl' }
@@ -80,6 +79,17 @@ public static class NumisPrivateDirectory {
     if ($item.PSIsContainer -and (($rule.InheritanceFlags -band [Security.AccessControl.InheritanceFlags]::ContainerInherit) -eq 0 -or ($rule.InheritanceFlags -band [Security.AccessControl.InheritanceFlags]::ObjectInherit) -eq 0)) { throw 'private_inheritance_required' }
   }
   if (-not $ownerFull) { throw 'owner_access_missing' }
+  if ($Mode -eq 'Create' -or $Mode -eq 'ClaimNew') {
+    # Called only immediately after an exclusive create by the JS tool. An
+    # elevated Windows token may otherwise assign Administrators as owner.
+    # DACL was checked first and is preserved. Never used by read/check paths.
+    $stage = 'new_owner'
+    $acl.SetOwner($sid)
+    $item.SetAccessControl($acl)
+    $acl = $item.GetAccessControl([Security.AccessControl.AccessControlSections]::Owner)
+  }
+  $stage = 'owner'
+  if ($acl.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $sid.Value) { throw 'owner_mismatch' }
   @{valid=$true;platform='windows_ntfs_acl'} | ConvertTo-Json -Compress
 } catch {
   # No paths, account names, SIDs, ACL contents or caught OS messages in logs.
