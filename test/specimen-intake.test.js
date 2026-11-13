@@ -115,7 +115,7 @@ function syntheticDossier(t){
   Object.assign(d.rights,{photographer_ref:'SYNTHETIC',metadata_basis:'SYNTHETIC',image_basis:'SYNTHETIC',consent:proof('consent'),retention_until:'2099-01-01T00:00:00Z'});
   // Artificial test readings, NOT actual measurements or nominal defaults.
   const synthetic={mass_g:2.31,diameter_mm:16.24,thickness_mm:1.66};
-  for(const [key,m] of Object.entries(d.measurements)){const v=synthetic[key];Object.assign(m,{readings:[v-0.01,v,v+0.01],uncertainty:0.02,method:'SYNTHETIC'});Object.assign(m.instrument,{id:'SYNTHETIC',resolution:0.01,zero_before:true,zero_after:true,calibration:{checked_at:early,valid_until:'2099-01-01T00:00:00Z',...proof('calibration')}});}
+  for(const [key,m] of Object.entries(d.measurements)){const v=synthetic[key];Object.assign(m,{readings:[v-0.01,v,v+0.01],uncertainty:0.02,method:'SYNTHETIC'});Object.assign(m.instrument,{id:'SYNTHETIC',resolution:0.01,zero_before:true,zero_after:true,calibration:{checked_at:early,valid_until:'2099-01-01T00:00:00Z',...proof('calibration-'+key)}});}
   d.sources=[{url:'https://nbs.sk/',publisher:'SYNTHETIC fixture, not an actual source review',locator:'SYNTHETIC',license_basis:'SYNTHETIC',...proof('source')}];
   d.model_selection={image_ids:['SYNTHETIC-1','SYNTHETIC-0','SYNTHETIC-2','SYNTHETIC-3','SYNTHETIC-4'],coverage_review:{status:'approved',reviewer_ref:'SYNTHETIC',reviewed_at:later}};
   const content=dossierContentHash(d);

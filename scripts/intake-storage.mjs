@@ -8,6 +8,12 @@ const helper=fileURLToPath(new URL('./private-intake-storage.ps1',import.meta.ur
 export function outsideRepository(value){
   const target=path.resolve(value),relative=path.relative(REPO,target);
   if(relative===''||(!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative)))throw Error('vault_must_be_outside_repository');
+  // Also resolve existing parents (Windows short names, aliases and junctions)
+  // before deciding that a not-yet-created archive is outside the checkout.
+  let parent=target;const suffix=[];
+  while(!fs.existsSync(parent)){suffix.unshift(path.basename(parent));const next=path.dirname(parent);if(next===parent)throw Error('parent_required');parent=next;}
+  const canonical=path.join(fs.realpathSync.native(parent),...suffix),canonicalRelative=path.relative(fs.realpathSync.native(REPO),canonical);
+  if(canonicalRelative===''||(!canonicalRelative.startsWith('..'+path.sep)&&canonicalRelative!=='..'&&!path.isAbsolute(canonicalRelative)))throw Error('vault_must_be_outside_repository');
   return target;
 }
 export function windowsStorage(target,{create=false,claimNew=false,protectedRoot=false,run=spawnSync}={}){
