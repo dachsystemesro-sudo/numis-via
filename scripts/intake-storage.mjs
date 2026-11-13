@@ -13,8 +13,12 @@ export function outsideRepository(value){
 export function windowsStorage(target,{create=false,protectedRoot=false,run=spawnSync}={}){
   const args=['-NoProfile','-NonInteractive','-File',helper,'-Mode',create?'Create':'Check','-TargetPath',target,...(protectedRoot?['-RequireProtected']:[])];
   const r=run('powershell.exe',args,{encoding:'utf8',timeout:30000,windowsHide:true});
-  try{if(r.status!==0||JSON.parse(r.stdout.replace(/^\uFEFF/,'')).valid!==true)throw Error();}
-  catch{throw Error('windows_private_storage_unverified');}
+  let report;try{report=JSON.parse(r.stdout.replace(/^\uFEFF/,''));}catch{}
+  if(r.status!==0||report?.valid!==true){
+    const stage=['path','drive','parents','create','acl','owner','rules'].includes(report?.stage)?report.stage:'probe';
+    const line=Number.isInteger(report?.line)?report.line:0;
+    throw Error('windows_private_storage_unverified:'+stage+'_line_'+line);
+  }
 }
 function noLinks(target){
   let cursor=path.resolve(target);

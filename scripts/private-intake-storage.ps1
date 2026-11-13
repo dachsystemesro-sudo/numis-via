@@ -4,25 +4,29 @@ param(
   [switch]$RequireProtected
 )
 $ErrorActionPreference = 'Stop'
+$stage = 'path'
 try {
   $full = [IO.Path]::GetFullPath($TargetPath)
   if ($full -notmatch '^[A-Za-z]:\\' -or $full.Substring(2).Contains(':')) { throw 'local_ntfs_required' }
   $drive = New-Object IO.DriveInfo ([IO.Path]::GetPathRoot($full))
+  $stage = 'drive'
   if ($drive.DriveType -ne 'Fixed' -or $drive.DriveFormat -ne 'NTFS') { throw 'local_ntfs_required' }
   foreach ($sync in @($env:OneDrive,$env:OneDriveCommercial,$env:OneDriveConsumer)) {
-    if ($sync -and ($full.Equals($sync,[StringComparison]::OrdinalIgnoreCase) -or $full.StartsWith($sync.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase))) { throw 'synced_storage_forbidden' }
+    if ($sync -and ($full.Equals($sync,[StringComparison]::OrdinalIgnoreCase) -or $full.StartsWith($sync.TrimEnd([char]92)+'\',[StringComparison]::OrdinalIgnoreCase))) { throw 'synced_storage_forbidden' }
   }
   $cursor = $full
+  $stage = 'parents'
   while ($cursor) {
     if (Test-Path -LiteralPath $cursor) {
       $item = Get-Item -LiteralPath $cursor -Force
       if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'reparse_point_forbidden' }
     }
-    $parent = [IO.Path]::GetDirectoryName($cursor.TrimEnd('\'))
+    $parent = [IO.Path]::GetDirectoryName($cursor.TrimEnd([char]92))
     if ($parent -eq $cursor) { break }; $cursor = $parent
   }
   $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User
   if ($Mode -eq 'Create') {
+    $stage = 'create'
     # Only a brand-new leaf. No permissions of an existing path are modified.
     if (Test-Path -LiteralPath $full) { throw 'new_empty_vault_required' }
     if (-not (Test-Path -LiteralPath ([IO.Path]::GetDirectoryName($full)) -PathType Container)) { throw 'parent_required' }
@@ -59,12 +63,15 @@ public static class NumisPrivateDirectory {
     $RequireProtected = $true
   }
   $item = Get-Item -LiteralPath $full -Force
+  $stage = 'acl'
   $acl = Get-Acl -LiteralPath $full
+  $stage = 'owner'
   if ($acl.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $sid.Value) { throw 'owner_mismatch' }
   if ($RequireProtected -and -not $acl.AreAccessRulesProtected) { throw 'protected_acl_required' }
   $rules = @($acl.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]))
   if ($rules.Count -eq 0) { throw 'empty_acl' }
   $ownerFull = $false
+  $stage = 'rules'
   foreach ($rule in $rules) {
     if ($rule.AccessControlType -ne 'Allow' -or $rule.IdentityReference.Value -notin @($sid.Value,'S-1-5-18') -or ($rule.PropagationFlags -band [Security.AccessControl.PropagationFlags]::InheritOnly)) { throw 'untrusted_acl' }
     if ($rule.IdentityReference.Value -eq $sid.Value -and (($rule.FileSystemRights -band [Security.AccessControl.FileSystemRights]::FullControl) -eq [Security.AccessControl.FileSystemRights]::FullControl)) { $ownerFull = $true }
@@ -74,6 +81,6 @@ public static class NumisPrivateDirectory {
   @{valid=$true;platform='windows_ntfs_acl'} | ConvertTo-Json -Compress
 } catch {
   # No paths, account names, SIDs, ACL contents or caught OS messages in logs.
-  @{valid=$false;error='windows_private_storage_unverified';remediation='USE_NEW_LOCAL_NTFS_VAULT_OR_ASK_ADMIN_TO_REVIEW_ACL'} | ConvertTo-Json -Compress
+  @{valid=$false;error='windows_private_storage_unverified';stage=$stage;line=[int]$_.InvocationInfo.ScriptLineNumber;remediation='USE_NEW_LOCAL_NTFS_VAULT_OR_ASK_ADMIN_TO_REVIEW_ACL'} | ConvertTo-Json -Compress
   exit 1
 }
