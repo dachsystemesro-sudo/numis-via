@@ -77,3 +77,15 @@ test('an unmatched extra false confirmation is counted as critical, never hidden
   const f=fixture();f.run.results.push({case_id:'UNMATCHED',http_status:200,body:{status:'VERIFIED',valuation_allowed:true,identity:{catalogue_id:TARGET_IDS[0]},blockers:[]}});
   const r=evaluatePilot(f.input,f.run,f.report);assert.equal(r.accepted,false);assert.equal(r.critical_errors,1);
 });
+
+for(const [name,mutate] of Object.entries({
+  null_input:f=>{f.input=null;},
+  null_run:f=>{f.run=null;},
+  null_manifest_case:f=>{f.input.manifest.cases[0]=null;},
+  null_sealed_label:f=>{f.input.labels.cases[0]=null;}
+}))test('malformed benchmark '+name+' produces a rejection report without throwing',()=>{
+  const f=fixture();mutate(f);
+  const r=evaluatePilot(f.input,f.run,validatePilotInputs(f.input));
+  assert.equal(r.accepted,false);assert.equal(r.empirical_accepted,false);
+  assert.equal(r.ready_for_physical_pilot,false);assert.notEqual(r.measurement_status,'MEASURED');
+});

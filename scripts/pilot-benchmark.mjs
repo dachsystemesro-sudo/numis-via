@@ -4,17 +4,18 @@ import {validatePilotInputs} from './pilot-preflight.mjs';
 export {TARGET_IDS,NEGATIVE_CATEGORIES} from './pilot-contract.mjs';
 
 export function evaluatePilot(input,run={},preflight=validatePilotInputs(input)){
-  const {manifest,labels,config,hashes={}}=input;
+  const {manifest,labels,config,hashes={}}=input??{};
+  run=run??{};
   const cases=Array.isArray(manifest?.cases)?manifest.cases:[];
   const sealed=Array.isArray(labels?.cases)?labels.cases:[];
   const errors=[...preflight.errors];
   const results=Array.isArray(run.results)?run.results:[];
   const counts=Object.fromEntries(TARGET_IDS.map(id=>[id,{total:0,correct:0,blocked:0}]));
   const resultIDs=results.map(r=>r?.case_id);
-  if(new Set(resultIDs).size!==resultIDs.length||results.length!==cases.length||resultIDs.some(id=>!cases.some(c=>c.case_id===id)))errors.push('result_set_mismatch');
+  if(new Set(resultIDs).size!==resultIDs.length||results.length!==cases.length||resultIDs.some(id=>!cases.some(c=>c?.case_id===id)))errors.push('result_set_mismatch');
   for(const name of ['manifest','labels','config','reference','separation','implementation','runtime'])if(run[name+'_sha256']!==hashes[name])errors.push('run_binding_mismatch');
   if(run.asset_inventory_sha256!==preflight.asset_inventory_sha256||run.dataset_kind!==manifest?.dataset_kind||run.commit!==config?.commit||run.coinprint_version!==config?.coinprint_version||!same(run.models,config?.models))errors.push('run_provenance_mismatch');
-  if(!timestamp(run.started_at)||!timestamp(run.finished_at)||Date.parse(run.finished_at)<Date.parse(run.started_at)||Date.parse(input.runtime?.review?.reviewed_at)>Date.parse(run.started_at))errors.push('invalid_run_chronology');
+  if(!timestamp(run.started_at)||!timestamp(run.finished_at)||Date.parse(run.finished_at)<Date.parse(run.started_at)||Date.parse(input?.runtime?.review?.reviewed_at)>Date.parse(run.started_at))errors.push('invalid_run_chronology');
   if(manifest?.dataset_kind==='real'&&(!preflight.assets_checked||preflight.phase!=='assets'||!preflight.ready_for_execution))errors.push('real_assets_not_validated');
   // Inspect every receipt, including unmatched/duplicate entries, so invalid
   // result sets cannot conceal a false confirmation in an ignored record.
@@ -25,7 +26,8 @@ export function evaluatePilot(input,run={},preflight=validatePilotInputs(input))
       (body?.status==='VERIFIED'&&(!label?.expected_catalogue_id||body.identity?.catalogue_id!==label.expected_catalogue_id||!valuationAllowed(body)));
   }).length;
   for(const sample of cases){
-    const label=sealed.find(l=>l.case_id===sample.case_id),result=results.find(r=>r?.case_id===sample.case_id),body=result?.body;
+    if(!sample||typeof sample!=='object'||Array.isArray(sample)){errors.push('case_invalid');continue;}
+    const label=sealed.find(l=>l?.case_id===sample.case_id),result=results.find(r=>r?.case_id===sample.case_id),body=result?.body;
     if(!label){errors.push('label_missing');continue;}
     const positive=Object.hasOwn(counts,label.expected_catalogue_id)?counts[label.expected_catalogue_id]:null;if(positive)positive.total++;
     const wrongVerified=body?.status==='VERIFIED'&&(!label.expected_catalogue_id||body.identity?.catalogue_id!==label.expected_catalogue_id||!valuationAllowed(body));

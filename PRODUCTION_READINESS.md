@@ -39,3 +39,5 @@ Vyžaduje úspešný fyzický pilot, bezpečné spracovanie súkromných údajov
 Podrobný rozsah overenia, nálezy PR #11 a limity sú v [REVIEW_2026-11-11.md](REVIEW_2026-11-11.md). Predpilotné políčka ostávajú otvorené; historický úspech CI nie je potvrdením aktuálnej pracovnej vetvy ani celkovej pripravenosti.
 
 Aktuálny integračný návrh a zostávajúce blokátory k 2026-11-12: [INTEGRATION_2026-11-12.md](INTEGRATION_2026-11-12.md). Stav zostáva NOT READY FOR PHYSICAL PILOT.
+
+Izolované spojenie #18 + #21 + #22, nové kontroly a konkrétny plán získania skutočných mincí k 2026-11-13: [PILOT_HANDOFF_2026-11-13.md](docs/PILOT_HANDOFF_2026-11-13.md). Všetkých 11 predpilotných bodov ostáva otvorených; referencie 0/9, reálny benchmark NOT MEASURED.

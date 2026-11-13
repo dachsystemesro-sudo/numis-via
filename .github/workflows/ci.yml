@@ -33,6 +33,8 @@ jobs:
         run: npm ci
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
+      - name: Overiť audit dôkazov a aktuálnosť matice
+        run: npm run evidence:audit
       - name: Audit pripravenosti fyzického pilotu (informatívny)
         shell: bash
         run: node scripts/audit-readiness.mjs | tee readiness-report.json
