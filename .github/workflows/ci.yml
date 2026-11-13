@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -35,6 +35,8 @@ jobs:
         run: npm run check
       - name: Overiť audit dôkazov a aktuálnosť matice
         run: npm run evidence:audit
+      - name: Overiť históriu zdrojov a aktualizovanú maticu (bez siete)
+        run: npm run sources:check
       - name: Audit pripravenosti fyzického pilotu (informatívny)
         shell: bash
         run: node scripts/audit-readiness.mjs | tee readiness-report.json
