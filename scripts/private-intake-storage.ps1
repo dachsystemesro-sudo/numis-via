@@ -1,0 +1,79 @@
+param(
+  [ValidateSet('Create','Check')][string]$Mode,
+  [Parameter(Mandatory=$true)][string]$TargetPath,
+  [switch]$RequireProtected
+)
+$ErrorActionPreference = 'Stop'
+try {
+  $full = [IO.Path]::GetFullPath($TargetPath)
+  if ($full -notmatch '^[A-Za-z]:\\' -or $full.Substring(2).Contains(':')) { throw 'local_ntfs_required' }
+  $drive = New-Object IO.DriveInfo ([IO.Path]::GetPathRoot($full))
+  if ($drive.DriveType -ne 'Fixed' -or $drive.DriveFormat -ne 'NTFS') { throw 'local_ntfs_required' }
+  foreach ($sync in @($env:OneDrive,$env:OneDriveCommercial,$env:OneDriveConsumer)) {
+    if ($sync -and ($full.Equals($sync,[StringComparison]::OrdinalIgnoreCase) -or $full.StartsWith($sync.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase))) { throw 'synced_storage_forbidden' }
+  }
+  $cursor = $full
+  while ($cursor) {
+    if (Test-Path -LiteralPath $cursor) {
+      $item = Get-Item -LiteralPath $cursor -Force
+      if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'reparse_point_forbidden' }
+    }
+    $parent = [IO.Path]::GetDirectoryName($cursor.TrimEnd('\'))
+    if ($parent -eq $cursor) { break }; $cursor = $parent
+  }
+  $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User
+  if ($Mode -eq 'Create') {
+    # Only a brand-new leaf. No permissions of an existing path are modified.
+    if (Test-Path -LiteralPath $full) { throw 'new_empty_vault_required' }
+    if (-not (Test-Path -LiteralPath ([IO.Path]::GetDirectoryName($full)) -PathType Container)) { throw 'parent_required' }
+    $acl = New-Object Security.AccessControl.DirectorySecurity
+    $acl.SetOwner($sid)
+    $acl.SetAccessRuleProtection($true,$false)
+    foreach ($allowed in @($sid,(New-Object Security.Principal.SecurityIdentifier 'S-1-5-18'))) {
+      $rule = New-Object Security.AccessControl.FileSystemAccessRule($allowed,'FullControl','ContainerInherit,ObjectInherit','None','Allow')
+      $acl.AddAccessRule($rule)
+    }
+    # CREATE_NEW directory semantics, even if another process wins the race:
+    # never change the ACL of an existing path.
+    Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public static class NumisPrivateDirectory {
+  [StructLayout(LayoutKind.Sequential)]
+  public struct SecurityAttributes { public int length; public IntPtr descriptor; public int inherit; }
+  [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+  [return: MarshalAs(UnmanagedType.Bool)]
+  public static extern bool CreateDirectoryW(string path, ref SecurityAttributes attributes);
+}
+'@
+    $binary = $acl.GetSecurityDescriptorBinaryForm()
+    $memory = [Runtime.InteropServices.Marshal]::AllocHGlobal($binary.Length)
+    try {
+      [Runtime.InteropServices.Marshal]::Copy($binary,0,$memory,$binary.Length)
+      $attributes = New-Object NumisPrivateDirectory+SecurityAttributes
+      $attributes.length = [Runtime.InteropServices.Marshal]::SizeOf($attributes)
+      $attributes.descriptor = $memory
+      $attributes.inherit = 0
+      if (-not [NumisPrivateDirectory]::CreateDirectoryW($full,[ref]$attributes)) { throw 'new_private_directory_creation_failed' }
+    } finally { [Runtime.InteropServices.Marshal]::FreeHGlobal($memory) }
+    $RequireProtected = $true
+  }
+  $item = Get-Item -LiteralPath $full -Force
+  $acl = Get-Acl -LiteralPath $full
+  if ($acl.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $sid.Value) { throw 'owner_mismatch' }
+  if ($RequireProtected -and -not $acl.AreAccessRulesProtected) { throw 'protected_acl_required' }
+  $rules = @($acl.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]))
+  if ($rules.Count -eq 0) { throw 'empty_acl' }
+  $ownerFull = $false
+  foreach ($rule in $rules) {
+    if ($rule.AccessControlType -ne 'Allow' -or $rule.IdentityReference.Value -notin @($sid.Value,'S-1-5-18') -or ($rule.PropagationFlags -band [Security.AccessControl.PropagationFlags]::InheritOnly)) { throw 'untrusted_acl' }
+    if ($rule.IdentityReference.Value -eq $sid.Value -and (($rule.FileSystemRights -band [Security.AccessControl.FileSystemRights]::FullControl) -eq [Security.AccessControl.FileSystemRights]::FullControl)) { $ownerFull = $true }
+    if ($item.PSIsContainer -and (($rule.InheritanceFlags -band [Security.AccessControl.InheritanceFlags]::ContainerInherit) -eq 0 -or ($rule.InheritanceFlags -band [Security.AccessControl.InheritanceFlags]::ObjectInherit) -eq 0)) { throw 'private_inheritance_required' }
+  }
+  if (-not $ownerFull) { throw 'owner_access_missing' }
+  @{valid=$true;platform='windows_ntfs_acl'} | ConvertTo-Json -Compress
+} catch {
+  # No paths, account names, SIDs, ACL contents or caught OS messages in logs.
+  @{valid=$false;error='windows_private_storage_unverified';remediation='USE_NEW_LOCAL_NTFS_VAULT_OR_ASK_ADMIN_TO_REVIEW_ACL'} | ConvertTo-Json -Compress
+  exit 1
+}

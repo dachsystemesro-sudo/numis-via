@@ -43,3 +43,5 @@ Aktuálny integračný návrh a zostávajúce blokátory k 2026-11-12: [INTEGRAT
 Izolované spojenie #18 + #21 + #22, nové kontroly a konkrétny plán získania skutočných mincí k 2026-11-13: [PILOT_HANDOFF_2026-11-13.md](docs/PILOT_HANDOFF_2026-11-13.md). Všetkých 11 predpilotných bodov ostáva otvorených; referencie 0/9, reálny benchmark NOT MEASURED.
 
 Doplnenie zdrojov v úlohe #24: [zdrojový report a postup prvej referencie](docs/evidence-audit/TASK_24_SOURCE_REVIEW.md), [aktualizovaná matica 9 × 17](docs/evidence-audit/TASK_24_MATRIX.md). Žiadna referencia sa nepovyšuje; predbežné hmotnostné rozdiely ostávajú na odborné vyriešenie. Stav NOT READY sa nemení.
+
+Lokálny príjem prvého exemplára 1 cent Slovensko 2020: [Samsung, Windows ACL, merania a odborné dossier](docs/FIRST_SPECIMEN_SK_2020.md). Príjem fotografií nie je schválenie referencie ani povolenie pilotu.
