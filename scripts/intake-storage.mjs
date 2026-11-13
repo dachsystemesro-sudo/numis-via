@@ -17,7 +17,9 @@ export function windowsStorage(target,{create=false,protectedRoot=false,run=spaw
   if(r.status!==0||report?.valid!==true){
     const stage=['path','drive','parents','create','acl','owner','rules'].includes(report?.stage)?report.stage:'probe';
     const line=Number.isInteger(report?.line)?report.line:0;
-    throw Error('windows_private_storage_unverified:'+stage+'_line_'+line);
+    const category=typeof report?.category==='string'&&/^[A-Za-z]+$/.test(report.category)?report.category.toLowerCase():'unknown';
+    const kind=typeof report?.exception_type==='string'&&/^[A-Za-z]+$/.test(report.exception_type)?report.exception_type.toLowerCase():'unknown';
+    throw Error('windows_private_storage_unverified:'+stage+'_line_'+line+'_'+category+'_'+kind);
   }
 }
 function noLinks(target){

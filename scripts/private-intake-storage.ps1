@@ -64,7 +64,9 @@ public static class NumisPrivateDirectory {
   }
   $item = Get-Item -LiteralPath $full -Force
   $stage = 'acl'
-  $acl = Get-Acl -LiteralPath $full
+  # Query only owner and discretionary access, not group/audit sections. This
+  # does not require privileged SACL access or localized account translation.
+  $acl = $item.GetAccessControl(([Security.AccessControl.AccessControlSections]::Owner -bor [Security.AccessControl.AccessControlSections]::Access))
   $stage = 'owner'
   if ($acl.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $sid.Value) { throw 'owner_mismatch' }
   if ($RequireProtected -and -not $acl.AreAccessRulesProtected) { throw 'protected_acl_required' }
@@ -81,6 +83,6 @@ public static class NumisPrivateDirectory {
   @{valid=$true;platform='windows_ntfs_acl'} | ConvertTo-Json -Compress
 } catch {
   # No paths, account names, SIDs, ACL contents or caught OS messages in logs.
-  @{valid=$false;error='windows_private_storage_unverified';stage=$stage;line=[int]$_.InvocationInfo.ScriptLineNumber;remediation='USE_NEW_LOCAL_NTFS_VAULT_OR_ASK_ADMIN_TO_REVIEW_ACL'} | ConvertTo-Json -Compress
+  @{valid=$false;error='windows_private_storage_unverified';stage=$stage;line=[int]$_.InvocationInfo.ScriptLineNumber;category=$_.CategoryInfo.Category.ToString();exception_type=$_.Exception.GetType().Name;remediation='USE_NEW_LOCAL_NTFS_VAULT_OR_ASK_ADMIN_TO_REVIEW_ACL'} | ConvertTo-Json -Compress
   exit 1
 }
