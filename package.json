@@ -13,7 +13,11 @@
     "evidence:audit": "node scripts/audit-reference-evidence.mjs --check",
     "sources:check": "node scripts/reference-source-audit.mjs",
     "sources:probe": "node scripts/reference-source-audit.mjs --probe --write",
-    "sources:require": "node scripts/reference-source-audit.mjs --require-complete"
+    "sources:require": "node scripts/reference-source-audit.mjs --require-complete",
+    "specimen:init": "node scripts/specimen-intake.mjs init",
+    "specimen:prepare": "node scripts/specimen-intake.mjs prepare",
+    "specimen:import": "node scripts/specimen-intake.mjs import",
+    "specimen:audit": "node scripts/specimen-intake.mjs audit"
   },
   "devDependencies": {
     "sharp": "0.35.5"

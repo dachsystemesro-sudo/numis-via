@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113, evidence/task-24-source-verification]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -47,3 +47,16 @@ jobs:
           name: readiness-report
           path: readiness-report.json
           if-no-files-found: error
+  windows-intake:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Skutočné NTFS ACL a lokálny príjem syntetického exemplára
+        run: node --test test/specimen-intake.test.js
