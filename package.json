@@ -9,6 +9,10 @@
     "readiness:audit": "node scripts/audit-readiness.mjs",
     "readiness:require": "node scripts/audit-readiness.mjs --require-ready",
     "pilot:evaluate": "node scripts/evaluate-pilot.mjs",
+    "pilot:preflight": "node scripts/pilot-preflight.mjs",
     "evidence:audit": "node scripts/audit-reference-evidence.mjs --check"
+  },
+  "devDependencies": {
+    "sharp": "0.35.5"
   }
 }

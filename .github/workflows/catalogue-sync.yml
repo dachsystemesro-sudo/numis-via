@@ -29,6 +29,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install locked test dependencies
+        run: npm ci
       - name: Načítať ďalšiu dávku OCRE
         run: node scripts/sync-open-catalogues.mjs
         env:

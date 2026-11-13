@@ -1,46 +1,58 @@
-// Opt-in collector for a frozen blind set. Never run as part of CI.
+// Explicitly opt-in collector. Never invoked by CI or readiness inventory.
 import fs from 'node:fs';
 import path from 'node:path';
-import {createHash} from 'node:crypto';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+import {sha256} from './pilot-contract.mjs';
+import {parsePilotArgs,preflightFromFiles} from './pilot-preflight.mjs';
 import {evaluatePilot} from './pilot-benchmark.mjs';
-const [manifestPath,endpoint,configPath,outputPath]=process.argv.slice(2);
-if(!manifestPath||!endpoint||!configPath||!outputPath)throw Error('Usage: node scripts/run-pilot.mjs MANIFEST ENDPOINT RUN-CONFIG OUTPUT');
-const raw=fs.readFileSync(manifestPath),manifest=JSON.parse(raw);
-const config=JSON.parse(fs.readFileSync(configPath,'utf8'));
-const hash=buffer=>createHash('sha256').update(buffer).digest('hex');
-const referenceHash=hash(fs.readFileSync(new URL('../data/catalogue.json',import.meta.url)));
-if(config.reference_sha256!==referenceHash)throw Error('Run config does not match the local frozen catalogue.');
-const run={...config,manifest_sha256:hash(raw),started_at:new Date().toISOString(),finished_at:new Date().toISOString(),results:[]};
-// Preflight validates quotas, separation, review, rights, configuration and lock.
-const preflight=evaluatePilot(manifest,run,hash(raw),referenceHash);
-const errors=preflight.errors.filter(e=>!e.startsWith('missing_or_invalid_response:')&&e!=='result_set_mismatch');
-if(errors.length)throw Error('Preflight failed: '+errors.join(', '));
-if(fs.existsSync(outputPath))throw Error('Output exists; preserve prior run evidence.');
-const url=new URL(endpoint);
-if(url.protocol!=='https:'&&!(url.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(url.hostname)))throw Error('Use HTTPS or a local test server.');
-// Resolve and hash EVERY asset before making the first paid model request.
-const root=path.dirname(fs.realpathSync(manifestPath));
-const requests=manifest.cases.map(c=>{
-  const images=c.images.map(image=>{
-    const file=fs.realpathSync(path.resolve(root,image.path));
-    const relative=path.relative(root,file);
-    if(relative.startsWith('..')||path.isAbsolute(relative))throw Error('Image outside manifest directory.');
-    const data=fs.readFileSync(file);
-    if(hash(data)!==image.sha256)throw Error('Image hash mismatch: '+c.case_id);
-    if(!['image/jpeg','image/png','image/webp'].includes(image.mime))throw Error('Unsupported image MIME.');
-    return `data:${image.mime};base64,${data.toString('base64')}`;
-  });
-  return {case_id:c.case_id,payload:{images,measurements:c.measurements||{}}};
-});
-for(const request of requests){
-  try{
-    // Expected labels, categories, reviews and specimen IDs are never sent.
-    const response=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(request.payload),signal:AbortSignal.timeout(180000)});
-    run.results.push({case_id:request.case_id,http_status:response.status,body:await response.json()});
-  }catch(error){run.results.push({case_id:request.case_id,http_status:0,body:{error:String(error.message)}});}
-  run.finished_at=new Date().toISOString();
-  fs.writeFileSync(outputPath,JSON.stringify(run,null,2)+'\n');
+
+export function casePayload(sample,root){
+  if(Date.now()>=Date.parse(sample.rights.retention_until))throw Error('rights_expired');
+  return {images:sample.images.map(image=>{
+    const resolved=path.resolve(root,image.path);
+    if(fs.realpathSync(resolved)!==resolved||path.relative(root,resolved).startsWith('..'))throw Error('asset_changed');
+    const stat=fs.statSync(resolved);if(!stat.isFile()||stat.size>10*1024*1024||process.platform==='win32'||(stat.mode&0o077))throw Error('asset_changed');
+    const bytes=fs.readFileSync(resolved);if(sha256(bytes)!==image.sha256)throw Error('asset_changed');
+    return `data:${image.mime};base64,${bytes.toString('base64')}`;
+  }),measurements:sample.measurements||{}};
 }
-const report=evaluatePilot(manifest,run,hash(raw),referenceHash);
-console.log(JSON.stringify(report,null,2));
-if(!report.accepted)process.exitCode=1;
+
+export async function collectPilot({input,report,root},send,save){
+  if(!report.valid||!report.assets_checked)throw Error('preflight_failed');
+  const run={schema_version:'2.0',dataset_kind:input.manifest.dataset_kind,commit:input.config.commit,coinprint_version:input.config.coinprint_version,models:input.config.models,asset_inventory_sha256:report.asset_inventory_sha256,started_at:new Date().toISOString(),finished_at:new Date().toISOString(),results:[]};
+  for(const [name,value] of Object.entries(input.hashes))run[name+'_sha256']=value;
+  save(run);
+  for(const sample of input.manifest.cases){
+    try{
+      const payload=casePayload(sample,root);
+      const result=await send(input.config.endpoint,payload);
+      run.results.push({case_id:sample.case_id,http_status:result.status,body:result.body});
+    }catch{run.results.push({case_id:sample.case_id,http_status:0,body:{error:'request_or_asset_failed'}});}
+    run.finished_at=new Date().toISOString();save(run);
+    if(run.results.at(-1).http_status===0)break;
+  }
+  return run;
+}
+
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
+  let fd;
+  try{
+    const options=parsePilotArgs(process.argv.slice(2),{execute:{type:'boolean',default:false},output:{type:'string'}});
+    const preflight=await preflightFromFiles(options);
+    if(!options.execute){console.log(JSON.stringify({...preflight.report,execution:'NOT_REQUESTED'},null,2));if(!preflight.report.valid)process.exitCode=1;}
+    else{
+      if(!preflight.report.ready_for_execution||preflight.input.manifest.dataset_kind!=='real')throw Error('preflight');
+      const output=path.resolve(options.output),repo=fileURLToPath(new URL('../',import.meta.url)),relative=path.relative(repo,output);
+      if(!relative.startsWith('..')||!path.isAbsolute(output)||fs.realpathSync(path.dirname(output))!==path.dirname(output)||(process.platform!=='win32'&&(fs.statSync(path.dirname(output)).mode&0o077)))throw Error('private');
+      fd=fs.openSync(output,'wx',0o600);
+      const save=run=>{fs.ftruncateSync(fd,0);fs.writeSync(fd,JSON.stringify(run,null,2)+'\n',0,'utf8');fs.fsyncSync(fd);};
+      const send=async(url,payload)=>{
+        const response=await fetch(url,{method:'POST',redirect:'error',headers:{'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(180000)});
+        return {status:response.status,body:await response.json()};
+      };
+      const run=await collectPilot(preflight,send,save),evaluation=evaluatePilot(preflight.input,run,preflight.report);
+      console.log(JSON.stringify(evaluation,null,2));if(!evaluation.empirical_accepted)process.exitCode=1;
+    }
+  }catch{console.log(JSON.stringify({accepted:false,execution:'BLOCKED',measurement_status:'NOT_MEASURED',errors:['collector_preflight_or_storage_failed'],ready_for_physical_pilot:false}));process.exitCode=1;}
+  finally{if(fd!==undefined)fs.closeSync(fd);}
+}
