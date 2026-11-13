@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,6 +16,8 @@ const hash=b=>createHash('sha256').update(b).digest('hex');
 const root=fileURLToPath(new URL('../',import.meta.url));
 const early='2026-01-01T00:00:00Z';
 const later='2026-01-01T00:01:00Z';
+let sharedDossierRoot;
+after(()=>{if(sharedDossierRoot)fs.rmSync(path.dirname(sharedDossierRoot),{recursive:true,force:true});});
 function temp(t){const p=fs.mkdtempSync(path.join(os.tmpdir(),'numis-intake-'));t.after(()=>fs.rmSync(p,{recursive:true,force:true}));return p;}
 function save(root,name,value){fs.writeFileSync(path.join(root,name),JSON.stringify(value,null,2)+'\n',{mode:0o600});}
 function capture(t){
@@ -113,8 +115,11 @@ test('capture evidence cannot be silently substituted after import',async t=>{
   const p=JSON.parse(privateRead(dir,'capture.json'));p.capture_check.reviewer_ref='SYNTHETIC OTHER';save(dir,'capture.json',p);await assert.rejects(inspectIntake(f.vault,r.intake_id));
 });
 function syntheticDossier(t){
-  const dir=path.join(temp(t),'archive');initIntake(dir);
-  const proof=(name)=>{const file='documents/'+name+'.txt',body=Buffer.from('SYNTHETIC DOCUMENT ONLY '+name);privateWrite(dir,file,body);return {document:file,sha256:hash(body)};};
+  // Immutable synthetic signed/calibration bytes are shared; each case gets a
+  // fresh dossier object. Every audit still rechecks actual file ACL and hashes.
+  if(!sharedDossierRoot){sharedDossierRoot=path.join(fs.mkdtempSync(path.join(os.tmpdir(),'numis-shared-dossier-')),'archive');initIntake(sharedDossierRoot);}
+  const dir=sharedDossierRoot;
+  const proof=(name)=>{const file='documents/'+name+'.txt',body=Buffer.from('SYNTHETIC DOCUMENT ONLY '+name);if(!fs.existsSync(path.join(dir,file)))privateWrite(dir,file,body);else assert.deepEqual(fs.readFileSync(path.join(dir,file)),body);return {document:file,sha256:hash(body)};};
   const tplate=templates(),d=tplate.dossier,manifest={...tplate.specimen,imported_at:early,human_capture_check:{reviewer_ref:'SYNTHETIC OPERATOR'},images:capture().plan.images.map(i=>({...i,working_bytes:100}))},manifestHash=hash('SYNTHETIC manifest');
   Object.assign(d.provenance,{owner_ref:'SYNTHETIC OWNER',obtained_at:early,source_ref:'SYNTHETIC source',condition:'SYNTHETIC',finish:'SYNTHETIC'});
   Object.assign(d.rights,{photographer_ref:'SYNTHETIC',metadata_basis:'SYNTHETIC',image_basis:'SYNTHETIC',consent:proof('consent'),retention_until:'2099-01-01T00:00:00Z'});
