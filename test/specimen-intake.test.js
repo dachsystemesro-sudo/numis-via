@@ -109,7 +109,7 @@ test('capture evidence cannot be silently substituted after import',async t=>{
 });
 function syntheticDossier(t){
   const dir=path.join(temp(t),'archive');initIntake(dir);
-  const proof=(name)=>{const file='documents/'+name+'.txt',body=Buffer.from('SYNTHETIC DOCUMENT ONLY '+name);fs.writeFileSync(path.join(dir,file),body,{mode:0o600});return {document:file,sha256:hash(body)};};
+  const proof=(name)=>{const file='documents/'+name+'.txt',body=Buffer.from('SYNTHETIC DOCUMENT ONLY '+name);privateWrite(dir,file,body);return {document:file,sha256:hash(body)};};
   const tplate=templates(),d=tplate.dossier,manifest={...tplate.specimen,imported_at:early,human_capture_check:{reviewer_ref:'SYNTHETIC OPERATOR'},images:capture().plan.images.map(i=>({...i,working_bytes:100}))},manifestHash=hash('SYNTHETIC manifest');
   Object.assign(d.provenance,{owner_ref:'SYNTHETIC OWNER',obtained_at:early,source_ref:'SYNTHETIC source',condition:'SYNTHETIC',finish:'SYNTHETIC'});
   Object.assign(d.rights,{photographer_ref:'SYNTHETIC',metadata_basis:'SYNTHETIC',image_basis:'SYNTHETIC',consent:proof('consent'),retention_until:'2099-01-01T00:00:00Z'});

@@ -34,7 +34,7 @@ Súbory musia byť jednorámcový JPEG/PNG/WebP, aspoň 512 × 512 px, najviac 2
 
 ## Windows: vytvorenie a príjem
 
-Použite Node.js 22 alebo 24, klasický Windows PowerShell 5.1 a lokálny NTFS disk. V existujúcom checkout-e vetvy tohto PR otvorte terminál a použite `npm.cmd` (nevynucuje zmenu politiky pre npm.ps1):
+Použite Node.js 22 alebo 24, klasický Windows PowerShell 5.1 a lokálny NTFS disk. Pracujte v bežnom termináli svojho používateľa, nie ako správca. V existujúcom checkout-e vetvy tohto PR použite `npm.cmd` (nevynucuje zmenu politiky pre npm.ps1):
 
 ```powershell
 npm.cmd ci
