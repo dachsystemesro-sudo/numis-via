@@ -47,7 +47,12 @@ test('initialization makes a private fresh vault with empty measurements and pen
 test('init cannot alter or reuse an existing user directory',t=>{
   const p=temp(t),before=fs.statSync(p).mode;assert.throws(()=>initIntake(p));assert.equal(fs.statSync(p).mode,before);assert.equal(fs.readdirSync(p).length,0);
 });
-test('an archive in the repository is denied before creating it',()=>assert.throws(()=>initIntake(path.join(root,'private-test-should-not-exist'))));
+test('an archive in the repository or a canonical alias is denied before creating it',t=>{
+  assert.throws(()=>initIntake(path.join(root,'private-test-should-not-exist')));
+  const alias=path.join(temp(t),'checkout-alias');fs.symlinkSync(root,alias,process.platform==='win32'?'junction':'dir');
+  assert.throws(()=>initIntake(path.join(alias,'private-test-should-not-exist')));
+  assert.equal(fs.existsSync(path.join(root,'private-test-should-not-exist')),false);
+});
 for(const [name,mutate] of Object.entries({
   missing_common:p=>{p.images=p.images.filter(i=>!i.roles.includes('common_full'));},
   missing_edge:p=>{p.images=p.images.filter(i=>!i.roles.includes('edge'));},

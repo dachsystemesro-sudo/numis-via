@@ -196,4 +196,4 @@ export async function main(args){
   else throw Error('command_required_init_prepare_import_audit');
   console.log(JSON.stringify(result,null,2));return result.documentation_complete===false?1:0;
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){try{process.exitCode=await main(process.argv.slice(2));}catch(e){console.log(JSON.stringify({valid:false,error:/^[a-z_]+(?::[a-z_]+)?(?:,[a-z_]+(?::[a-z_]+)?)*$/.test(e.message)?e.message:'intake_rejected',remediation:'Pozrite docs/FIRST_SPECIMEN_SK_2020.md; existujuce ACL nemente bez schvalenia.',...failClosed}));process.exitCode=1;}}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){try{process.exitCode=await main(process.argv.slice(2));}catch(e){console.log(JSON.stringify({valid:false,error:/^[a-z_0-9]+(?::[a-z_0-9]+)?(?:,[a-z_0-9]+(?::[a-z_0-9]+)?)*$/.test(e.message)?e.message:'intake_rejected',remediation:'Pozrite docs/FIRST_SPECIMEN_SK_2020.md; existujuce ACL nemente bez schvalenia.',...failClosed}));process.exitCode=1;}}
