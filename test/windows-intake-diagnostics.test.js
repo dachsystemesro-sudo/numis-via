@@ -1,9 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {randomUUID} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {storageResult,callStorage,windowsPowerShell,sanitizeProbe,diagnoseWindowsStorage,READ_ONLY_PROBE} from '../scripts/windows-intake-diagnostics.mjs';
 const helper=fileURLToPath(new URL('../scripts/private-intake-storage.ps1',import.meta.url));
+const cli=fileURLToPath(new URL('../scripts/diagnose-windows-storage.mjs',import.meta.url));
 for(const [code,reason] of Object.entries({ENOENT:'powershell_not_found',EACCES:'powershell_access_denied',EPERM:'powershell_access_denied',ETIMEDOUT:'powershell_timeout',ENOBUFS:'powershell_output_limit',OTHER:'powershell_spawn_failed'}))test('Windows spawn diagnostic '+code,()=>{
   assert.deepEqual(storageResult({status:null,error:{code,message:'C:\\Users\\PRIVATE\\secret'}}),{valid:false,reason,helper_started:false});
 });
@@ -59,4 +64,29 @@ test('diagnostics do not change policy or execute helper as inline code',()=>{
   assert.doesNotMatch(READ_ONLY_PROBE,/Set-ExecutionPolicy|Unblock-File|Set-Acl|Set-Item|Invoke-Expression|ScriptBlock|EncodedCommand/i);
   for(const line of READ_ONLY_PROBE.split('\n').filter(l=>l.includes('Get-Content')))assert.match(line,/-Stream Zone\.Identifier/);
   assert.equal(fs.readFileSync(helper).includes(Buffer.from('Set-ExecutionPolicy')),false);
+});
+test('actual OS diagnostic and helper Check never create the proposed archive',()=>{
+  const target=path.join(os.tmpdir(),'NUMIS-SYNTHETIC-DIAGNOSTIC-'+randomUUID());
+  assert.equal(fs.existsSync(target),false);
+  const r=diagnoseWindowsStorage(helper,target);
+  assert.equal(fs.existsSync(target),false);assert.equal(r.identity,null);assert.equal(r.valuation_allowed,false);assert.equal(r.ready_for_physical_pilot,false);
+  if(process.platform==='win32'){
+    assert.equal(r.windows_access,true);assert.equal(r.probe.valid,true);assert.equal(r.probe.helper_exists,true);assert.equal(r.probe.language_mode,'FullLanguage');
+    assert.notEqual(r.probe.effective_policy,'unknown');assert.notEqual(r.probe.powershell_version,'unknown');assert.equal(r.check.helper_started,true);assert.equal(r.check.valid,false);
+  }else{assert.equal(r.windows_access,false);assert.equal(r.error,'windows_required');}
+});
+test('standalone CLI reports local OS truth without printing its target path',()=>{
+  const target=path.join(os.tmpdir(),'NUMIS-SYNTHETIC-CLI-'+randomUUID());
+  const r=spawnSync(process.execPath,[cli,'--vault',target],{encoding:'utf8'}),out=JSON.parse(r.stdout);
+  assert.equal(fs.existsSync(target),false);assert.equal(out.operation,'read_only_diagnosis');assert.equal(out.identity,null);assert.equal(out.valuation_allowed,false);assert.equal(out.ready_for_physical_pilot,false);assert.equal(r.stdout.includes(target),false);
+  assert.equal(out.diagnostic_complete,process.platform==='win32');assert.equal(r.status,process.platform==='win32'?0:1);
+  if(process.platform==='win32')assert.equal(out.check.valid,false);else assert.equal(out.windows_access,false);
+});
+test('CLI rejects relative target before any helper call',()=>{
+  const r=spawnSync(process.execPath,[cli,'--vault','SYNTHETIC-relative'],{encoding:'utf8'}),out=JSON.parse(r.stdout);
+  assert.equal(r.status,1);assert.equal(out.error,'vault_absolute_path_required');assert.equal(out.diagnostic_complete,false);assert.equal(out.identity,null);assert.equal(out.valuation_allowed,false);
+});
+test('CLI rejects unknown arguments without disclosing them',()=>{
+  const r=spawnSync(process.execPath,[cli,'--PRIVATE-ARGUMENT'],{encoding:'utf8'}),out=JSON.parse(r.stdout);
+  assert.equal(r.status,1);assert.equal(out.diagnostic_complete,false);assert.equal(r.stdout.includes('PRIVATE-ARGUMENT'),false);assert.equal(out.ready_for_physical_pilot,false);
 });
