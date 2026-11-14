@@ -40,10 +40,13 @@ export function callStorage(helper,target,{mode='Check',protectedRoot=false,run=
 // The helper is separately tested with -File -Mode Check, respecting its policy.
 export const READ_ONLY_PROBE=String.raw`
 $ErrorActionPreference = 'Stop'
+$stage = 'policy'
+try {
 $helper = $env:NUMIS_DIAGNOSTIC_HELPER
 $policies = @{}
 Get-ExecutionPolicy -List | ForEach-Object { $policies[$_.Scope.ToString()] = $_.ExecutionPolicy.ToString() }
 $exists = Test-Path -LiteralPath $helper -PathType Leaf
+$stage = 'metadata'
 $zone = 'absent'
 $signature = 'unknown'
 if ($exists) {
@@ -57,12 +60,21 @@ if ($exists) {
   } catch { $zone = 'unknown' }
   try { $signature = (Get-AuthenticodeSignature -LiteralPath $helper -ErrorAction Stop).Status.ToString() } catch { $signature = 'unknown' }
 }
-@{schema='numis_windows_diagnostic_v1';effective_policy=(Get-ExecutionPolicy).ToString();policies=$policies;language_mode=$ExecutionContext.SessionState.LanguageMode.ToString();powershell_version=$PSVersionTable.PSVersion.ToString();helper_exists=$exists;zone_identifier=$zone;signature=$signature} | ConvertTo-Json -Compress
+$stage = 'report'
+@{schema='numis_windows_diagnostic_v1';valid=$true;effective_policy=(Get-ExecutionPolicy).ToString();policies=$policies;language_mode=$ExecutionContext.SessionState.LanguageMode.ToString();powershell_version=$PSVersionTable.PSVersion.ToString();helper_exists=$exists;zone_identifier=$zone;signature=$signature} | ConvertTo-Json -Compress
+} catch {
+  @{schema='numis_windows_diagnostic_v1';valid=$false;stage=$stage;line=[int]$_.InvocationInfo.ScriptLineNumber;category=$_.CategoryInfo.Category.ToString();exception_type=$_.Exception.GetType().Name} | ConvertTo-Json -Compress
+  exit 1
+}
 `;
 const policyValues=['Undefined','Restricted','AllSigned','RemoteSigned','Unrestricted','Bypass','Default'];
 export function sanitizeProbe(result){
   const p=parse(result?.stdout);
-  if(result?.error||result?.signal||result?.status!==0||p?.schema!=='numis_windows_diagnostic_v1')return {valid:false,error:'read_only_probe_unavailable'};
+  if(p?.schema==='numis_windows_diagnostic_v1'&&p.valid===false){
+    const stage=['policy','metadata','report'].includes(p.stage)?p.stage:'unknown',line=Number.isSafeInteger(p.line)&&p.line>=0?p.line:0;
+    return {valid:false,error:'read_only_probe_unavailable',reason:stage+'_line_'+line+'_'+word(p.category)+'_'+word(p.exception_type)};
+  }
+  if(result?.error||result?.signal||result?.status!==0||p?.schema!=='numis_windows_diagnostic_v1')return {valid:false,error:'read_only_probe_unavailable',reason:storageResult(result).reason??'powershell_report_invalid'};
   const policies=Object.fromEntries(['MachinePolicy','UserPolicy','Process','CurrentUser','LocalMachine'].map(k=>[k,policyValues.includes(p.policies?.[k])?p.policies[k]:'unknown']));
   return {valid:true,effective_policy:policyValues.includes(p.effective_policy)?p.effective_policy:'unknown',policies,
     language_mode:['FullLanguage','RestrictedLanguage','ConstrainedLanguage','NoLanguage'].includes(p.language_mode)?p.language_mode:'unknown',

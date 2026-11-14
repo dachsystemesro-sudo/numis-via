@@ -90,3 +90,7 @@ test('CLI rejects unknown arguments without disclosing them',()=>{
   const r=spawnSync(process.execPath,[cli,'--PRIVATE-ARGUMENT'],{encoding:'utf8'}),out=JSON.parse(r.stdout);
   assert.equal(r.status,1);assert.equal(out.diagnostic_complete,false);assert.equal(r.stdout.includes('PRIVATE-ARGUMENT'),false);assert.equal(out.ready_for_physical_pilot,false);
 });
+test('probe failure stage remains fail closed without raw system details',()=>{
+  const r=sanitizeProbe({status:1,stdout:JSON.stringify({schema:'numis_windows_diagnostic_v1',valid:false,stage:'policy',line:7,category:'PermissionDenied',exception_type:'SecurityException',private_path:'PRIVATE'})});
+  assert.equal(r.valid,false);assert.equal(r.reason,'policy_line_7_permissiondenied_securityexception');assert.equal(JSON.stringify(r).includes('PRIVATE'),false);
+});
