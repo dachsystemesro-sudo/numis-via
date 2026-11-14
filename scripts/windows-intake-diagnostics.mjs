@@ -42,6 +42,10 @@ export const READ_ONLY_PROBE=String.raw`
 $ErrorActionPreference = 'Stop'
 $stage = 'policy'
 try {
+# A Node child of PowerShell 7 can inherit its module search context. Load the
+# Windows PowerShell security module from this executable's own system home;
+# never use a project module, PATH lookup, policy override or script bypass.
+Import-Module -Name ($PSHOME + '\Modules\Microsoft.PowerShell.Security\Microsoft.PowerShell.Security.psd1') -ErrorAction Stop
 $helper = $env:NUMIS_DIAGNOSTIC_HELPER
 $policies = @{}
 Get-ExecutionPolicy -List | ForEach-Object { $policies[$_.Scope.ToString()] = $_.ExecutionPolicy.ToString() }

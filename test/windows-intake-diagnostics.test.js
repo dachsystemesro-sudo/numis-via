@@ -61,6 +61,7 @@ test('Linux diagnostic makes no false Windows-access claim or process call',()=>
   const r=diagnoseWindowsStorage(helper,'unused',{platform:'linux',run:()=>assert.fail('must not start')});assert.equal(r.windows_access,false);assert.equal(r.ready_for_physical_pilot,false);
 });
 test('diagnostics do not change policy or execute helper as inline code',()=>{
+  assert.match(READ_ONLY_PROBE,/Import-Module -Name \(\$PSHOME \+/);
   assert.doesNotMatch(READ_ONLY_PROBE,/Set-ExecutionPolicy|Unblock-File|Set-Acl|Set-Item|Invoke-Expression|ScriptBlock|EncodedCommand/i);
   for(const line of READ_ONLY_PROBE.split('\n').filter(l=>l.includes('Get-Content')))assert.match(line,/-Stream Zone\.Identifier/);
   assert.equal(fs.readFileSync(helper).includes(Buffer.from('Set-ExecutionPolicy')),false);

@@ -46,6 +46,8 @@ Balík používa už nainštalovaný Node a závislosti existujúceho projektu. 
 
 ## Presné správanie
 
+Windows PowerShell načíta svoj vstavaný modul `Microsoft.PowerShell.Security` z vlastného `$PSHOME`. Nevyhľadáva náhradný modul v projekte ani nespolieha na modulový kontext zdedený z PowerShellu 7. Načítanie systémového modulu nezmení ExecutionPolicy, register ani trvalé premenné prostredia. Ak ho systém odmietne, diagnostika zostáva neúplná a blokovaná; report obsahuje sanitizovaný stupeň zlyhania.
+
 Diagnostika číta efektívnu ExecutionPolicy a jej päť rozsahov, LanguageMode, verziu Windows PowerShellu, existenciu helpera, prítomnosť/ZoneId internetovej značky a stav podpisu. Neloguje jej HostUrl, používateľské cesty, účty ani SID. `-Command` obsahuje len samostatné čítacie príkazy; druhý proces vykoná pôvodný helper pomocou `-File -Mode Check` proti navrhnutému **neexistujúcemu** cieľu. Štruktúrovaná chyba „cieľ neexistuje“ dokazuje spustenie helpera, nikdy súkromnosť archívu. Tá sa musí následne úspešne overiť pri skutočnom Create/Check.
 
 Pri odmietnutí spustenia sa všetko zastaví **pred kopírovaním fotografií a opravou projektu**. Výpis diagnostiky možno skopírovať na posúdenie. Nevkladajte celý priečinok Obrázky, súkromnú cestu archívu, fotografie ani `source-map.json` do issue/GitHubu. Pri Restricted, AllSigned alebo RemoteSigned s nepodpísaným internetovým súborom môže byť potrebné vaše výslovné schválenie a posúdenie správcom pre podpis alebo iný povolený spôsob; tento balík nič z toho nemení. [Microsoft: Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-5.1).
