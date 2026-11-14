@@ -24,6 +24,8 @@ Výstup obsahuje iba sanitizovaný JSON, bez cesty k cieľu, používateľského
 
 ## Voliteľný pomocník pôvodného súkromného balíka
 
+Nový reprodukovateľný balík na dvojklik a presný prehľad súborov sú opísané v [slovenskom návode na GitHubu](https://github.com/dachsystemesro-sudo/numis-via/blob/feat/windows-one-click-helper/windows-helper/README.md). Pôvodné obmedzenia zostávajú zachované; nový pomocník navyše odmieta akúkoľvek inú predbežnú chybu než očakávaný chýbajúci nový cieľ po úspešnej kontrole disku a rodičov.
+
 Nasledujúca časť opisuje osobitný offline balík s `SPUSTIT.cmd`, `SPUSTIT.mjs` a pripnutým `fix-manifest.json`, nie automatický krok tohto PR. Tieto výstupné balíky, súkromné archívy a fotografie sa do repozitára nepublikujú. Pre samotnú diagnostiku použite príkaz vyššie; nie je potrebné sťahovať opravný ZIP z cloudového pracovného prostredia.
 
 1. ZIP rozbaľte celý do nového lokálneho priečinka **mimo projektu NUMIS VIA** (napr. vedľa jeho priečinka). Pôvodný projekt ani fotografie neprepisujte. Spustite **SPUSTIT.cmd** bežným účtom, bez „Spustiť ako správca“. Ak Windows súbor blokuje, zastavte sa; nevypínajte ochrany ani neodblokovávajte súbory.

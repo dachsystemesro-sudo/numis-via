@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113, evidence/task-24-source-verification, intake/first-sk-cent-2020]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113, evidence/task-24-source-verification, intake/first-sk-cent-2020, fix/windows-intake-diagnostics]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -33,6 +33,8 @@ jobs:
         run: npm ci
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
+      - name: Reproduce public Windows helper ZIP from source
+        run: python3 scripts/build-windows-helper.py --check
       - name: Overiť audit dôkazov a aktuálnosť matice
         run: npm run evidence:audit
       - name: Overiť históriu zdrojov a aktualizovanú maticu (bez siete)
@@ -57,12 +59,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           ref: ${{ github.event_name == 'workflow_run' && 'main' || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
+      - name: Verify downloadable helper contents
+        run: python scripts/build-windows-helper.py --check
       - name: Read-only Windows diagnosis before intake regressions
         run: node scripts/diagnose-windows-storage.mjs
       - name: Skutočné NTFS ACL a lokálny príjem syntetického exemplára
-        run: node --test test/specimen-intake.test.js test/windows-intake-diagnostics.test.js test/specimen-local-prepare.test.js test/windows-local-assistant.test.js
+        run: node --test test/specimen-intake.test.js test/windows-intake-diagnostics.test.js test/specimen-local-prepare.test.js test/windows-local-assistant.test.js test/windows-helper.test.js

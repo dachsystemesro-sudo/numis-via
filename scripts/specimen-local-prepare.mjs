@@ -31,7 +31,8 @@ export async function prepareLocalPhotos(vault,filenames){
   for(const [index,source] of filenames.entries()){
     const ext=path.extname(source).toLowerCase();
     if(!['.jpg','.jpeg','.png','.webp'].includes(ext))throw Error('photo_format_animation_or_resolution');
-    const {bytes,stat}=readSource(source),decoded=await decodePhoto(bytes,'source'+ext);
+    const {bytes,stat}=readSource(source);let decoded;
+    try{decoded=await decodePhoto(bytes,'source'+ext);}catch(error){throw Error(/^photo_[a-z_]+$/.test(error.message)?error.message:'photo_decode_failed');}
     if(byteHashes.has(decoded.original_sha256)||pixelHashes.has(decoded.pixel_sha256))throw Error('duplicate_photo_bytes_or_pixels');
     byteHashes.add(decoded.original_sha256);pixelHashes.add(decoded.pixel_sha256);
     const {working,...technical}=decoded;
@@ -50,5 +51,6 @@ export async function prepareLocalPhotos(vault,filenames){
   privateWrite(vault,'source-map.json',json({private_do_not_share:true,files:photos.map(p=>({source:p.source,copy:'incoming/'+p.filename,sha256:p.technical.original_sha256}))}));
   const draft=prepareCapture(vault);
   privateWrite(vault,'technical-report.json',json(report));
+  privateWrite(vault,'DALSIE-KROKY.txt','NUMIS VIA – iba príprava, identita ani ocenenie nie sú potvrdené.\n\nŠesť kópií je v incoming; SHA-256 a technické kontroly sú v technical-report.json. Súkromnú source-map.json nezverejňujte.\n\nV capture-draft.json ostávajú časy snímania null a roly prázdne. Človek musí overiť pôvod, dátumy, rovnaký exemplár, líce/rub, čitateľnosť 2020, značky, symboly a hranu. Čas operácie nie je čas fotografovania.\n\nDossier vyžaduje skutočné práva/súhlasy, merania a nezávislé odborné posudky. Neznáme údaje nevymýšľajte. intakes zostáva prázdny; žiadny finálny import ani modelový request neprebehol.\n\nidentity=null; valuation_allowed=false; ready_for_physical_pilot=false.\n');
   return {created:true,photos:photos.length,duplicates:0,capture_file:draft.capture_file,accepted_intakes:0,...flags};
 }
