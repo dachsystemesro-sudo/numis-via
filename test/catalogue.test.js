@@ -86,8 +86,8 @@ test('catalogue gate refuses a matching variant that is not verified_reference',
   assert.match(result.reason,/verified_reference/);
 });
 
-test('catalogue gate accepts only a fully matching verified reference',()=>{
-  const result=catalogueGate([{identity_level:'variant',verification_state:'verified_reference',score:100,contradictions:[],missing:[],sources:['one','two'],catalogue_id:'X'}]);
+test('catalogue ranking accepts a matching variant after synthetic reference review',()=>{
+  const result=catalogueGate([{identity_level:'variant',verification_state:'verified_reference',score:100,contradictions:[],missing:[],sources:['one','two'],catalogue_id:'X'}],()=>({valid:true}));
   assert.equal(result.passed,true);
   assert.equal(result.record.catalogue_id,'X');
 });
