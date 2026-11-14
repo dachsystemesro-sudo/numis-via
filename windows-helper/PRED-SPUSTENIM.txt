@@ -1,0 +1,31 @@
+NUMIS VIA – ČO POMOCNÍK UROBÍ A AKÉ SÚBORY ZMENÍ
+
+Balík rozbaľte celý do NOVÉHO priečinka MIMO projektu NUMIS VIA, napríklad vedľa jeho priečinka v Stiahnutých súboroch. Spustite SPUSTIT.cmd bežným účtom, nie ako správca. Nespúšťajte ho priamo z otvoreného ZIP-u. Ak Windows blokuje samotné spustenie, zastavte sa a ochrany nemeňte.
+
+1. Najprv iba číta: hľadá projekt v Stiahnutých súboroch (obmedzená hĺbka, bez odkazov a node_modules). Ak nenájde práve jeden podporovaný projekt so závislosťami, otvorí výber priečinka. Kontroluje pôvodný helper projektu a vykoná diagnostiku z PR #26. Číta politiku, podpis/internetovú značku, jazykový režim a overí miestny NTFS cieľ bez jeho vytvorenia. Pri odmietnutí sa zastaví pred výberom fotografií a úpravou projektu. Výpis zostáva v lokálnom okne.
+
+2. Po úspešnej predbežnej kontrole otvorí okno Obrázky. Vyberiete presne šesť lokálnych JPG/JPEG/PNG/WebP. Súbory sa čítajú, nemenia, nepremenujú, nepresunú ani neodstránia. Samotný výber nepotvrdzuje Samsung pôvod alebo identitu mince. Automatický výber vašich fotografií sa nerobí.
+
+3. Pomocník upraví iba vopred známe kódové/testové/dokumentačné súbory projektu. Ich presný zoznam je nižšie. Ak súbor už zodpovedá oprave, neprepisuje ho. Prijíma iba presné známe verzie PR #25/#26; pri neznámej úprave sa zastaví. Pôvodné menené bajty zálohuje do NOVÉHO code-backup-UUID v ROZBALENOM BALÍKU. Závislosti, package.json, package-lock.json, pôvodný .ps1 helper, katalóg a bezpečnostné prahy nemení. Nepoužíva npm install ani npm ci.
+
+4. Dekóduje všetkých šesť fotografií podľa limitov PR #25 (do 10 MiB, aspoň 512 × 512 px, najviac 25 miliónov pixelov, jedna strana obrázkového formátu). Kontroluje SHA-256 bajtov a orientovaných pixelov. Duplicita alebo poškodenie zastaví celú dávku pred vytvorením archívu. Kód projektu už môže byť pripravený a zazálohovaný; nejde o prijatý import.
+
+5. Vytvorí nový priečinok %LOCALAPPDATA%\NUMIS-VIA-1c2020-UUID mimo projektu. Iba NOVÝ archív a jeho NOVÉ súbory majú kontrolované NTFS zabezpečenie aktuálny používateľ + SYSTEM podľa nezmeneného helpera PR #25/#26. Existujúce NTFS oprávnenia ani rodičovský priečinok sa nemenia. Pri zlyhaní zabezpečenia sa fotografie nekopírujú do neovereného priečinka.
+
+NOVÉ SÚKROMNÉ SÚBORY A PRIEČINKY ARCHÍVU:
+incoming/PHOTO-001.* až PHOTO-006.* – byte-identické kópie; pôvodné názvy sú v súkromnej source-map.json.
+documents/ – prázdny priečinok pre neskoršie skutočné podklady.
+intakes/ – zostáva prázdny; finálny import sa nespúšťa.
+specimen.json, capture.json, dossier.json – pracovné ID, prázdne merania, práva a posudky.
+capture-draft.json – importný plán s captured_at=null, roles=[] a nepotvrdenými ľudskými kontrolami.
+technical-report.json – skutočné technické výsledky a hashe, nie potvrdenie identity.
+source-map.json – SÚKROMNÉ pôvodné cesty a hashe; nezverejňovať.
+DALSIE-KROKY.txt – slovenský zoznam zostávajúcich kontrol.
+
+Nástroj opätovne overí SHA-256 kópií a originálov aj mtime/ctime zdrojov. Čítanie môže systémovo aktualizovať prístupový čas; obsah, mtime, ctime ani EXIF originálov nezapisuje. Odvodené pixely sa pri príprave počítajú iba v RAM.
+
+NEMENÍ: ExecutionPolicy, Defender, register, existujúce ACL, pôvodný .ps1 helper ani jeho internetovú značku. Nič neodblokuje, nič nevymaže, nespúšťa platený model ani sieťový upload. Zlyhané nové čiastočné súbory sa automaticky nemažú. Po prípadnej chybe nesmú byť považované za prijatý intake.
+
+Výsledok je vždy identity=null, valuation_allowed=false, ready_for_physical_pilot=false. Neznáme údaje a odborné potvrdenia zostávajú nevyplnené. Kontrola politiky nie je zmena politiky. Ak je potrebný podpis alebo povolený postup spustenia, musí ho osobitne schváliť vlastník/správca; pomocník ho nevykoná.
+
+PRESNÝ ZOZNAM MOŽNÝCH KÓDOVÝCH ZMIEN V PROJEKTE:

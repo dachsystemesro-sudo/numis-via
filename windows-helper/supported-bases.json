@@ -1,0 +1,106 @@
+{
+  "revisions": {
+    "pr25": "86bc8cc3b6a4217e56783b6bc3585e1729ba3d90",
+    "pr26": "0480a2ece42acbd28e915ac7bfa4a3a456d7c22b"
+  },
+  "runtime_files": [
+    "package.json",
+    "package-lock.json",
+    "scripts/private-intake-storage.ps1",
+    "scripts/specimen-intake.mjs",
+    "scripts/pilot-contract.mjs",
+    "api/pilot-reference.js",
+    "api/catalogue.js",
+    "data/pilot/sources.json",
+    "data/catalogue.json",
+    "data/euro-denominations.json"
+  ],
+  "install_files": [
+    "scripts/intake-storage.mjs",
+    "scripts/windows-intake-diagnostics.mjs",
+    "scripts/diagnose-windows-storage.mjs",
+    "scripts/specimen-local-prepare.mjs",
+    "scripts/windows-local-assistant.mjs",
+    "scripts/windows-helper-ui.mjs",
+    "test/specimen-intake.test.js",
+    "test/specimen-local-prepare.test.js",
+    "test/windows-intake-diagnostics.test.js",
+    "test/windows-local-assistant.test.js",
+    "docs/WINDOWS_INTAKE_DIAGNOSTICS.md"
+  ],
+  "hashes": {
+    "package.json": {
+      "pr25": "eb3ae0eafeb6174e19169295d0dd46244b691358433e41cfde611796995b0342",
+      "pr26": "eb3ae0eafeb6174e19169295d0dd46244b691358433e41cfde611796995b0342"
+    },
+    "package-lock.json": {
+      "pr25": "6d8ab3a82cb739463a1a7154132a7a33055b0c1b660fbd512b08735f34d79467",
+      "pr26": "6d8ab3a82cb739463a1a7154132a7a33055b0c1b660fbd512b08735f34d79467"
+    },
+    "scripts/private-intake-storage.ps1": {
+      "pr25": "7914c5be74472a51702b3f339e1d00a3ead2686cace7739431f88d31089d3f7e",
+      "pr26": "7914c5be74472a51702b3f339e1d00a3ead2686cace7739431f88d31089d3f7e"
+    },
+    "scripts/specimen-intake.mjs": {
+      "pr25": "778eb0956ebc195b702feb3134b52b51fddb6a20897e037643eeb8db602e2484",
+      "pr26": "778eb0956ebc195b702feb3134b52b51fddb6a20897e037643eeb8db602e2484"
+    },
+    "scripts/pilot-contract.mjs": {
+      "pr25": "6b83278b16842b7a85b51d435ef8256dcfd40d6bb5a564bde5934d326603e8b7",
+      "pr26": "6b83278b16842b7a85b51d435ef8256dcfd40d6bb5a564bde5934d326603e8b7"
+    },
+    "api/pilot-reference.js": {
+      "pr25": "f342075bccb307276c237deec6576f927922cf55fe539334c244df32e36a5c9f",
+      "pr26": "f342075bccb307276c237deec6576f927922cf55fe539334c244df32e36a5c9f"
+    },
+    "api/catalogue.js": {
+      "pr25": "c7d1845c1b11a675579b2d8fbb0340ee18d37ee4ef388ef2363cd7d4a65447b5",
+      "pr26": "c7d1845c1b11a675579b2d8fbb0340ee18d37ee4ef388ef2363cd7d4a65447b5"
+    },
+    "data/pilot/sources.json": {
+      "pr25": "fb3f505ebbe7d6e5344d1f507364a7346234b74fb0aba9e9e94dfe6d9c331657",
+      "pr26": "fb3f505ebbe7d6e5344d1f507364a7346234b74fb0aba9e9e94dfe6d9c331657"
+    },
+    "data/catalogue.json": {
+      "pr25": "900a43997abad290cef794b72b1b538f24236d0d2f39c2081a94334720c087b3",
+      "pr26": "900a43997abad290cef794b72b1b538f24236d0d2f39c2081a94334720c087b3"
+    },
+    "data/euro-denominations.json": {
+      "pr25": "59199835f54ba6b84adb554f0bcd70d0185390fe065c9c84cf9195f4f1b4618b",
+      "pr26": "59199835f54ba6b84adb554f0bcd70d0185390fe065c9c84cf9195f4f1b4618b"
+    },
+    "scripts/intake-storage.mjs": {
+      "pr25": "2bf00272e8aec6dfbbfe16afedf3d11358bb3503042c6696c074782849eaf4df",
+      "pr26": "201e49b633d4769fe71288d8e3a0f7d9b2ca341b15a3e68844c5e389410ff6fa"
+    },
+    "scripts/windows-intake-diagnostics.mjs": {
+      "pr26": "c2e24dcc81297f71f266f362364d5df5924ab33ad978422930f3704f75b8ccc1"
+    },
+    "scripts/diagnose-windows-storage.mjs": {
+      "pr26": "672a7e5319634139d476be72abea95d275f22d6ab00b1d6e917ef86d0a823421"
+    },
+    "scripts/specimen-local-prepare.mjs": {
+      "pr26": "f1aa77b6e8811a6a9d55b5e8f1c1202ef1993ad985a9ff077184b9a397b42c21"
+    },
+    "scripts/windows-local-assistant.mjs": {
+      "pr26": "04fe40ee0704e655940c0067823d47ec31a967bbf3f08d02f55ef5c1db65d7ea"
+    },
+    "scripts/windows-helper-ui.mjs": {},
+    "test/specimen-intake.test.js": {
+      "pr25": "095219742b82afff2f3ebef4ad02710d9b5ae43c6c0a69f955bad3fa87fd6b8a",
+      "pr26": "22c8999d985458c7f80972adfb15917bd5cad73f97568882f82bf566962b5382"
+    },
+    "test/specimen-local-prepare.test.js": {
+      "pr26": "9471fef225de7b0355c06e4796b7fe9a87cf0a9240c7a72985645e25b0ee3ced"
+    },
+    "test/windows-intake-diagnostics.test.js": {
+      "pr26": "1217e15d0e8511fe1e0d23c0f84fcf8b4a74ea8cf4214ecf99e2247ccdaaeaa3"
+    },
+    "test/windows-local-assistant.test.js": {
+      "pr26": "bf17a707fd828a6b33d7de6a447e88848678df442d0e50e2ff6f6c1dc4572582"
+    },
+    "docs/WINDOWS_INTAKE_DIAGNOSTICS.md": {
+      "pr26": "2f3fd523d6eabc94662f8aff6010787292c9ab6326bb547a175a786dfce36f07"
+    }
+  }
+}

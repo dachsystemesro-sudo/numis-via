@@ -44,3 +44,7 @@ test('delivery and code backups must stay outside the project test discovery',t=
 test('source attribute check reads without modifying files, policies or ACL',()=>{
   assert.doesNotMatch(SOURCE_CHECK,/Set-ExecutionPolicy|Unblock-File|Set-Acl|Set-Item|Remove-Item|Copy-Item|Move-Item|Invoke-Expression/i);assert.match(SOURCE_CHECK,/ReparsePoint/);assert.match(SOURCE_CHECK,/Offline/);
 });
+test('explicit pinned PR #26 code is accepted with a backup, unknown versions remain blocked',t=>{
+  const f=fixture(t);fs.writeFileSync(path.join(f.project,'scripts/additional.mjs'),'KNOWN PR26\n');f.manifest.files[1].allowed_base_normalized_sha256=[hash('KNOWN PR26\n')];fs.writeFileSync(path.join(f.bundle,'fix-manifest.json'),JSON.stringify(f.manifest));
+  assert.equal(installLocalFix(f.project,f.bundle).changed_files,2);assert.equal(fs.readFileSync(path.join(f.project,'scripts/additional.mjs'),'utf8'),'ADDED\n');
+});
