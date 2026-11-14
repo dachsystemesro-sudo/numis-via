@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {callStorage} from './windows-intake-diagnostics.mjs';
 
 const REPO=fileURLToPath(new URL('../',import.meta.url));
 const helper=fileURLToPath(new URL('./private-intake-storage.ps1',import.meta.url));
@@ -16,17 +16,9 @@ export function outsideRepository(value){
   if(canonicalRelative===''||(!canonicalRelative.startsWith('..'+path.sep)&&canonicalRelative!=='..'&&!path.isAbsolute(canonicalRelative)))throw Error('vault_must_be_outside_repository');
   return target;
 }
-export function windowsStorage(target,{create=false,claimNew=false,protectedRoot=false,run=spawnSync}={}){
-  const args=['-NoProfile','-NonInteractive','-File',helper,'-Mode',create?'Create':claimNew?'ClaimNew':'Check','-TargetPath',target,...(protectedRoot?['-RequireProtected']:[])];
-  const r=run('powershell.exe',args,{encoding:'utf8',timeout:30000,windowsHide:true});
-  let report;try{report=JSON.parse(r.stdout.replace(/^\uFEFF/,''));}catch{}
-  if(r.status!==0||report?.valid!==true){
-    const stage=['path','drive','parents','create','acl','owner','rules','new_owner'].includes(report?.stage)?report.stage:'probe';
-    const line=Number.isInteger(report?.line)?report.line:0;
-    const category=typeof report?.category==='string'&&/^[A-Za-z]+$/.test(report.category)?report.category.toLowerCase():'unknown';
-    const kind=typeof report?.exception_type==='string'&&/^[A-Za-z]+$/.test(report.exception_type)?report.exception_type.toLowerCase():'unknown';
-    throw Error('windows_private_storage_unverified:'+stage+'_line_'+line+'_'+category+'_'+kind);
-  }
+export function windowsStorage(target,{create=false,claimNew=false,protectedRoot=false,run}={}){
+  const r=callStorage(helper,target,{mode:create?'Create':claimNew?'ClaimNew':'Check',protectedRoot,run});
+  if(!r.valid)throw Error('windows_private_storage_unverified:'+r.reason);
 }
 function noLinks(target){
   let cursor=path.resolve(target);

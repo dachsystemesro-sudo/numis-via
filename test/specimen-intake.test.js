@@ -163,7 +163,7 @@ for(const [name,mutate] of Object.entries({
 }))test('dossier stays blocked for '+name,t=>{const f=syntheticDossier(t);mutate(f);const r=auditDossier(f.dir,f.d,f.manifest,f.manifestHash);assert.equal(r.documentation_complete,false);assert.equal(r.identity,null);assert.equal(r.valuation_allowed,false);assert.equal(r.ready_for_physical_pilot,false);});
 for(const [name,run] of Object.entries({unavailable:()=>({status:1,stdout:''}),malformed:()=>({status:0,stdout:'SYNTHETIC NOT JSON'}),denied:()=>({status:0,stdout:'{"valid":false}'}),timeout:()=>({status:null,stdout:''})}))test('Windows ACL failure '+name+' never falls back to POSIX',()=>assert.throws(()=>windowsStorage('C:\\SYNTHETIC',{run}),/windows_private_storage_unverified/));
 test('Windows helper is invoked without execution policy bypass or system configuration changes',()=>{
-  windowsStorage('C:\\SYNTHETIC',{run:(program,args)=>{assert.equal(program,'powershell.exe');assert.equal(args.some(a=>/bypass|executionpolicy/i.test(a)),false);return {status:0,stdout:'{"valid":true}'};}});
+  windowsStorage('C:\\SYNTHETIC',{run:(program,args)=>{assert.match(program,/powershell\.exe$/i);assert.equal(args.some(a=>/bypass|executionpolicy/i.test(a)),false);return {status:0,stdout:'{"valid":true,"platform":"windows_ntfs_acl"}'};}});
 });
 test('public archive permissions are rejected on the actual OS',t=>{
   const vault=path.join(temp(t),'archive');initIntake(vault);
