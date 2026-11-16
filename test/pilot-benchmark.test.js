@@ -77,6 +77,24 @@ test('an unmatched extra false confirmation is counted as critical, never hidden
   const f=fixture();f.run.results.push({case_id:'UNMATCHED',http_status:200,body:{status:'VERIFIED',valuation_allowed:true,identity:{catalogue_id:TARGET_IDS[0]},blockers:[]}});
   const r=evaluatePilot(f.input,f.run,f.report);assert.equal(r.accepted,false);assert.equal(r.critical_errors,1);
 });
+for(const [field,value] of [['country_code','SI'],['denomination','5 cent'],['date','2021'],['catalogue_identity','SYNTHETIC_WRONG']])test('matching ID cannot hide contradictory identity field '+field,()=>{
+  const f=fixture();f.run.results[0].body.identity[field]=value;const r=evaluatePilot(f.input,f.run,f.report);assert.equal(r.accepted,false);assert.equal(r.critical_errors,1);
+});
+test('an error response carrying an identity is a critical receipt',()=>{
+  const f=fixture();f.run.results[0].http_status=500;f.run.results[0].body={error:'SYNTHETIC',identity:{catalogue_id:TARGET_IDS[0]},valuation_allowed:false};
+  const r=evaluatePilot(f.input,f.run,f.report);assert.equal(r.critical_errors,1);assert.equal(r.accepted,false);
+});
+for(const value of [undefined,null,'',{}])test('BLOCKED without an explicit null identity or meaningful blocker is not accepted: '+JSON.stringify(value),()=>{
+  const f=fixture();f.run.results[0].body={coinprint_version:f.input.config.coinprint_version,status:'BLOCKED',valuation_allowed:false,identity:null,blockers:['SYNTHETIC']};
+  if(value===undefined)delete f.run.results[0].body.identity;else f.run.results[0].body.blockers=[value];
+  assert.equal(evaluatePilot(f.input,f.run,f.report).accepted,false);
+});
+test('missing-view HTTP 400 without a structured body is not a valid receipt',()=>{
+  const f=fixture();f.run.results.at(-1).body=null;assert.equal(evaluatePilot(f.input,f.run,f.report).accepted,false);
+});
+test('a declared critical stop cannot be hidden by appending a complete-looking result set',()=>{
+  const f=fixture();f.run.stopped_reason='critical_response';const r=evaluatePilot(f.input,f.run,f.report);assert.equal(r.accepted,false);assert.ok(r.errors.includes('run_stopped_early'));
+});
 
 for(const [name,mutate] of Object.entries({
   null_input:f=>{f.input=null;},

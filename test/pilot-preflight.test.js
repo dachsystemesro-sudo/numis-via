@@ -44,7 +44,15 @@ for(const [name,mutate] of Object.entries({
   future_capture:f=>{f.input.manifest.cases[0].provenance.captured_at='2027-01-01T00:00:00Z';},
   wrong_implementation:f=>{f.input.config.implementation_sha256='a'.repeat(64);},
   changed_decoder_or_node:f=>{f.input.config.evaluation_toolchain.sharp='OTHER';},
-  malformed_measurement:f=>{f.input.manifest.cases[0].measurements={mass_g:[3.06]};}
+  malformed_measurement:f=>{f.input.manifest.cases[0].measurements={mass_g:[3.06]};},
+  labels_at_manifest_root:f=>{f.input.manifest.expected_labels={answer:'SYNTHETIC PRIVATE LABEL'};},
+  unknown_case_label:f=>{f.input.manifest.cases[0].expected_year='2019';},
+  labels_in_image_metadata:f=>{f.input.manifest.cases[0].images[0].expected_catalogue_id=f.input.labels.cases[0].expected_catalogue_id;},
+  labels_in_capture_metadata:f=>{f.input.manifest.cases[0].provenance.expected_identity=f.input.labels.cases[0].expected_identity;},
+  labels_in_privacy_metadata:f=>{f.input.manifest.cases[0].privacy.answer='SYNTHETIC PRIVATE LABEL';},
+  labels_in_view_review:f=>{f.input.manifest.cases[0].images[0].view_review.expected_identity=f.input.labels.cases[0].expected_identity;},
+  operator_seals_labels:f=>{f.input.labels.review.reviewer=f.input.manifest.operator;},
+  operator_attests_views:f=>{f.input.manifest.cases[0].images[0].view_review.reviewer=f.input.manifest.operator;}
 }))test('preflight refuses '+name,()=>{
   const f=syntheticFixture();mutate(f);sealFixture(f);const r=validatePilotInputs(f.input);assert.equal(r.valid,false,JSON.stringify(r));assert.equal(r.ready_for_execution,false);
 });
