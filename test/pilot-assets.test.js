@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import {spawnSync} from 'node:child_process';
+import {crc32} from 'node:zlib';
 import sharp from 'sharp';
 import {syntheticFixture,sealFixture,syntheticRun} from '../fixtures/pilot-synthetic.mjs';
 import {sha256} from '../scripts/pilot-contract.mjs';
@@ -55,6 +56,19 @@ test('embedded EXIF is rejected even when the image decodes',async t=>{
   const bytes=await sharp(fs.readFileSync(file)).withExif({IFD0:{Artist:'SYNTHETIC PRIVATE UNIT TEST'}}).png().toBuffer();fs.writeFileSync(file,bytes);image.sha256=sha256(bytes);
   const r=await inspectAssets(f.input.manifest,root);assert.equal(r.valid,false);assert.ok(r.errors.includes('embedded_private_metadata'));
 });
+test('PNG comments cannot carry private labels through a decodable sealed asset',async t=>{
+  const f=fixture(),image=f.input.manifest.cases[0].images[0],file=path.join(root,image.path);restoreFile(t,file);
+  const original=fs.readFileSync(file),type=Buffer.from('tEXt'),content=Buffer.from('Comment\0SYNTHETIC_PRIVATE_LABEL'),chunk=Buffer.alloc(content.length+12);
+  chunk.writeUInt32BE(content.length);type.copy(chunk,4);content.copy(chunk,8);chunk.writeUInt32BE(crc32(Buffer.concat([type,content])),content.length+8);
+  const bytes=Buffer.concat([original.subarray(0,33),chunk,original.subarray(33)]);assert.ok((await sharp(bytes).metadata()).comments?.length);fs.writeFileSync(file,bytes);image.sha256=sha256(bytes);
+  const r=await inspectAssets(f.input.manifest,root);assert.equal(r.valid,false);assert.ok(r.errors.includes('embedded_private_metadata'));
+});
+test('ICC profiles are rejected from metadata-stripped blind exports',async t=>{
+  const f=fixture(),image=f.input.manifest.cases[0].images[0],file=path.join(root,image.path);restoreFile(t,file);
+  const bytes=await sharp(file).withIccProfile('srgb').png().toBuffer();assert.ok((await sharp(bytes).metadata()).icc);fs.writeFileSync(file,bytes);image.sha256=sha256(bytes);
+  const decoded=await sharp(bytes).toColourspace('srgb').ensureAlpha().raw().toBuffer({resolveWithObject:true});image.pixel_sha256=sha256(Buffer.concat([Buffer.from(`${decoded.info.width}x${decoded.info.height}:rgba\0`),decoded.data]));
+  const r=await inspectAssets(f.input.manifest,root);assert.equal(r.valid,false);assert.ok(r.errors.includes('embedded_private_metadata'));
+});
 test('symlink cannot escape private dataset storage',async t=>{
   const f=fixture(),image=f.input.manifest.cases[0].images[0],file=path.join(root,image.path);restoreFile(t,file);
   const outside=path.join(path.dirname(root),path.basename(root)+'-outside.png');fs.copyFileSync(file,outside);t.after(()=>fs.rmSync(outside,{force:true}));fs.unlinkSync(file);fs.symlinkSync(outside,file);
@@ -95,6 +109,21 @@ test('collector sends only images and measurements; synthetic transport never pr
     const result=expected.results[i++];return {status:result.http_status,body:result.body};
   },()=>{});
   assert.equal(i,120);const report=evaluatePilot(p.input,run,p.report);assert.equal(report.accepted,true,JSON.stringify(report.errors));assert.equal(report.empirical_accepted,false);assert.equal(report.measurement_status,'SYNTHETIC_ONLY');
+});
+for(const kind of ['wrong_verified','blocked_valuation','error_identity','server_error','invalid_version'])test('collector stops immediately after '+kind+' without a second transport',async()=>{
+  const f=fixture();writeBundle(f);const p=await preflightFromFiles(files()),expected=syntheticRun(f,p.report);let sends=0,saves=0;
+  const run=await collectPilot(p,async()=>{
+    const receipt=structuredClone(expected.results[sends++]);
+    if(sends===1){
+      if(kind==='wrong_verified')receipt.body.identity.catalogue_id=f.input.labels.cases[10].expected_catalogue_id;
+      if(kind==='blocked_valuation')receipt.body={coinprint_version:f.input.config.coinprint_version,status:'BLOCKED',valuation_allowed:true,identity:null,blockers:['SYNTHETIC']};
+      if(kind==='error_identity'){receipt.http_status=500;receipt.body={error:'SYNTHETIC',identity:{catalogue_id:f.input.labels.cases[0].expected_catalogue_id},valuation_allowed:false};}
+      if(kind==='server_error')receipt.http_status=500;
+      if(kind==='invalid_version')receipt.body.coinprint_version='SYNTHETIC_OTHER';
+    }
+    return {status:receipt.http_status,body:receipt.body};
+  },()=>{saves++;});
+  assert.equal(sends,1);assert.equal(saves,2);assert.equal(run.results.length,1);assert.equal(evaluatePilot(p.input,run,p.report).accepted,false);
 });
 test('CLI validates synthetic files but cannot execute them or overwrite existing evidence',()=>{
   writeBundle(fixture());const result=cli('scripts/pilot-preflight.mjs',files());assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(result.stdout).measurement_status,'NOT_MEASURED');

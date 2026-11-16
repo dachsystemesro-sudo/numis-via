@@ -8,6 +8,8 @@ import {reviewPilotReference} from '../api/pilot-reference.js';
 const MAX_CASES=1000,MAX_IMAGE_BYTES=10*1024*1024,MAX_REQUEST_BYTES=4*1024*1024;
 const array=x=>Array.isArray(x)?x:[];
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
+const onlyKeys=(value,keys)=>object(value)&&Object.keys(value).every(key=>keys.includes(key));
+const reviewKeys=['status','reviewer','reviewed_at','evidence_sha256'];
 const before=(a,b)=>timestamp(a)&&timestamp(b)&&Date.parse(a)<=Date.parse(b);
 const reviewed=x=>x?.status==='approved'&&text(x.reviewer)&&timestamp(x.reviewed_at)&&isHash(x.evidence_sha256);
 const unique=xs=>new Set(xs).size===xs.length;
@@ -23,9 +25,10 @@ function validateMetadata(input){
   const errors=[];const fail=code=>errors.push(code);
   const cases=array(m?.cases),labels=array(l?.cases);
   const kind=m?.dataset_kind;
+  if(!onlyKeys(m,['schema_version','dataset_kind','status','locked_at','custodian','operator','cases','bindings'])||!onlyKeys(m?.bindings,['reference_sha256','config_sha256','labels_sha256','separation_sha256','implementation_sha256']))fail('unexpected_manifest_field');
   if(m?.schema_version!=='2.0'||m.status!=='LOCKED'||!['real','synthetic_fixture'].includes(kind)||!timestamp(m.locked_at)||!text(m.custodian)||!text(m.operator)||m.operator===m.custodian)fail('manifest_not_frozen');
   if(cases.length>MAX_CASES)fail('case_limit');
-  if(l?.schema_version!=='2.0'||l.status!=='SEALED'||l.dataset_kind!==kind||l.custodian!==m?.custodian||!reviewed(l.review)||!before(l.review.reviewed_at,l.sealed_at)||!before(l.sealed_at,m?.locked_at))fail('labels_not_sealed');
+  if(l?.schema_version!=='2.0'||l.status!=='SEALED'||l.dataset_kind!==kind||l.custodian!==m?.custodian||!reviewed(l.review)||l.review.reviewer===m?.operator||!before(l.review.reviewed_at,l.sealed_at)||!before(l.sealed_at,m?.locked_at))fail('labels_not_sealed');
   if(c?.schema_version!=='2.0'||c.dataset_kind!==kind||!timestamp(c.frozen_at)||!before(c.frozen_at,m?.locked_at)||!/^[a-f0-9]{40}$/.test(c.commit??'')||!text(c.coinprint_version)||!['primary','micro','verifier'].every(k=>text(c.models?.[k]))||!same(c.request_policy,{temperature:0,passes:4,images_only:true}))fail('config_not_frozen');
   try{const u=new URL(c.endpoint);if((u.protocol!=='https:'&&!(kind==='synthetic_fixture'&&u.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(u.hostname)))||u.username||u.password||u.search||u.hash)fail('endpoint_invalid');}catch{fail('endpoint_invalid');}
   for(const name of ['reference','config','labels','separation','implementation'])if(!isHash(h[name])||m?.bindings?.[name+'_sha256']!==h[name])fail(name+'_hash_mismatch');
@@ -60,6 +63,7 @@ function validateMetadata(input){
     }else if(!NEGATIVE_CATEGORIES.includes(label.category)||label.expected_catalogue_id!==null||label.expected_identity!==null||!text(label.reason))fail('negative_label_invalid');
     else negative[label.category]++;
     const p=sample.provenance,rights=sample.rights,privacy=sample.privacy;
+    if(!onlyKeys(sample,['case_id','specimen_id','provenance','rights','privacy','required_views','intentional_defect','images','measurements'])||!onlyKeys(p,['dataset_role','original_capture','captured_by','captured_at','capture_session_id'])||!onlyKeys(rights,['status','basis','consent_ref','storage','owner','retention_until'])||!onlyKeys(privacy,['status','reviewed_by','no_personal_data','stripped_metadata']))fail('unexpected_manifest_field');
     if(p?.dataset_role!=='blind_test'||p.original_capture!==true||!text(p.captured_by)||!text(p.capture_session_id)||!before(p.captured_at,m?.locked_at))fail('capture_provenance_missing');
     if(rights?.status!=='approved'||!text(rights.basis)||!text(rights.consent_ref)||rights.storage!=='private'||!text(rights.owner)||!timestamp(rights.retention_until)||!before(m?.locked_at,rights.retention_until))fail('photo_rights_missing');
     if(input?.now&&timestamp(rights?.retention_until)&&Date.parse(input.now)>=Date.parse(rights.retention_until))fail('photo_rights_expired');
@@ -71,9 +75,11 @@ function validateMetadata(input){
     }else if(keys[0]!=='obverse'||keys[1]!=='reverse'||required.some(k=>!keys.includes(k))||sample.intentional_defect!=null)fail('required_view_missing_or_mismatched');
     for(const image of images){
       if(!object(image)){fail('image_metadata_invalid');continue;}
+      if(!onlyKeys(image,['path','mime','sha256','pixel_sha256','view','detail_of','specimen_id','capture_session_id','view_review'])||!onlyKeys(image.view_review,reviewKeys))fail('unexpected_manifest_field');
       const suffix={'image/jpeg':['.jpg','.jpeg'],'image/png':['.png'],'image/webp':['.webp']}[image.mime];
       if(!text(image.path)||path.isAbsolute(image.path)||image.path.includes('\\')||image.path.split('/').some(p=>p==='..'||p==='')||!suffix?.includes(path.extname(image.path).toLowerCase())||!view(viewKey(image)))fail('image_path_or_mime_invalid');
       if(image.specimen_id!==sample.specimen_id||image.capture_session_id!==p?.capture_session_id||!reviewed(image.view_review)||!before(image.view_review.reviewed_at,l?.sealed_at))fail('view_specimen_mismatch');
+      if(image.view_review?.reviewer===m?.operator)fail('view_review_not_independent');
       if(!isHash(image.sha256)||hashes.has(image.sha256)||sourceHashes.includes(image.sha256))fail('image_hash_duplicate_or_leaked');
       if(!isHash(image.pixel_sha256)||pixels.has(image.pixel_sha256)||sourcePixels.includes(image.pixel_sha256))fail('image_pixels_duplicate_or_leaked');
       hashes.add(image.sha256);pixels.add(image.pixel_sha256);
@@ -113,7 +119,7 @@ export async function inspectAssets(manifest,root){
         const mime={jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[metadata.format];
         if(!mime||(metadata.pages??1)!==1){errors.push('asset_mime_or_animation_invalid');continue;}
         if(mime!==image.mime)errors.push('asset_mime_or_animation_invalid');
-        if(metadata.exif?.length||metadata.xmp?.length||metadata.iptc?.length)errors.push('embedded_private_metadata');
+        if(metadata.exif?.length||metadata.xmp?.length||metadata.iptc?.length||metadata.icc?.length||metadata.comments?.length)errors.push('embedded_private_metadata');
         if(manifest.dataset_kind==='real'&&(!metadata.width||!metadata.height||metadata.width<512||metadata.height<512))errors.push('asset_resolution_too_small');
         const decoded=await decoder.toColourspace('srgb').ensureAlpha().raw().toBuffer({resolveWithObject:true});
         const pixelHash=sha256(Buffer.concat([Buffer.from(`${decoded.info.width}x${decoded.info.height}:rgba\0`),decoded.data]));

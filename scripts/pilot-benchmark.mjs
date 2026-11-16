@@ -1,7 +1,29 @@
 import {valuationAllowed} from '../api/valuation-policy.js';
-import {TARGET_IDS,timestamp,same} from './pilot-contract.mjs';
+import {TARGET_IDS,timestamp,same,text} from './pilot-contract.mjs';
 import {validatePilotInputs} from './pilot-preflight.mjs';
 export {TARGET_IDS,NEGATIVE_CATEGORIES} from './pilot-contract.mjs';
+
+// Shared by scoring and the collector's immediate stop gate. This classifies
+// synthetic or real receipts; it never promotes a reference or permits pricing.
+export function assessPilotReceipt(result,label,version){
+  const body=result?.body,identity=body?.identity;
+  const wrongIdentity=body?.status==='VERIFIED'&&(!label?.expected_catalogue_id||identity?.catalogue_id!==label.expected_catalogue_id||
+    (identity&&Object.hasOwn(identity,'catalogue_identity')&&identity.catalogue_identity!==label.expected_catalogue_id)||
+    Object.entries(label?.expected_identity??{}).some(([key,value])=>identity&&Object.hasOwn(identity,key)&&!same(identity[key],value)));
+  const critical=Boolean((identity!=null&&body?.status!=='VERIFIED')||
+    (body?.status==='BLOCKED'&&body.valuation_allowed!==false)||
+    (body?.valuation_allowed===true&&(body.status!=='VERIFIED'||result?.http_status!==200))||
+    (body?.status==='VERIFIED'&&(wrongIdentity||result?.http_status!==200||!valuationAllowed(body))));
+  const errors=[];
+  if(!body||typeof body!=='object'||Array.isArray(body))return {valid:false,critical,correct:false,errors:['response_invalid']};
+  if(label?.category==='missing_view'&&result?.http_status===400&&body.status!=='VERIFIED'&&[undefined,false].includes(body.valuation_allowed)&&identity==null&&text(body.error))return {valid:!critical,critical,correct:false,errors};
+  if(result?.http_status!==200||!['VERIFIED','BLOCKED'].includes(body.status)||typeof body.valuation_allowed!=='boolean'||!Array.isArray(body.blockers)||body.coinprint_version!==version)errors.push('response_invalid');
+  if(body.status==='BLOCKED'){
+    if(identity!==null)errors.push('blocked_identity_not_null');
+    if(!Array.isArray(body.blockers)||body.blockers.length===0||body.blockers.some(x=>!text(x)))errors.push('blocked_without_reason');
+  }
+  return {valid:errors.length===0&&!critical,critical,correct:body.status==='VERIFIED'&&!critical&&errors.length===0,errors};
+}
 
 export function evaluatePilot(input,run={},preflight=validatePilotInputs(input)){
   const {manifest,labels,config,hashes={}}=input??{};
@@ -10,6 +32,7 @@ export function evaluatePilot(input,run={},preflight=validatePilotInputs(input))
   const sealed=Array.isArray(labels?.cases)?labels.cases:[];
   const errors=[...preflight.errors];
   const results=Array.isArray(run.results)?run.results:[];
+  if(run.stopped_reason!=null)errors.push('run_stopped_early');
   const counts=Object.fromEntries(TARGET_IDS.map(id=>[id,{total:0,correct:0,blocked:0}]));
   const resultIDs=results.map(r=>r?.case_id);
   if(new Set(resultIDs).size!==resultIDs.length||results.length!==cases.length||resultIDs.some(id=>!cases.some(c=>c?.case_id===id)))errors.push('result_set_mismatch');
@@ -19,24 +42,17 @@ export function evaluatePilot(input,run={},preflight=validatePilotInputs(input))
   if(manifest?.dataset_kind==='real'&&(!preflight.assets_checked||preflight.phase!=='assets'||!preflight.ready_for_execution))errors.push('real_assets_not_validated');
   // Inspect every receipt, including unmatched/duplicate entries, so invalid
   // result sets cannot conceal a false confirmation in an ignored record.
-  let critical=results.filter(result=>{
-    const body=result?.body,label=sealed.find(l=>l?.case_id===result?.case_id);
-    return (body?.status==='BLOCKED'&&(body.valuation_allowed!==false||body.identity!=null))||
-      (body?.valuation_allowed===true&&(body.status!=='VERIFIED'||result.http_status!==200))||
-      (body?.status==='VERIFIED'&&(!label?.expected_catalogue_id||body.identity?.catalogue_id!==label.expected_catalogue_id||!valuationAllowed(body)));
-  }).length;
+  const critical=results.filter(result=>assessPilotReceipt(result,sealed.find(l=>l?.case_id===result?.case_id),config?.coinprint_version).critical).length;
   for(const sample of cases){
     if(!sample||typeof sample!=='object'||Array.isArray(sample)){errors.push('case_invalid');continue;}
     const label=sealed.find(l=>l?.case_id===sample.case_id),result=results.find(r=>r?.case_id===sample.case_id),body=result?.body;
     if(!label){errors.push('label_missing');continue;}
     const positive=Object.hasOwn(counts,label.expected_catalogue_id)?counts[label.expected_catalogue_id]:null;if(positive)positive.total++;
-    const wrongVerified=body?.status==='VERIFIED'&&(!label.expected_catalogue_id||body.identity?.catalogue_id!==label.expected_catalogue_id||!valuationAllowed(body));
-    if(label.category==='missing_view'&&result?.http_status===400&&body?.status!=='VERIFIED'&&[undefined,false].includes(body?.valuation_allowed)&&body?.identity==null)continue;
-    if(result?.http_status!==200||!['VERIFIED','BLOCKED'].includes(body?.status)||typeof body?.valuation_allowed!=='boolean'||!Array.isArray(body?.blockers)||body.coinprint_version!==config?.coinprint_version){errors.push('response_invalid');continue;}
+    const assessment=assessPilotReceipt(result,label,config?.coinprint_version);errors.push(...assessment.errors);
+    if(!assessment.valid||label.category==='missing_view'&&result?.http_status===400)continue;
     if(body.status==='BLOCKED'){
-      if(body.blockers.length===0)errors.push('blocked_without_reason');
       if(positive)positive.blocked++;
-    }else if(!wrongVerified&&positive)positive.correct++;
+    }else if(assessment.correct&&positive)positive.correct++;
   }
   const useful=TARGET_IDS.every(id=>counts[id].total>=10&&counts[id].correct/counts[id].total>=0.8);
   if(!useful)errors.push('minimum_80_percent_each_variant');

@@ -4,7 +4,7 @@ import path from 'node:path';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import {sha256} from './pilot-contract.mjs';
 import {parsePilotArgs,preflightFromFiles} from './pilot-preflight.mjs';
-import {evaluatePilot} from './pilot-benchmark.mjs';
+import {evaluatePilot,assessPilotReceipt} from './pilot-benchmark.mjs';
 
 export function casePayload(sample,root){
   if(Date.now()>=Date.parse(sample.rights.retention_until))throw Error('rights_expired');
@@ -28,8 +28,11 @@ export async function collectPilot({input,report,root},send,save){
       const result=await send(input.config.endpoint,payload);
       run.results.push({case_id:sample.case_id,http_status:result.status,body:result.body});
     }catch{run.results.push({case_id:sample.case_id,http_status:0,body:{error:'request_or_asset_failed'}});}
+    const result=run.results.at(-1),label=input.labels?.cases?.find(l=>l?.case_id===sample.case_id);
+    const assessment=assessPilotReceipt(result,label,input.config.coinprint_version);
+    if(!assessment.valid)run.stopped_reason=assessment.critical?'critical_response':'invalid_response';
     run.finished_at=new Date().toISOString();save(run);
-    if(run.results.at(-1).http_status===0)break;
+    if(run.stopped_reason)break;
   }
   return run;
 }
