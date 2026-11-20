@@ -3,9 +3,11 @@ name: Synchronizácia otvoreného katalógu
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - '.github/workflows/catalogue-sync.yml'
       - 'scripts/sync-open-catalogues.mjs'
+      - 'scripts/persist-catalogue.sh'
   schedule:
     - cron: '17 2 * * *'
     - cron: '47 14 * * *'
@@ -19,12 +21,16 @@ concurrency:
 
 jobs:
   sync-ocre:
+    # Manual dispatch from a feature branch must never write its HEAD to main.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install locked test dependencies
+        run: npm ci
       - name: Načítať ďalšiu dávku OCRE
         run: node scripts/sync-open-catalogues.mjs
         env:
@@ -33,10 +39,4 @@ jobs:
       - name: Overiť projekt
         run: npm run check
       - name: Uložiť nové katalógové dáta
-        run: |
-          git config user.name "NUMIS VIA catalogue bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/import-state.json data/staging/ocre.json
-          git diff --cached --quiet || git commit -m "Catalogue: import next OCRE batch"
-          git pull --rebase origin main
-          git push origin HEAD:main
+        run: bash scripts/persist-catalogue.sh

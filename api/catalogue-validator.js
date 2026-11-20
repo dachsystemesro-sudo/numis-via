@@ -1,4 +1,5 @@
 const text=value=>typeof value==='string'&&value.trim().length>0;
+const evidenceValue=value=>text(value)||(typeof value==='number'&&Number.isFinite(value));
 const DEFAULT_DECISIVE=['date','country_text','denomination','main_motif','coat_of_arms','mint_mark','engraver_mark','micro_symbols','edge','geometry'];
 
 export function validateCatalogue(catalogue){
@@ -19,7 +20,7 @@ export function validateCatalogue(catalogue){
       for(const key of decisive)if(!DEFAULT_DECISIVE.includes(key))errors.push(`${at}.decisive_discriminators obsahuje neznáme pole ${key}`);
       if(!Array.isArray(record.reference_evidence)||!record.reference_evidence.length)errors.push(`${at}.reference_evidence chýba pre variant`);
       for(const [eIndex,e] of (record.reference_evidence||[]).entries()){
-        if(!text(e?.source_id)||!text(e?.field)||!text(e?.value)||!text(e?.source_url))errors.push(`${at}.reference_evidence[${eIndex}] je neúplný`);
+        if(!text(e?.source_id)||!text(e?.field)||!evidenceValue(e?.value)||!text(e?.source_url))errors.push(`${at}.reference_evidence[${eIndex}] je neúplný`);
       }
     }
     if(record.identity_level==='family'&&!record.year_from)errors.push(`${at}.year_from je povinný pre rodinu`);

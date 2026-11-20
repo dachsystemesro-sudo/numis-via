@@ -1,0 +1,754 @@
+{
+  "schema_version": "1.0",
+  "status": "NOT_READY",
+  "production_loaded": false,
+  "records": [
+    {
+      "catalogue_id": "SK-EUR-001-2019-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 1 cent – 2019 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "1 cent",
+      "date": "2019",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth",
+      "physical": {
+        "mass_g": 2.3,
+        "diameter_mm": 16.25,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "1 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-001-2020-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 1 cent – 2020 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "1 cent",
+      "date": "2020",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth",
+      "physical": {
+        "mass_g": 2.3,
+        "diameter_mm": 16.25,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "1 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-001-2021-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 1 cent – 2021 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "1 cent",
+      "date": "2021",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth",
+      "physical": {
+        "mass_g": 2.3,
+        "diameter_mm": 16.25,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "1 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-002-2019-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 2 cent – 2019 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "2 cent",
+      "date": "2019",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth with a groove",
+      "physical": {
+        "mass_g": 3.06,
+        "diameter_mm": 18.75,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "2 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-002-2020-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 2 cent – 2020 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "2 cent",
+      "date": "2020",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth with a groove",
+      "physical": {
+        "mass_g": 3.06,
+        "diameter_mm": 18.75,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "2 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-002-2021-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 2 cent – 2021 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "2 cent",
+      "date": "2021",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth with a groove",
+      "physical": {
+        "mass_g": 3.06,
+        "diameter_mm": 18.75,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "2 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-005-2019-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 5 cent – 2019 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "5 cent",
+      "date": "2019",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth",
+      "physical": {
+        "mass_g": 3.92,
+        "diameter_mm": 21.25,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "5 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-005-2020-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 5 cent – 2020 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "5 cent",
+      "date": "2020",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth",
+      "physical": {
+        "mass_g": 3.92,
+        "diameter_mm": 21.25,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "5 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    },
+    {
+      "catalogue_id": "SK-EUR-005-2021-PILOT",
+      "pilot_id": "sk-eurocents-v1",
+      "identity_level": "variant",
+      "verification_state": "needs_reference_review",
+      "label": "Slovensko 5 cent – 2021 (pilot candidate)",
+      "country_code": "SK",
+      "country_text": "SLOVENSKO",
+      "denomination": "5 cent",
+      "date": "2021",
+      "main_motif": "Kriváň",
+      "coat_of_arms": "Slovenský štátny znak",
+      "mint_mark": null,
+      "engraver_mark": null,
+      "geometry": null,
+      "edge": "smooth",
+      "physical": {
+        "mass_g": 3.92,
+        "diameter_mm": 21.25,
+        "thickness_mm": 1.67
+      },
+      "decisive_discriminators": [
+        "country_text",
+        "denomination",
+        "date",
+        "main_motif",
+        "coat_of_arms",
+        "mint_mark",
+        "engraver_mark",
+        "geometry",
+        "edge"
+      ],
+      "sources": [
+        "nbs-national",
+        "nbs-mintage",
+        "ecb-sk",
+        "ecb-common"
+      ],
+      "reference_evidence": [],
+      "source_observations": [
+        {
+          "source_id": "ecb-common",
+          "locator": "5 cent technical characteristics",
+          "fields": [
+            "physical.mass_g",
+            "physical.diameter_mm",
+            "physical.thickness_mm",
+            "edge"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        },
+        {
+          "source_id": "nbs-national",
+          "locator": "1, 2 and 5 cent national design",
+          "fields": [
+            "main_motif"
+          ],
+          "checked_at": "2026-11-09",
+          "review_status": "descriptive_only"
+        }
+      ],
+      "rights": {
+        "metadata": {
+          "status": "pending",
+          "basis": null
+        },
+        "images": {
+          "status": "no_images_used"
+        }
+      },
+      "review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "pending": [
+        "Confirm year-specific issue and specimen attribution",
+        "Transcribe marks and their positions from independently reviewed specimens",
+        "Record two independent evidence lines per decisive field",
+        "Approve metadata rights and measurement tolerances"
+      ]
+    }
+  ]
+}

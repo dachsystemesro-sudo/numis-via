@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -25,11 +25,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # Verify current main after the catalogue bot has pushed its commit.
-          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.ref }}
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install locked test dependencies
+        run: npm ci
       - name: Kontrola syntaxe a regresných testov
         run: npm run check
+      - name: Overiť audit dôkazov a aktuálnosť matice
+        run: npm run evidence:audit
       - name: Audit pripravenosti fyzického pilotu (informatívny)
-        run: node scripts/audit-readiness.mjs
+        shell: bash
+        run: node scripts/audit-readiness.mjs | tee readiness-report.json
+      - name: Uchovať dôkaz auditu
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: readiness-report
+          path: readiness-report.json
+          if-no-files-found: error

@@ -1,0 +1,651 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-11-12",
+  "prepared_by": "Automated source audit; no human expert approval or specimen examination",
+  "method": "Read public-source text via the web extraction service, which may use cached or rewritten responses. These are paraphrased audit notes, not original source snapshots.",
+  "original_source_bytes_retained": false,
+  "sources": [
+    {
+      "id": "nbs-national",
+      "url": "https://nbs.sk/en/banknotes-and-coins/euro-coins/circulation-coins/national-sides-of-slovak-euro-coins/",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-sk-design",
+      "independence_status": "not_established",
+      "lineage_basis": "Conservatively grouped official design/issuer information; no distinct specimen-research provenance established. This is not proof of one page copying another.",
+      "production_evidence": false,
+      "terms": {
+        "url": "https://nbs.sk/en/disclaimer_en/",
+        "locator": "Disclaimer, paragraphs on information reuse and euro coin reproduction",
+        "observed_conditions": "Attribution and unchanged source files; commercial accuracy checks recommended; coin reproductions refer to separate European Commission conditions.",
+        "metadata_status": "pending_application_review",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "nbs-mintage",
+      "url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-sk-design",
+      "independence_status": "not_established",
+      "lineage_basis": "Conservatively grouped official design/issuer information; no distinct specimen-research provenance established. This is not proof of one page copying another.",
+      "production_evidence": false,
+      "terms": {
+        "url": "https://nbs.sk/en/disclaimer_en/",
+        "locator": "Disclaimer, paragraphs on information reuse and euro coin reproduction",
+        "observed_conditions": "Attribution and unchanged source files; commercial accuracy checks recommended; coin reproductions refer to separate European Commission conditions.",
+        "metadata_status": "pending_application_review",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "ecb-sk",
+      "url": "https://www.ecb.europa.eu/euro/coins/html/sk.en.html",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-sk-design",
+      "independence_status": "not_established",
+      "lineage_basis": "Conservatively grouped official design/issuer information; no distinct specimen-research provenance established. This is not proof of one page copying another.",
+      "production_evidence": false,
+      "terms": {
+        "url": "https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html",
+        "locator": "Copyright, conditions 1–4 and named-author exception",
+        "observed_conditions": "Accuracy, attribution, notice of free availability in sold documents, disclosure of modifications and linking conditions; exceptions require separate review.",
+        "metadata_status": "pending_application_review",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "ecb-common",
+      "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-euro-specification",
+      "independence_status": "not_established",
+      "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+      "production_evidence": false,
+      "terms": {
+        "url": "https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html",
+        "locator": "Copyright, conditions 1–4 and named-author exception",
+        "observed_conditions": "Accuracy, attribution, notice of free availability in sold documents, disclosure of modifications and linking conditions; exceptions require separate review.",
+        "metadata_status": "pending_application_review",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "mint-2020",
+      "url": "https://www.mint.sk/index.php/emisny-plan-mincovne-2020",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "issuer-mint-set-context",
+      "independence_status": "not_established",
+      "lineage_basis": "Mint-authored set context only. Independence from issuer material for exact specimen identity has not been established.",
+      "production_evidence": false,
+      "terms": {
+        "url": null,
+        "locator": null,
+        "observed_conditions": "No application-specific permission verified. EC index is not itself the linked legal instrument; mint plans do not license images.",
+        "metadata_status": "unverified",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "mint-2021",
+      "url": "https://www.mint.sk/emisny-plan-mincovne-2021",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "issuer-mint-set-context",
+      "independence_status": "not_established",
+      "lineage_basis": "Mint-authored set context only. Independence from issuer material for exact specimen identity has not been established.",
+      "production_evidence": false,
+      "terms": {
+        "url": null,
+        "locator": null,
+        "observed_conditions": "No application-specific permission verified. EC index is not itself the linked legal instrument; mint plans do not license images.",
+        "metadata_status": "unverified",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "ec-legislation",
+      "url": "https://economy-finance.ec.europa.eu/euro/euro-coins-and-notes/euro-coins/legislation-euro-coins_en",
+      "checked_at": "2026-11-12",
+      "access": "web_text_reviewed",
+      "access_note": "Extracted public text inspected; no authenticated direct-HTTP source bytes available.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-euro-specification",
+      "independence_status": "not_established",
+      "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+      "production_evidence": false,
+      "terms": {
+        "url": null,
+        "locator": null,
+        "observed_conditions": "No application-specific permission verified. EC index is not itself the linked legal instrument; mint plans do not license images.",
+        "metadata_status": "unverified",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "eurlex-specification",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?from=EN&uri=CELEX%3A32014R0729",
+      "checked_at": "2026-11-12",
+      "access": "blocked_challenge",
+      "access_note": "JavaScript/anti-robot challenge returned instead of the legal instrument.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-euro-specification",
+      "independence_status": "not_established",
+      "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+      "production_evidence": false,
+      "terms": {
+        "url": null,
+        "locator": null,
+        "observed_conditions": "No application-specific permission verified. EC index is not itself the linked legal instrument; mint plans do not license images.",
+        "metadata_status": "unverified",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    },
+    {
+      "id": "eurlex-reproduction",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52011XC0210%2802%29",
+      "checked_at": "2026-11-12",
+      "access": "blocked_challenge",
+      "access_note": "JavaScript/anti-robot challenge returned instead of the legal instrument.",
+      "source_snapshot": {
+        "status": "not_captured",
+        "sha256": null,
+        "reason": "Direct retrieval of this exact URL returned curl exit 56, proxy CONNECT 403 and origin HTTP 000. Web extraction does not provide original response bytes; no original-page hash is claimed."
+      },
+      "lineage_group": "official-euro-specification",
+      "independence_status": "not_established",
+      "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+      "production_evidence": false,
+      "terms": {
+        "url": null,
+        "locator": null,
+        "observed_conditions": "No application-specific permission verified. EC index is not itself the linked legal instrument; mint plans do not license images.",
+        "metadata_status": "unverified",
+        "source_images_status": "not_used_clearance_pending",
+        "user_photographs_status": "not_collected"
+      },
+      "direct_http": {
+        "checked_at": "2026-11-12",
+        "exit_code": 56,
+        "http_status": "000",
+        "proxy_connect_status": 403,
+        "note": "No origin HTTP response received; the environment proxy rejected CONNECT."
+      }
+    }
+  ],
+  "observations": [
+    {
+      "id": "nbs-design",
+      "source_id": "nbs-national",
+      "source_url": "https://nbs.sk/en/banknotes-and-coins/euro-coins/circulation-coins/national-sides-of-slovak-euro-coins/",
+      "fields": [
+        "main_motif",
+        "designer_name"
+      ],
+      "values": {
+        "main_motif": "Kriváň",
+        "designer_name": "Drahomír Zobek"
+      },
+      "scope": "general_design",
+      "locator": "National sides of Slovak euro coins → 5 / 2 / 1 cent → Krivan / designer paragraph",
+      "applies_to": {},
+      "limitations": "No exact specimen attribution, independent expert review or source snapshot."
+    },
+    {
+      "id": "ecb-design",
+      "source_id": "ecb-sk",
+      "source_url": "https://www.ecb.europa.eu/euro/coins/html/sk.en.html",
+      "fields": [
+        "main_motif",
+        "coat_of_arms"
+      ],
+      "values": {
+        "main_motif": "Kriváň",
+        "coat_of_arms": "Slovenský štátny znak"
+      },
+      "scope": "general_design",
+      "locator": "Slovakia → 1, 2 and 5 cent national-side descriptions",
+      "applies_to": {},
+      "limitations": "No exact specimen attribution, independent expert review or source snapshot."
+    },
+    {
+      "id": "nbs-issue-1-2019",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "1 cent",
+        "date": "2019",
+        "quantity_millions_as_displayed": "32,020"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 1 eurocent; column 2019; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "1 cent",
+        "date": "2019"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-1-2020",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "1 cent",
+        "date": "2020",
+        "quantity_millions_as_displayed": "57,702"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 1 eurocent; column 2020; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "1 cent",
+        "date": "2020"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-1-2021",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "1 cent",
+        "date": "2021",
+        "quantity_millions_as_displayed": "14,669"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 1 eurocent; column 2021; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "1 cent",
+        "date": "2021"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-2-2019",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "2 cent",
+        "date": "2019",
+        "quantity_millions_as_displayed": "14,470"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 2 eurocent; column 2019; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "2 cent",
+        "date": "2019"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-2-2020",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "2 cent",
+        "date": "2020",
+        "quantity_millions_as_displayed": "25,122"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 2 eurocent; column 2020; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "2 cent",
+        "date": "2020"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-2-2021",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "2 cent",
+        "date": "2021",
+        "quantity_millions_as_displayed": "7,335"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 2 eurocent; column 2021; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "2 cent",
+        "date": "2021"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-5-2019",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "5 cent",
+        "date": "2019",
+        "quantity_millions_as_displayed": "4,045"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 5 eurocent; column 2019; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "5 cent",
+        "date": "2019"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-5-2020",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "5 cent",
+        "date": "2020",
+        "quantity_millions_as_displayed": "16,510"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 5 eurocent; column 2020; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "5 cent",
+        "date": "2020"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "nbs-issue-5-2021",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "denomination",
+        "date"
+      ],
+      "values": {
+        "denomination": "5 cent",
+        "date": "2021",
+        "quantity_millions_as_displayed": "6,319"
+      },
+      "scope": "issue_population",
+      "locator": "Počet slovenských obehových euromincí → row 5 eurocent; column 2021; unit mil. ks; note 2 includes annual sets",
+      "applies_to": {
+        "denomination": "5 cent",
+        "date": "2021"
+      },
+      "limitations": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen."
+    },
+    {
+      "id": "ecb-spec-1",
+      "source_id": "ecb-common",
+      "source_url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+      "fields": [
+        "material",
+        "physical.mass_g",
+        "physical.diameter_mm",
+        "physical.thickness_mm",
+        "edge"
+      ],
+      "values": {
+        "material": "copper-covered steel",
+        "physical.mass_g": 2.3,
+        "physical.diameter_mm": 16.25,
+        "physical.thickness_mm": 1.67,
+        "edge": "smooth"
+      },
+      "scope": "nominal_specification",
+      "locator": "Common sides → technical block linked to /euro/coins/common/shared/img/common_1cent_800.jpg",
+      "applies_to": {
+        "denomination": "1 cent"
+      },
+      "limitations": "Nominal euro denomination specification, not measured values or manufacturing tolerances for a particular 2019–2021 coin. Material is a composite description, not an independently assayed alloy composition."
+    },
+    {
+      "id": "ecb-spec-2",
+      "source_id": "ecb-common",
+      "source_url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+      "fields": [
+        "material",
+        "physical.mass_g",
+        "physical.diameter_mm",
+        "physical.thickness_mm",
+        "edge"
+      ],
+      "values": {
+        "material": "copper-covered steel",
+        "physical.mass_g": 3.06,
+        "physical.diameter_mm": 18.75,
+        "physical.thickness_mm": 1.67,
+        "edge": "smooth with a groove"
+      },
+      "scope": "nominal_specification",
+      "locator": "Common sides → technical block linked to /euro/coins/common/shared/img/common_2cent_800.jpg",
+      "applies_to": {
+        "denomination": "2 cent"
+      },
+      "limitations": "Nominal euro denomination specification, not measured values or manufacturing tolerances for a particular 2019–2021 coin. Material is a composite description, not an independently assayed alloy composition."
+    },
+    {
+      "id": "ecb-spec-5",
+      "source_id": "ecb-common",
+      "source_url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+      "fields": [
+        "material",
+        "physical.mass_g",
+        "physical.diameter_mm",
+        "physical.thickness_mm",
+        "edge"
+      ],
+      "values": {
+        "material": "copper-covered steel",
+        "physical.mass_g": 3.92,
+        "physical.diameter_mm": 21.25,
+        "physical.thickness_mm": 1.67,
+        "edge": "smooth"
+      },
+      "scope": "nominal_specification",
+      "locator": "Common sides → technical block linked to /euro/coins/common/shared/img/common_5cent_800.jpg",
+      "applies_to": {
+        "denomination": "5 cent"
+      },
+      "limitations": "Nominal euro denomination specification, not measured values or manufacturing tolerances for a particular 2019–2021 coin. Material is a composite description, not an independently assayed alloy composition."
+    },
+    {
+      "id": "nbs-set-caveat",
+      "source_id": "nbs-mintage",
+      "source_url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+      "fields": [
+        "finish"
+      ],
+      "values": {
+        "finish": "mintage counts include annual sets"
+      },
+      "scope": "issue_population",
+      "locator": "Mintage table note 2",
+      "applies_to": {},
+      "limitations": "No exact specimen attribution, independent expert review or source snapshot."
+    },
+    {
+      "id": "mint-set-2020",
+      "source_id": "mint-2020",
+      "source_url": "https://www.mint.sk/index.php/emisny-plan-mincovne-2020",
+      "fields": [
+        "finish"
+      ],
+      "values": {
+        "finish": "annual sets listed in special uncirculated and proof-like finishes"
+      },
+      "scope": "set_context",
+      "locator": "January → Hry XXXII. Olympiády Tokio 2020 → Vyhotovenie",
+      "applies_to": {
+        "date": "2020"
+      },
+      "limitations": "Mint-authored product context; cannot assign an individual pilot coin to ordinary circulation, a set, or a proof-like finish. No source images retained."
+    },
+    {
+      "id": "mint-set-2021",
+      "source_id": "mint-2021",
+      "source_url": "https://www.mint.sk/emisny-plan-mincovne-2021",
+      "fields": [
+        "finish"
+      ],
+      "values": {
+        "finish": "annual sets listed in special uncirculated and proof-like finishes"
+      },
+      "scope": "set_context",
+      "locator": "February → 100. výročie začatia razby československých mincí → Vyhotovenie",
+      "applies_to": {
+        "date": "2021"
+      },
+      "limitations": "Mint-authored product context; cannot assign an individual pilot coin to ordinary circulation, a set, or a proof-like finish. No source images retained."
+    },
+    {
+      "id": "ec-legal-pointers",
+      "source_id": "ec-legislation",
+      "source_url": "https://economy-finance.ec.europa.eu/euro/euro-coins-and-notes/euro-coins/legislation-euro-coins_en",
+      "fields": [],
+      "values": {
+        "specification_instrument": "Council Regulation (EU) No 729/2014",
+        "reproduction_instrument": "2011/C 41/03"
+      },
+      "scope": "legal_pointer",
+      "locator": "Coins intended for circulation / Legislation on reproduction of euro banknotes and coins",
+      "applies_to": {},
+      "limitations": "Index links were inspected; the linked EUR-Lex bodies returned challenges, so their substantive conditions are not treated as reviewed."
+    }
+  ]
+}
