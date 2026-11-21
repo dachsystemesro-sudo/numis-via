@@ -8,7 +8,7 @@ import {AUDIT_FIELDS} from './audit-reference-evidence.mjs';
 import {TARGET_IDS,timestamp} from './pilot-contract.mjs';
 
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
-const REVIEW='data/pilot/evidence-audit/source-review-2026-11-13.json';
+const REVIEW='data/pilot/evidence-audit/source-review-2026-11-21.json';
 const HISTORY='data/pilot/evidence-audit/source-history';
 const MATRIX='docs/evidence-audit/TASK_24_MATRIX.md';
 const HOSTS=new Set(['nbs.sk','www.nbs.sk','www.mint.sk','www.ecb.europa.eu','eur-lex.europa.eu','economy-finance.ec.europa.eu','static.slov-lex.sk','www.bundesbank.de']);
@@ -51,6 +51,7 @@ export function validateReview(review,baseline){
     if(c?.fields?.some(f=>f.startsWith('physical.')&&(typeof c.values[f]!=='number'||!Number.isFinite(c.values[f])||c.values[f]<=0)))errors.push('numeric_claim_required');
     if(c?.scope==='specimen'&&(!text(c.specimen_id)||!hash(c.snapshot_sha256)||!['2019','2020','2021'].includes(c.applies_to?.date)||!['1 cent','2 cent','5 cent'].includes(c.applies_to?.denomination)))errors.push('specimen_proof_missing');
     if(s&&['blocked_challenge','metadata_only'].includes(s.access))errors.push('unread_source_claim');
+    if(Object.hasOwn(c??{},'original_response_sha256')&&c.original_response_sha256!==s?.snapshot_sha256)errors.push('claim_original_hash_mismatch');
     if(c?.review?.status==='approved'&&(!text(c.review.reviewer)||!timestamp(c.review.reviewed_at)))errors.push('invented_approval');
   }
   return {valid:errors.length===0,errors:[...new Set(errors)]};
@@ -165,7 +166,7 @@ export function appendEvent(dir,event){
   return name;
 }
 export function renderMatrix(review,matrix,probes=[]){
-  const lines=['# Úloha #24 – aktualizácia dôkazov 9 × 17','',`Získanie poznámok: ${review.obtained_at} (UTC). Dátum používateľského reportu: 13. 11. 2026, Europe/Bratislava.`,'','**NOT READY / 0 schválených referencií.** Statusy patria dôkazom, nie identite mince. PARTIALLY VERIFIED znamená iba kontext, nie overený exemplár. CONFLICT zahŕňa aj predbežný rozpor z indexu; treba originál a odborné vyriešenie. Každý exact_variant_status zostáva UNVERIFIED.','',`Počty buniek: ${Object.entries(matrix.counts).map(([k,v])=>`${k}: ${v}`).join('; ')}.`, '', 'Historický audit #21 sa nemení. Tento doplnok je generovaný `npm run sources:check -- --write` z metadát a histórie; originály sa nikdy nevkladajú do Git repozitára.','', '## Aktuálna matica','', '| Variant | '+AUDIT_FIELDS.join(' | ')+' |','| --- | '+AUDIT_FIELDS.map(()=>'---').join(' | ')+' |'];
+  const lines=['# Dôkazy CoinPrint – pokračovanie #19 / #24, matica 9 × 17','',`Získanie poznámok: ${review.obtained_at} (UTC). Dátum kontroly je uvedený pri každom zdroji; čas metadát je UTC.`,'','**NOT READY / 0 schválených referencií.** Statusy patria dôkazom, nie identite mince. PARTIALLY VERIFIED znamená iba kontext, nie overený exemplár. CONFLICT zahŕňa aj predbežný rozpor z indexu; treba originál a odborné vyriešenie. Každý exact_variant_status zostáva UNVERIFIED.','',`Počty buniek: ${Object.entries(matrix.counts).map(([k,v])=>`${k}: ${v}`).join('; ')}.`, '', 'Historický audit #21 sa nemení. Tento doplnok je generovaný `npm run sources:check -- --write` z metadát a histórie; originály sa nikdy nevkladajú do Git repozitára.','', '## Aktuálna matica','', '| Variant | '+AUDIT_FIELDS.join(' | ')+' |','| --- | '+AUDIT_FIELDS.map(()=>'---').join(' | ')+' |'];
   const labels={'VERIFIED EVIDENCE':'V','PARTIALLY VERIFIED':'P','UNVERIFIED':'U','CONFLICT':'C'};
   for(const row of matrix.variants)lines.push(`| ${row.catalogue_id} | ${AUDIT_FIELDS.map(f=>labels[row.fields[f].status]).join(' | ')} |`);
   lines.push('','Legenda: V = VERIFIED EVIDENCE; P = PARTIALLY VERIFIED; U = UNVERIFIED; C = CONFLICT. Pole country_code nemá samostatne doložené priradenie ISO k exempláru.','', '## Konkrétne tvrdenia a rozsah','', '| ID | Zdroj | Rozsah / použiteľnosť | Doložené hodnoty | Lokátor a medzera |','| --- | --- | --- | --- | --- |');

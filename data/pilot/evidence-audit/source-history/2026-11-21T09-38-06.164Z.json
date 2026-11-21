@@ -1,0 +1,1633 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-11-21T09:38:06.164Z",
+  "parent_sha256": "d64aa0f65aafe48e34079d736931bf6bec842bf9bf9eefc4d4fa887cab5a913e",
+  "review_sha256": "3dd04344acbcddbc93e88227b2b07c3af89c05f2d65f5d7edbc8bca60a85a6d6",
+  "review": {
+    "schema_version": "1.0",
+    "task": 24,
+    "obtained_at": "2026-11-21T09:38:06.158Z",
+    "timestamp_scope": "UTC metadata recording time. Per-source checked_at records actual local HTTPS acquisition. Hashes refer to unchanged response-body bytes, not paraphrases. No trusted timestamp or independent expert approval is claimed.",
+    "base_pr": 24,
+    "base_sha": "66543ea7c21ec39d99e0375bbcf9c6638763edbe",
+    "main_sha_at_review": "d840b4e6f7693f482d8366c1fe97a3a02110e1d3",
+    "baseline": {
+      "gaps-2026-11-12.json": "febf7910d877aa3455d491c21165e21f6f1c8faf8f02386745d5a5cf911585bb",
+      "observations-2026-11-12.json": "45eb3c8229b2cdcda30e12ef0ce7f0824bd96994c923b7c9ee5734a615a90435"
+    },
+    "production_promotions": 0,
+    "ready_for_physical_pilot": false,
+    "sources": [
+      {
+        "id": "nbs-national",
+        "url": "https://nbs.sk/en/banknotes-and-coins/euro-coins/circulation-coins/national-sides-of-slovak-euro-coins/",
+        "title": "National sides of Slovak euro coins",
+        "publisher": "Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:33:13.542Z",
+        "access": "web_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Conservatively grouped official design/issuer information; no distinct specimen-research provenance established. This is not proof of one page copying another.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://nbs.sk/en/disclaimer_en/",
+          "restrictions": "Atribúcia a posúdenie podmienok NBS; reprodukcia mincí má osobitné pravidlá. Aplikačné schválenie nezískané.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "aad2ea729c9b1e467d6d40e51511fa5cf9c7d64e1f0058d4da850a5a291b5eef",
+        "markers": [
+          "National sides of Slovak euro coins"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:13.542Z"
+      },
+      {
+        "id": "nbs-mintage",
+        "url": "https://nbs.sk/bankovky-a-mince/eurove-mince/obehove/pocet-slovenskych-obehovych-eurominci/",
+        "title": "Počet slovenských obehových euromincí",
+        "publisher": "Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:33:13.584Z",
+        "access": "web_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Conservatively grouped official design/issuer information; no distinct specimen-research provenance established. This is not proof of one page copying another.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://nbs.sk/en/disclaimer_en/",
+          "restrictions": "Atribúcia a posúdenie podmienok NBS; reprodukcia mincí má osobitné pravidlá. Aplikačné schválenie nezískané.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528",
+        "markers": [
+          "Počet slovenských obehových euromincí"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:13.584Z"
+      },
+      {
+        "id": "ecb-sk",
+        "url": "https://www.ecb.europa.eu/euro/coins/html/sk.en.html",
+        "title": "Slovakia",
+        "publisher": "European Central Bank",
+        "obtained_at": "2026-11-21T09:33:13.585Z",
+        "access": "web_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Conservatively grouped official design/issuer information; no distinct specimen-research provenance established. This is not proof of one page copying another.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html",
+          "restrictions": "Presná reprodukcia s uvedením ECB; pri predaji informovať o bezplatnom zdroji; úpravy označiť. Obrazové a aplikačné práva treba posúdiť.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "1dd20437ca3ce062449072d2df74719f38a4ef833845e05edc8626f5fe392662",
+        "markers": [
+          "Slovakia"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:13.585Z"
+      },
+      {
+        "id": "ecb-common",
+        "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+        "title": "Common sides",
+        "publisher": "European Central Bank",
+        "obtained_at": "2026-11-21T09:33:13.585Z",
+        "access": "web_text_reviewed",
+        "lineage": "official-euro-specification",
+        "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html",
+          "restrictions": "Presná reprodukcia s uvedením ECB; pri predaji informovať o bezplatnom zdroji; úpravy označiť. Obrazové a aplikačné práva treba posúdiť.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "dac2001c6f523c7ebcaecdf4eaad547a4ea1952f8ff0fd819daedcfa1e166f32",
+        "markers": [
+          "Common sides"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:13.585Z"
+      },
+      {
+        "id": "mint-2020",
+        "url": "https://www.mint.sk/index.php/emisny-plan-mincovne-2020",
+        "title": "Emisný plán mincovne 2020",
+        "publisher": "Mincovňa Kremnica, štátny podnik",
+        "obtained_at": "2026-11-21T09:33:15.170Z",
+        "access": "web_text_reviewed",
+        "lineage": "issuer-mint-set-context",
+        "lineage_basis": "Mint-authored set context only. Independence from issuer material for exact specimen identity has not been established.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": "https://www.mint.sk/podpora/vop",
+          "restrictions": "VOP predaja nie sú licencia na obrázky alebo databázu. Licencia opätovného použitia neoverená.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "c714fea4c455199ce032fc985662f8659ca564de32d5ceb2ed872f3b07512cb8",
+        "markers": [
+          "Emisný plán mincovne 2020"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:15.170Z"
+      },
+      {
+        "id": "mint-2021",
+        "url": "https://www.mint.sk/emisny-plan-mincovne-2021",
+        "title": "Emisný plán mincovne 2021",
+        "publisher": "Mincovňa Kremnica, štátny podnik",
+        "obtained_at": "2026-11-21T09:33:15.171Z",
+        "access": "web_text_reviewed",
+        "lineage": "issuer-mint-set-context",
+        "lineage_basis": "Mint-authored set context only. Independence from issuer material for exact specimen identity has not been established.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": "https://www.mint.sk/podpora/vop",
+          "restrictions": "VOP predaja nie sú licencia na obrázky alebo databázu. Licencia opätovného použitia neoverená.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "4f16aedc7a628fb137a8c38209a05e6c113d671d38c33674030a7725d6494afe",
+        "markers": [
+          "Emisný plán mincovne 2021"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:15.171Z"
+      },
+      {
+        "id": "ec-legislation",
+        "url": "https://economy-finance.ec.europa.eu/euro/euro-coins-and-notes/euro-coins/legislation-euro-coins_en",
+        "title": "Legislation on euro coins",
+        "publisher": "European Commission",
+        "obtained_at": "2026-11-12",
+        "access": "inherited_audit",
+        "lineage": "official-euro-specification",
+        "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": null,
+          "restrictions": "Rozsah ďalšieho použitia a práva na obrazy neboli právne schválené. Originály nepublikovať automaticky.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": null,
+        "markers": [
+          "Legislation on euro coins"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:15.172Z"
+      },
+      {
+        "id": "eurlex-specification",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?from=EN&uri=CELEX%3A32014R0729",
+        "title": "Council Regulation (EU) No 729/2014 – technical specifications",
+        "publisher": "Council of the European Union / Publications Office of the European Union",
+        "obtained_at": "2026-11-21T09:33:15.173Z",
+        "access": "web_pdf_text_reviewed",
+        "lineage": "official-euro-specification",
+        "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": null,
+          "restrictions": "Rozsah ďalšieho použitia a práva na obrazy neboli právne schválené. Originály nepublikovať automaticky.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "43305ee22f821ca56a074720bec8f66e2b1fe78769b490b70f6f291fa116e5b2",
+        "markers": [
+          "Council Regulation (EU) No 729/2014 – technical specifications"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:15.173Z"
+      },
+      {
+        "id": "eurlex-reproduction",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52011XC0210%2802%29",
+        "title": "Communication 2011/C 41/03 – copyright protection of the common face design",
+        "publisher": "Council of the European Union / Publications Office of the European Union",
+        "obtained_at": "2026-11-12",
+        "access": "blocked_challenge",
+        "lineage": "official-euro-specification",
+        "lineage_basis": "Official euro specifications/reproduction framework; a standards summary and its legal pointer are not independent specimen measurements.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": null,
+          "restrictions": "Rozsah ďalšieho použitia a práva na obrazy neboli právne schválené. Originály nepublikovať automaticky.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": null,
+        "markers": [
+          "Communication 2011/C 41/03 – copyright protection of the common face design"
+        ],
+        "new_in_task24": false,
+        "last_checked_at": "2026-11-21T09:33:20.050Z"
+      },
+      {
+        "id": "nbs-notice-308-pdf",
+        "url": "https://www.nbs.sk/_img/documents/eurint/euro/ozn_tech.pdf",
+        "title": "Oznámenie NBS zo 7. júla 2008 o nominálnych hodnotách, vzhľade, technických parametroch a ďalších náležitostiach eurobankoviek a euromincí",
+        "publisher": "Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:33:20.051Z",
+        "access": "web_pdf_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Článok 4 opisuje predpísaný národný dizajn. Rovnaký vydavateľ a pôvod ako ostatné opisy NBS, nie nezávislé pozorovanie exemplára.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://nbs.sk/en/disclaimer_en/",
+          "restrictions": "Atribúcia a posúdenie podmienok NBS; reprodukcia mincí má osobitné pravidlá. Aplikačné schválenie nezískané.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "ce11a6081eaeb8ec43dd2087448791c4346d30acfb72507373e350c67c957aba",
+        "markers": [
+          "OZNÁMENIE"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:20.051Z"
+      },
+      {
+        "id": "nbs-notice-308-gazette",
+        "url": "https://nbs.sk/_img/documents/legs/2008/oznam_o_vydani_oznam_308-08.pdf",
+        "title": "Vestník NBS, čiastka 26/2008, strana 593 – oznámenie o vydaní oznámenia č. 308/2008 Z. z.",
+        "publisher": "Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:33:20.052Z",
+        "access": "web_pdf_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Potvrdzuje publikačné číslo oznámenia, neobsahuje druhé nezávislé skúmanie mincí.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://nbs.sk/en/disclaimer_en/",
+          "restrictions": "Atribúcia a posúdenie podmienok NBS; reprodukcia mincí má osobitné pravidlá. Aplikačné schválenie nezískané.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "da6f264c534773aed06aba4963d9bba25c142d04a3d7e0743035896aff780438",
+        "markers": [
+          "Vestník NBS"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:20.052Z"
+      },
+      {
+        "id": "slovlex-308-static",
+        "url": "https://static.slov-lex.sk/static/SK/ZZ/2008/308/20080809.html",
+        "title": "308/2008 Z. z. – časová verzia účinná od 09.08.2008",
+        "publisher": "Ministerstvo spravodlivosti SR / autor predpisu Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:33:20.052Z",
+        "access": "metadata_only",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Statická informatívna prezentácia toho istého oznámenia NBS; ďalší hostiteľ nie je ďalšia dôkazová línia.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": null,
+          "restrictions": "Rozsah ďalšieho použitia a práva na obrazy neboli právne schválené. Originály nepublikovať automaticky.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "b8405f70f07c22f2241763dfdbd9f165012c2b09ef1fe60b3c6e813f807610b3",
+        "markers": [
+          "308/2008"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:20.052Z"
+      },
+      {
+        "id": "mint-2019",
+        "url": "https://www.mint.sk/index.php/emisny-plan-mincovne-2019",
+        "title": "Emisný plán Mincovne 2019",
+        "publisher": "Mincovňa Kremnica, štátny podnik",
+        "obtained_at": "2026-11-21T09:33:25.853Z",
+        "access": "web_text_reviewed",
+        "lineage": "issuer-mint-set-context",
+        "lineage_basis": "Vlastný emisný plán výrobcu. Dokladá existenciu súborových úprav, nie konkrétny obehový exemplár ani jeho mikrodetaily.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": "https://www.mint.sk/podpora/vop",
+          "restrictions": "VOP predaja nie sú licencia na obrázky alebo databázu. Licencia opätovného použitia neoverená.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "8012a400a56ec7d5fc49117eba763cc12948f691caf7e34be0cd2ebd26660540",
+        "markers": [
+          "2019"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:25.853Z"
+      },
+      {
+        "id": "mint-2021-pdf",
+        "url": "https://www.mint.sk/sites/default/files/files/emisny_plan_2021.pdf",
+        "title": "Mincovňa Kremnica – Emisný plán 2021 (PDF)",
+        "publisher": "Mincovňa Kremnica, štátny podnik",
+        "obtained_at": "2026-11-13",
+        "access": "web_pdf_text_reviewed",
+        "lineage": "issuer-mint-set-context",
+        "lineage_basis": "PDF je ďalší formát toho istého emisného plánu, nie druhý nezávislý dôkaz.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": "https://www.mint.sk/podpora/vop",
+          "restrictions": "VOP predaja nie sú licencia na obrázky alebo databázu. Licencia opätovného použitia neoverená.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": null,
+        "markers": [
+          "EMISNÝ PLÁN 2021"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:25.854Z"
+      },
+      {
+        "id": "bundesbank-faq",
+        "url": "https://www.bundesbank.de/dynamic/action/en/tasks/cash-management/frequently-asked-questions/frequently-asked-questions-euro-coins/642694/frequently-asked-questions-about-the-euro-coins",
+        "title": "Frequently asked questions about the euro coins",
+        "publisher": "Deutsche Bundesbank",
+        "obtained_at": "2026-11-21T09:33:25.855Z",
+        "access": "web_text_reviewed",
+        "lineage": "official-euro-specification",
+        "lineage_basis": "Eurosystémová referenčná tabuľka, pôvod samostatného merania nedoložený. Iný vydavateľ sám osebe nepreukazuje nezávislosť; ani všeobecná značka mincovne nepreukazuje konkrétny ročník.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": null,
+          "restrictions": "Rozsah ďalšieho použitia a práva na obrazy neboli právne schválené. Originály nepublikovať automaticky.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "3adde5443eae2e4120d0ad8a1bca035d86a7ac9e4f93a8218977e1d9413ca95d",
+        "markers": [
+          "Frequently asked questions"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:25.855Z"
+      },
+      {
+        "id": "eurlex-729-index",
+        "url": "https://eur-lex.europa.eu/eli/reg/2014/729/oj/eng",
+        "title": "Council Regulation (EU) No 729/2014 – original full HTML (formerly index-only)",
+        "publisher": "Council of the European Union / Publications Office of the European Union",
+        "obtained_at": "2026-11-21T09:33:25.856Z",
+        "access": "web_text_reviewed",
+        "lineage": "official-euro-specification",
+        "lineage_basis": "Vyhľadávací index predpisu. Plné otvorenie HTML/PDF vrátilo anti-robot výzvu, nie originál. Výňatok sa používa iba na označenie predbežného rozporu, nie na schválenie hodnôt.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "unverified",
+          "url": null,
+          "restrictions": "Rozsah ďalšieho použitia a práva na obrazy neboli právne schválené. Originály nepublikovať automaticky.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "2584ed41789e42e6718b0f8eae71960dede669d900ca618d6d98e3b63a801b01",
+        "markers": [
+          "729/2014"
+        ],
+        "new_in_task24": true,
+        "last_checked_at": "2026-11-21T09:33:25.856Z"
+      },
+      {
+        "id": "nbs-annual-chapter-2019",
+        "url": "https://nbs.sk/_img/documents/_publikacie/vyrocnasprava/protected/svk2019/vs2019_castb_kap4.pdf",
+        "title": "Výročná správa NBS 2019 – časť B, kapitola 4",
+        "publisher": "Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:35:08.985Z",
+        "last_checked_at": "2026-11-21T09:35:08.985Z",
+        "access": "web_pdf_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Issuer production records. Same issuer lineage as NBS mintage/design, not a second independent specimen examination.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://nbs.sk/en/disclaimer_en/",
+          "restrictions": "Public report is not automatic permission for application use or source-image redistribution. Only factual paraphrases and original-body hashes are published; original PDF remains in private NTFS storage.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "ed0b31f1f52ae836ab56336a747d05b14b59d2a8220143384638b3ae400012bd",
+        "markers": [
+          "%PDF-"
+        ],
+        "new_in_follow_up": true
+      },
+      {
+        "id": "nbs-annual-chapter-2020",
+        "url": "https://nbs.sk/_img/documents/_publikacie/vyrocnasprava/protected/svk2020/vs2020_castb_kap4.pdf",
+        "title": "Výročná správa NBS 2020 – časť B, kapitola 4",
+        "publisher": "Národná banka Slovenska",
+        "obtained_at": "2026-11-21T09:35:09.934Z",
+        "last_checked_at": "2026-11-21T09:35:09.934Z",
+        "access": "web_pdf_text_reviewed",
+        "lineage": "official-sk-design",
+        "lineage_basis": "Issuer production records. Same issuer lineage as NBS mintage/design, not a second independent specimen examination.",
+        "lineage_review": {
+          "status": "conservative"
+        },
+        "rights": {
+          "status": "pending_application_review",
+          "url": "https://nbs.sk/en/disclaimer_en/",
+          "restrictions": "Public report is not automatic permission for application use or source-image redistribution. Only factual paraphrases and original-body hashes are published; original PDF remains in private NTFS storage.",
+          "public_original_release": false
+        },
+        "snapshot_sha256": "ae150c19199c704d013ff48b3ec111a6ca643e02ec42d3a26d375b7f0e499cce",
+        "markers": [
+          "%PDF-"
+        ],
+        "new_in_follow_up": true
+      }
+    ],
+    "claims": [
+      {
+        "id": "nbs-design",
+        "source_id": "nbs-national",
+        "fields": [
+          "main_motif",
+          "designer_name"
+        ],
+        "values": {
+          "main_motif": "Kriváň",
+          "designer_name": "Drahomír Zobek"
+        },
+        "scope": "prescribed_design",
+        "locator": "National sides of Slovak euro coins → 5 / 2 / 1 cent → Krivan / designer paragraph",
+        "applies_to": {},
+        "limitation": "No exact specimen attribution, independent expert review or source snapshot.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "aad2ea729c9b1e467d6d40e51511fa5cf9c7d64e1f0058d4da850a5a291b5eef"
+      },
+      {
+        "id": "ecb-design",
+        "source_id": "ecb-sk",
+        "fields": [
+          "main_motif",
+          "coat_of_arms"
+        ],
+        "values": {
+          "main_motif": "Kriváň",
+          "coat_of_arms": "Slovenský štátny znak"
+        },
+        "scope": "prescribed_design",
+        "locator": "Slovakia → 1, 2 and 5 cent national-side descriptions",
+        "applies_to": {},
+        "limitation": "No exact specimen attribution, independent expert review or source snapshot.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "1dd20437ca3ce062449072d2df74719f38a4ef833845e05edc8626f5fe392662"
+      },
+      {
+        "id": "nbs-issue-1-2019",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "1 cent",
+          "date": "2019",
+          "quantity_millions_as_displayed": "32,020"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 1 eurocent; column 2019; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "1 cent",
+          "date": "2019"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-1-2020",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "1 cent",
+          "date": "2020",
+          "quantity_millions_as_displayed": "57,702"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 1 eurocent; column 2020; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "1 cent",
+          "date": "2020"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-1-2021",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "1 cent",
+          "date": "2021",
+          "quantity_millions_as_displayed": "14,669"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 1 eurocent; column 2021; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "1 cent",
+          "date": "2021"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-2-2019",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "2 cent",
+          "date": "2019",
+          "quantity_millions_as_displayed": "14,470"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 2 eurocent; column 2019; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "2 cent",
+          "date": "2019"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-2-2020",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "2 cent",
+          "date": "2020",
+          "quantity_millions_as_displayed": "25,122"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 2 eurocent; column 2020; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "2 cent",
+          "date": "2020"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-2-2021",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "2 cent",
+          "date": "2021",
+          "quantity_millions_as_displayed": "7,335"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 2 eurocent; column 2021; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "2 cent",
+          "date": "2021"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-5-2019",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "5 cent",
+          "date": "2019",
+          "quantity_millions_as_displayed": "4,045"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 5 eurocent; column 2019; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "5 cent",
+          "date": "2019"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-5-2020",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "5 cent",
+          "date": "2020",
+          "quantity_millions_as_displayed": "16,510"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 5 eurocent; column 2020; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "5 cent",
+          "date": "2020"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "nbs-issue-5-2021",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "denomination",
+          "date"
+        ],
+        "values": {
+          "denomination": "5 cent",
+          "date": "2021",
+          "quantity_millions_as_displayed": "6,319"
+        },
+        "scope": "issue_population",
+        "locator": "Počet slovenských obehových euromincí → row 5 eurocent; column 2021; unit mil. ks; note 2 includes annual sets",
+        "applies_to": {
+          "denomination": "5 cent",
+          "date": "2021"
+        },
+        "limitation": "Official year/denomination population context only. Counts include annual sets; they do not authenticate a photographed date, marks, finish or specimen.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "ecb-spec-1",
+        "source_id": "ecb-common",
+        "fields": [
+          "material",
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "edge"
+        ],
+        "values": {
+          "material": "copper-covered steel",
+          "physical.mass_g": 2.3,
+          "physical.diameter_mm": 16.25,
+          "physical.thickness_mm": 1.67,
+          "edge": "smooth"
+        },
+        "scope": "nominal_specification",
+        "locator": "Common sides → technical block linked to /euro/coins/common/shared/img/common_1cent_800.jpg",
+        "applies_to": {
+          "denomination": "1 cent"
+        },
+        "limitation": "Nominal euro denomination specification, not measured values or manufacturing tolerances for a particular 2019–2021 coin. Material is a composite description, not an independently assayed alloy composition.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "dac2001c6f523c7ebcaecdf4eaad547a4ea1952f8ff0fd819daedcfa1e166f32"
+      },
+      {
+        "id": "ecb-spec-2",
+        "source_id": "ecb-common",
+        "fields": [
+          "material",
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "edge"
+        ],
+        "values": {
+          "material": "copper-covered steel",
+          "physical.mass_g": 3.06,
+          "physical.diameter_mm": 18.75,
+          "physical.thickness_mm": 1.67,
+          "edge": "smooth with a groove"
+        },
+        "scope": "nominal_specification",
+        "locator": "Common sides → technical block linked to /euro/coins/common/shared/img/common_2cent_800.jpg",
+        "applies_to": {
+          "denomination": "2 cent"
+        },
+        "limitation": "Nominal euro denomination specification, not measured values or manufacturing tolerances for a particular 2019–2021 coin. Material is a composite description, not an independently assayed alloy composition.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "dac2001c6f523c7ebcaecdf4eaad547a4ea1952f8ff0fd819daedcfa1e166f32"
+      },
+      {
+        "id": "ecb-spec-5",
+        "source_id": "ecb-common",
+        "fields": [
+          "material",
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "edge"
+        ],
+        "values": {
+          "material": "copper-covered steel",
+          "physical.mass_g": 3.92,
+          "physical.diameter_mm": 21.25,
+          "physical.thickness_mm": 1.67,
+          "edge": "smooth"
+        },
+        "scope": "nominal_specification",
+        "locator": "Common sides → technical block linked to /euro/coins/common/shared/img/common_5cent_800.jpg",
+        "applies_to": {
+          "denomination": "5 cent"
+        },
+        "limitation": "Nominal euro denomination specification, not measured values or manufacturing tolerances for a particular 2019–2021 coin. Material is a composite description, not an independently assayed alloy composition.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "dac2001c6f523c7ebcaecdf4eaad547a4ea1952f8ff0fd819daedcfa1e166f32"
+      },
+      {
+        "id": "nbs-set-caveat",
+        "source_id": "nbs-mintage",
+        "fields": [
+          "finish"
+        ],
+        "values": {
+          "finish": "mintage counts include annual sets"
+        },
+        "scope": "issue_population",
+        "locator": "Mintage table note 2",
+        "applies_to": {},
+        "limitation": "No exact specimen attribution, independent expert review or source snapshot.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528"
+      },
+      {
+        "id": "mint-set-2020",
+        "source_id": "mint-2020",
+        "fields": [
+          "finish"
+        ],
+        "values": {
+          "finish": "annual sets listed in special uncirculated and proof-like finishes"
+        },
+        "scope": "set_context",
+        "locator": "January → Hry XXXII. Olympiády Tokio 2020 → Vyhotovenie",
+        "applies_to": {
+          "date": "2020"
+        },
+        "limitation": "Mint-authored product context; cannot assign an individual pilot coin to ordinary circulation, a set, or a proof-like finish. No source images retained.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "c714fea4c455199ce032fc985662f8659ca564de32d5ceb2ed872f3b07512cb8"
+      },
+      {
+        "id": "mint-set-2021",
+        "source_id": "mint-2021",
+        "fields": [
+          "finish"
+        ],
+        "values": {
+          "finish": "annual sets listed in special uncirculated and proof-like finishes"
+        },
+        "scope": "set_context",
+        "locator": "February → 100. výročie začatia razby československých mincí → Vyhotovenie",
+        "applies_to": {
+          "date": "2021"
+        },
+        "limitation": "Mint-authored product context; cannot assign an individual pilot coin to ordinary circulation, a set, or a proof-like finish. No source images retained.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "inherited_from": "observations-2026-11-12.json",
+        "original_response_sha256": "4f16aedc7a628fb137a8c38209a05e6c113d671d38c33674030a7725d6494afe"
+      },
+      {
+        "id": "notice-national-layout",
+        "source_id": "nbs-notice-308-pdf",
+        "scope": "prescribed_design",
+        "fields": [
+          "country_text",
+          "main_motif",
+          "coat_of_arms",
+          "engraver_mark",
+          "designer_name",
+          "micro_symbols",
+          "geometry"
+        ],
+        "values": {
+          "country_text": "SLOVENSKO",
+          "main_motif": "Kriváň",
+          "coat_of_arms": "Slovenský štátny znak",
+          "engraver_mark": "Z",
+          "designer_name": "Drahomír Zobek",
+          "micro_symbols": "12 hviezd EÚ pri okraji",
+          "geometry": "SLOVENSKO v strede; pod ním rok; pod rokom štátny znak; vľavo od znaku značka mincovne, vpravo Z; hviezdy do kruhu pri okraji"
+        },
+        "locator": "PDF strana 2, Čl. 4, 1, 2 a 5 eurocentov",
+        "applies_to": {},
+        "limitation": "Iba predpísaný alebo všeobecný kontext. Fotografia, meranie a nezávislé odborné overenie konkrétneho ročníka/exemplára chýbajú.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ce11a6081eaeb8ec43dd2087448791c4346d30acfb72507373e350c67c957aba"
+      },
+      {
+        "id": "notice-common-side",
+        "source_id": "nbs-notice-308-pdf",
+        "scope": "common_side",
+        "fields": [
+          "common_motif"
+        ],
+        "values": {
+          "common_motif": "1, 2 a 5 centov používajú pôvodnú spoločnú európsku stranu"
+        },
+        "locator": "PDF strana 2, Čl. 3 ods. 1–2",
+        "applies_to": {},
+        "limitation": "Iba predpísaný alebo všeobecný kontext. Fotografia, meranie a nezávislé odborné overenie konkrétneho ročníka/exemplára chýbajú.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ce11a6081eaeb8ec43dd2087448791c4346d30acfb72507373e350c67c957aba"
+      },
+      {
+        "id": "ecb-common-globe",
+        "source_id": "ecb-common",
+        "scope": "common_side",
+        "fields": [
+          "common_motif"
+        ],
+        "values": {
+          "common_motif": "1, 2 a 5 centov zobrazujú Európu vo vzťahu k Afrike a Ázii na glóbuse"
+        },
+        "locator": "Common sides, úvodný opis mincí 5, 2 a 1 cent",
+        "applies_to": {},
+        "limitation": "Iba predpísaný alebo všeobecný kontext. Fotografia, meranie a nezávislé odborné overenie konkrétneho ročníka/exemplára chýbajú.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "dac2001c6f523c7ebcaecdf4eaad547a4ea1952f8ff0fd819daedcfa1e166f32"
+      },
+      {
+        "id": "bundesbank-mint-context",
+        "source_id": "bundesbank-faq",
+        "scope": "nominal_specification",
+        "fields": [
+          "mint_mark"
+        ],
+        "values": {
+          "mint_mark": "MK in a circle"
+        },
+        "locator": "Mints and mintmarks, riadok Slovakia (2009), Kremnica, first year 2009",
+        "applies_to": {},
+        "limitation": "Všeobecný údaj o mincovni a prvom roku. Neosvedčuje presný tvar/razidlá, rok 2019–2021, polohu ani pravosť konkrétneho kusu.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "3adde5443eae2e4120d0ad8a1bca035d86a7ac9e4f93a8218977e1d9413ca95d"
+      },
+      {
+        "id": "bundesbank-spec-1",
+        "source_id": "bundesbank-faq",
+        "scope": "nominal_specification",
+        "fields": [
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "edge"
+        ],
+        "values": {
+          "physical.mass_g": 2.3,
+          "physical.diameter_mm": 16.25,
+          "physical.thickness_mm": 1.67,
+          "edge": "smooth"
+        },
+        "locator": "Technical features of the euro coins, riadok 1 cent; hrúbka je označená edge thickness (benchmark)",
+        "applies_to": {
+          "denomination": "1 cent"
+        },
+        "limitation": "Nominálna referenčná tabuľka, nie nezávislé laboratórne meranie. Hrúbka na hrane nie je automaticky zhodná s každou metódou merania reliéfu.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "3adde5443eae2e4120d0ad8a1bca035d86a7ac9e4f93a8218977e1d9413ca95d"
+      },
+      {
+        "id": "bundesbank-spec-2",
+        "source_id": "bundesbank-faq",
+        "scope": "nominal_specification",
+        "fields": [
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "edge"
+        ],
+        "values": {
+          "physical.mass_g": 3.06,
+          "physical.diameter_mm": 18.75,
+          "physical.thickness_mm": 1.67,
+          "edge": "smooth with a groove"
+        },
+        "locator": "Technical features of the euro coins, riadok 2 cent; hrúbka je označená edge thickness (benchmark)",
+        "applies_to": {
+          "denomination": "2 cent"
+        },
+        "limitation": "Nominálna referenčná tabuľka, nie nezávislé laboratórne meranie. Hrúbka na hrane nie je automaticky zhodná s každou metódou merania reliéfu.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "3adde5443eae2e4120d0ad8a1bca035d86a7ac9e4f93a8218977e1d9413ca95d"
+      },
+      {
+        "id": "bundesbank-spec-5",
+        "source_id": "bundesbank-faq",
+        "scope": "nominal_specification",
+        "fields": [
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "edge"
+        ],
+        "values": {
+          "physical.mass_g": 3.92,
+          "physical.diameter_mm": 21.25,
+          "physical.thickness_mm": 1.67,
+          "edge": "smooth"
+        },
+        "locator": "Technical features of the euro coins, riadok 5 cent; hrúbka je označená edge thickness (benchmark)",
+        "applies_to": {
+          "denomination": "5 cent"
+        },
+        "limitation": "Nominálna referenčná tabuľka, nie nezávislé laboratórne meranie. Hrúbka na hrane nie je automaticky zhodná s každou metódou merania reliéfu.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "3adde5443eae2e4120d0ad8a1bca035d86a7ac9e4f93a8218977e1d9413ca95d"
+      },
+      {
+        "id": "mint-set-2019",
+        "source_id": "mint-2019",
+        "scope": "set_context",
+        "fields": [
+          "finish"
+        ],
+        "values": {
+          "finish": "annual sets listed in special uncirculated and proof-like finishes"
+        },
+        "locator": "Február: MS v ľadovom hokeji (špeciálne neobiehajúce); Zavedenie eura – 10. výročie (proof-like)",
+        "applies_to": {
+          "date": "2019"
+        },
+        "limitation": "Existencia odlišných súborových úprav neklasifikuje konkrétnu pilotnú mincu ako bežnú obehovú.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "8012a400a56ec7d5fc49117eba763cc12948f691caf7e34be0cd2ebd26660540"
+      },
+      {
+        "id": "mint-set-2021-pdf",
+        "source_id": "mint-2021-pdf",
+        "scope": "set_context",
+        "fields": [
+          "finish"
+        ],
+        "values": {
+          "finish": "annual sets listed in special uncirculated and proof-like finishes"
+        },
+        "locator": "PDF strana 1, Február, 100. výročie začatia razby československých mincí",
+        "applies_to": {
+          "date": "2021"
+        },
+        "limitation": "Rovnaký plán ako HTML; nedodáva nezávislosť ani dôkaz úpravy konkrétneho kusu.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": null
+      },
+      {
+        "id": "eurlex-original-annex-1",
+        "source_id": "eurlex-specification",
+        "scope": "nominal_specification",
+        "fields": [
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "material",
+          "edge"
+        ],
+        "values": {
+          "physical.mass_g": 2.3,
+          "physical.diameter_mm": 16.25,
+          "physical.thickness_mm": 1.67,
+          "material": "copper-covered steel",
+          "edge": "smooth"
+        },
+        "locator": "Original PDF, page 6 of 7, OJ L 194/6, 2 July 2014, Annex I, row 0,01. Table visually reviewed against rendered original; full HTML independently retrieved from the same legal publication.",
+        "applies_to": {
+          "denomination": "1 cent"
+        },
+        "limitation": "Published legal specification, not a specimen measurement or independent research lineage. The 2/5-cent mass disagreement with ECB/Bundesbank is confirmed in original bytes and remains unresolved; no rounding, tolerance or preferred value is inferred. Historical publication is not a legal opinion about subsequent amendments.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "43305ee22f821ca56a074720bec8f66e2b1fe78769b490b70f6f291fa116e5b2"
+      },
+      {
+        "id": "eurlex-original-annex-2",
+        "source_id": "eurlex-specification",
+        "scope": "nominal_specification",
+        "fields": [
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "material",
+          "edge"
+        ],
+        "values": {
+          "physical.mass_g": 3,
+          "physical.diameter_mm": 18.75,
+          "physical.thickness_mm": 1.67,
+          "material": "copper-covered steel",
+          "edge": "smooth with a groove"
+        },
+        "locator": "Original PDF, page 6 of 7, OJ L 194/6, 2 July 2014, Annex I, row 0,02. Table visually reviewed against rendered original; full HTML independently retrieved from the same legal publication.",
+        "applies_to": {
+          "denomination": "2 cent"
+        },
+        "limitation": "Published legal specification, not a specimen measurement or independent research lineage. The 2/5-cent mass disagreement with ECB/Bundesbank is confirmed in original bytes and remains unresolved; no rounding, tolerance or preferred value is inferred. Historical publication is not a legal opinion about subsequent amendments.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "43305ee22f821ca56a074720bec8f66e2b1fe78769b490b70f6f291fa116e5b2"
+      },
+      {
+        "id": "eurlex-original-annex-5",
+        "source_id": "eurlex-specification",
+        "scope": "nominal_specification",
+        "fields": [
+          "physical.mass_g",
+          "physical.diameter_mm",
+          "physical.thickness_mm",
+          "material",
+          "edge"
+        ],
+        "values": {
+          "physical.mass_g": 3.9,
+          "physical.diameter_mm": 21.25,
+          "physical.thickness_mm": 1.67,
+          "material": "copper-covered steel",
+          "edge": "smooth"
+        },
+        "locator": "Original PDF, page 6 of 7, OJ L 194/6, 2 July 2014, Annex I, row 0,05. Table visually reviewed against rendered original; full HTML independently retrieved from the same legal publication.",
+        "applies_to": {
+          "denomination": "5 cent"
+        },
+        "limitation": "Published legal specification, not a specimen measurement or independent research lineage. The 2/5-cent mass disagreement with ECB/Bundesbank is confirmed in original bytes and remains unresolved; no rounding, tolerance or preferred value is inferred. Historical publication is not a legal opinion about subsequent amendments.",
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "43305ee22f821ca56a074720bec8f66e2b1fe78769b490b70f6f291fa116e5b2"
+      },
+      {
+        "id": "nbs-annual-2019-year-1",
+        "source_id": "nbs-annual-chapter-2019",
+        "scope": "issue_population",
+        "fields": [
+          "date",
+          "denomination"
+        ],
+        "values": {
+          "date": "2019",
+          "denomination": "1 cent"
+        },
+        "locator": "Chapter PDF page 5; printed page 72, section 4.5, Table 9 and adjacent paragraph explicitly specifying the year on set coins.",
+        "applies_to": {
+          "date": "2019",
+          "denomination": "1 cent"
+        },
+        "limitation": "Confirms issuer year/denomination production context, including explicitly year-dated sets, not the photographed digits, finish or provenance of a circulation specimen. Delivery counts, mint-year totals and collector-set counts have different scopes; no inferred specimen attribution.",
+        "production_context": {
+          "circulation_deliveries": 32000000,
+          "set_coins_per_denomination": 20100,
+          "set_themes": 6,
+          "delivery_tolerance_note": "Table footnote +5% contractual deviation applies to marked 2/5-cent rows, not a specimen measurement tolerance."
+        },
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ed0b31f1f52ae836ab56336a747d05b14b59d2a8220143384638b3ae400012bd"
+      },
+      {
+        "id": "nbs-annual-2019-year-2",
+        "source_id": "nbs-annual-chapter-2019",
+        "scope": "issue_population",
+        "fields": [
+          "date",
+          "denomination"
+        ],
+        "values": {
+          "date": "2019",
+          "denomination": "2 cent"
+        },
+        "locator": "Chapter PDF page 5; printed page 72, section 4.5, Table 9 and adjacent paragraph explicitly specifying the year on set coins.",
+        "applies_to": {
+          "date": "2019",
+          "denomination": "2 cent"
+        },
+        "limitation": "Confirms issuer year/denomination production context, including explicitly year-dated sets, not the photographed digits, finish or provenance of a circulation specimen. Delivery counts, mint-year totals and collector-set counts have different scopes; no inferred specimen attribution.",
+        "production_context": {
+          "circulation_deliveries": 14450500,
+          "set_coins_per_denomination": 20100,
+          "set_themes": 6,
+          "delivery_tolerance_note": "Table footnote +5% contractual deviation applies to marked 2/5-cent rows, not a specimen measurement tolerance."
+        },
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ed0b31f1f52ae836ab56336a747d05b14b59d2a8220143384638b3ae400012bd"
+      },
+      {
+        "id": "nbs-annual-2019-year-5",
+        "source_id": "nbs-annual-chapter-2019",
+        "scope": "issue_population",
+        "fields": [
+          "date",
+          "denomination"
+        ],
+        "values": {
+          "date": "2019",
+          "denomination": "5 cent"
+        },
+        "locator": "Chapter PDF page 5; printed page 72, section 4.5, Table 9 and adjacent paragraph explicitly specifying the year on set coins.",
+        "applies_to": {
+          "date": "2019",
+          "denomination": "5 cent"
+        },
+        "limitation": "Confirms issuer year/denomination production context, including explicitly year-dated sets, not the photographed digits, finish or provenance of a circulation specimen. Delivery counts, mint-year totals and collector-set counts have different scopes; no inferred specimen attribution.",
+        "production_context": {
+          "circulation_deliveries": 4025000,
+          "set_coins_per_denomination": 20100,
+          "set_themes": 6,
+          "delivery_tolerance_note": "Table footnote +5% contractual deviation applies to marked 2/5-cent rows, not a specimen measurement tolerance."
+        },
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ed0b31f1f52ae836ab56336a747d05b14b59d2a8220143384638b3ae400012bd"
+      },
+      {
+        "id": "nbs-annual-2020-year-1",
+        "source_id": "nbs-annual-chapter-2020",
+        "scope": "issue_population",
+        "fields": [
+          "date",
+          "denomination"
+        ],
+        "values": {
+          "date": "2020",
+          "denomination": "1 cent"
+        },
+        "locator": "Chapter PDF page 5; printed page 74, section 4.2, Table 8 and adjacent paragraph explicitly specifying the year on set coins.",
+        "applies_to": {
+          "date": "2020",
+          "denomination": "1 cent"
+        },
+        "limitation": "Confirms issuer year/denomination production context, including explicitly year-dated sets, not the photographed digits, finish or provenance of a circulation specimen. Delivery counts, mint-year totals and collector-set counts have different scopes; no inferred specimen attribution.",
+        "production_context": {
+          "circulation_deliveries": 57674500,
+          "set_coins_per_denomination": 28100,
+          "set_themes": 7,
+          "delivery_tolerance_note": "Table footnote +5% contractual quantity tolerance is not a coin mass/dimension tolerance."
+        },
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ae150c19199c704d013ff48b3ec111a6ca643e02ec42d3a26d375b7f0e499cce"
+      },
+      {
+        "id": "nbs-annual-2020-year-2",
+        "source_id": "nbs-annual-chapter-2020",
+        "scope": "issue_population",
+        "fields": [
+          "date",
+          "denomination"
+        ],
+        "values": {
+          "date": "2020",
+          "denomination": "2 cent"
+        },
+        "locator": "Chapter PDF page 5; printed page 74, section 4.2, Table 8 and adjacent paragraph explicitly specifying the year on set coins.",
+        "applies_to": {
+          "date": "2020",
+          "denomination": "2 cent"
+        },
+        "limitation": "Confirms issuer year/denomination production context, including explicitly year-dated sets, not the photographed digits, finish or provenance of a circulation specimen. Delivery counts, mint-year totals and collector-set counts have different scopes; no inferred specimen attribution.",
+        "production_context": {
+          "circulation_deliveries": 25094000,
+          "set_coins_per_denomination": 28100,
+          "set_themes": 7,
+          "delivery_tolerance_note": "Table footnote +5% contractual quantity tolerance is not a coin mass/dimension tolerance."
+        },
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ae150c19199c704d013ff48b3ec111a6ca643e02ec42d3a26d375b7f0e499cce"
+      },
+      {
+        "id": "nbs-annual-2020-year-5",
+        "source_id": "nbs-annual-chapter-2020",
+        "scope": "issue_population",
+        "fields": [
+          "date",
+          "denomination"
+        ],
+        "values": {
+          "date": "2020",
+          "denomination": "5 cent"
+        },
+        "locator": "Chapter PDF page 5; printed page 74, section 4.2, Table 8 and adjacent paragraph explicitly specifying the year on set coins.",
+        "applies_to": {
+          "date": "2020",
+          "denomination": "5 cent"
+        },
+        "limitation": "Confirms issuer year/denomination production context, including explicitly year-dated sets, not the photographed digits, finish or provenance of a circulation specimen. Delivery counts, mint-year totals and collector-set counts have different scopes; no inferred specimen attribution.",
+        "production_context": {
+          "circulation_deliveries": 16482000,
+          "set_coins_per_denomination": 28100,
+          "set_themes": 7,
+          "delivery_tolerance_note": "Table footnote +5% contractual quantity tolerance is not a coin mass/dimension tolerance."
+        },
+        "review": {
+          "status": "pending_expert_review"
+        },
+        "original_response_sha256": "ae150c19199c704d013ff48b3ec111a6ca643e02ec42d3a26d375b7f0e499cce"
+      }
+    ],
+    "follow_up": {
+      "issue": 19,
+      "checked_on": "2026-11-21",
+      "previous_review_path": "data/pilot/evidence-audit/source-review-2026-11-13.json",
+      "previous_review_sha256": "0d63ef6cf7a1d8b738bb76bdeb6a5c7ccbbacca7a351122a72dd542a6274c398",
+      "private_photographs_used": false,
+      "source_originals_publicly_released": false
+    },
+    "additional_retrieval_attempts": [
+      {
+        "source_id": "nbs-annual-2019",
+        "url": "https://nbs.sk/_img/Documents/_Publikacie/AnnualReport/ARNBS19.pdf",
+        "checked_at": "2026-11-21T09:33:50.886Z",
+        "state": "redirect_review_required",
+        "http_status": 301,
+        "bytes": 274,
+        "location": "https://nbs.sk/_img/documents/_publikacie/annualreport/arnbs19.pdf",
+        "archive_sha256": null,
+        "limitation": "No accepted original from this attempted URL. Redirects were not followed automatically."
+      },
+      {
+        "source_id": "nbs-annual-2020",
+        "url": "https://nbs.sk/_img/Documents/_Publikacie/AnnualReport/ARNBS20.pdf",
+        "checked_at": "2026-11-21T09:33:50.888Z",
+        "state": "redirect_review_required",
+        "http_status": 301,
+        "bytes": 274,
+        "location": "https://nbs.sk/_img/documents/_publikacie/annualreport/arnbs20.pdf",
+        "archive_sha256": null,
+        "limitation": "No accepted original from this attempted URL. Redirects were not followed automatically."
+      },
+      {
+        "source_id": "nbs-annual-2021",
+        "url": "https://nbs.sk/_img/Documents/_Publikacie/AnnualReport/ARNBS21.pdf",
+        "checked_at": "2026-11-21T09:33:50.888Z",
+        "state": "redirect_review_required",
+        "http_status": 301,
+        "bytes": 274,
+        "location": "https://nbs.sk/_img/documents/_publikacie/annualreport/arnbs21.pdf",
+        "archive_sha256": null,
+        "limitation": "No accepted original from this attempted URL. Redirects were not followed automatically."
+      },
+      {
+        "source_id": "nbs-annual-chapter-2021",
+        "url": "https://nbs.sk/dokument/9e098430-0201-43b0-ae6c-d05f64ec90fa/stiahnut?force=false",
+        "checked_at": "2026-11-21T09:35:10.459Z",
+        "state": "invalid_size",
+        "http_status": 200,
+        "bytes": 8710715,
+        "location": null,
+        "archive_sha256": null,
+        "limitation": "Response is 8710715 bytes, above the existing 8 MiB acquisition limit; no hash or original archive is claimed. Web extraction is context only."
+      },
+      {
+        "source_id": "mint-annual-2019",
+        "url": "https://www.mint.sk/sites/default/files/annual_reports/annual_report_2019.pdf",
+        "checked_at": "2026-11-21T09:35:29.622Z",
+        "state": "invalid_link",
+        "http_status": 404,
+        "bytes": 24824,
+        "location": null,
+        "archive_sha256": null,
+        "limitation": "No accepted original from this attempted URL. Redirects were not followed automatically."
+      }
+    ]
+  },
+  "probes": [
+    {
+      "source_id": "nbs-national",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "aad2ea729c9b1e467d6d40e51511fa5cf9c7d64e1f0058d4da850a5a291b5eef",
+      "bytes": 172952,
+      "checked_at": "2026-11-21T09:33:13.542Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "nbs-mintage",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "535d4e571c29bb40e9ab89299d2adcc81c30b2eb2e46c3dee733db97bee4f528",
+      "bytes": 169214,
+      "checked_at": "2026-11-21T09:33:13.584Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "ecb-sk",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "1dd20437ca3ce062449072d2df74719f38a4ef833845e05edc8626f5fe392662",
+      "bytes": 102489,
+      "checked_at": "2026-11-21T09:33:13.585Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "ecb-common",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "dac2001c6f523c7ebcaecdf4eaad547a4ea1952f8ff0fd819daedcfa1e166f32",
+      "bytes": 105764,
+      "checked_at": "2026-11-21T09:33:13.585Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "mint-2020",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "c714fea4c455199ce032fc985662f8659ca564de32d5ceb2ed872f3b07512cb8",
+      "bytes": 96610,
+      "checked_at": "2026-11-21T09:33:15.170Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "mint-2021",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "4f16aedc7a628fb137a8c38209a05e6c113d671d38c33674030a7725d6494afe",
+      "bytes": 70423,
+      "checked_at": "2026-11-21T09:33:15.171Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "ec-legislation",
+      "state": "content_review_required",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": null,
+      "bytes": 74618,
+      "checked_at": "2026-11-21T09:33:15.172Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "eurlex-specification",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "archive_sha256": "43305ee22f821ca56a074720bec8f66e2b1fe78769b490b70f6f291fa116e5b2",
+      "bytes": 347893,
+      "checked_at": "2026-11-21T09:33:15.173Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "eurlex-reproduction",
+      "state": "content_review_required",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": null,
+      "bytes": 171495,
+      "checked_at": "2026-11-21T09:33:20.050Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "nbs-notice-308-pdf",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "archive_sha256": "ce11a6081eaeb8ec43dd2087448791c4346d30acfb72507373e350c67c957aba",
+      "bytes": 58649,
+      "checked_at": "2026-11-21T09:33:20.051Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "nbs-notice-308-gazette",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "archive_sha256": "da6f264c534773aed06aba4963d9bba25c142d04a3d7e0743035896aff780438",
+      "bytes": 132206,
+      "checked_at": "2026-11-21T09:33:20.052Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "slovlex-308-static",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "b8405f70f07c22f2241763dfdbd9f165012c2b09ef1fe60b3c6e813f807610b3",
+      "bytes": 135793,
+      "checked_at": "2026-11-21T09:33:20.052Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "mint-2019",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "8012a400a56ec7d5fc49117eba763cc12948f691caf7e34be0cd2ebd26660540",
+      "bytes": 50399,
+      "checked_at": "2026-11-21T09:33:25.853Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "mint-2021-pdf",
+      "state": "transport_failure",
+      "http_status": 0,
+      "content_type": null,
+      "archive_sha256": null,
+      "bytes": null,
+      "checked_at": "2026-11-21T09:33:25.854Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "bundesbank-faq",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "3adde5443eae2e4120d0ad8a1bca035d86a7ac9e4f93a8218977e1d9413ca95d",
+      "bytes": 324523,
+      "checked_at": "2026-11-21T09:33:25.855Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "eurlex-729-index",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "text/html",
+      "archive_sha256": "2584ed41789e42e6718b0f8eae71960dede669d900ca618d6d98e3b63a801b01",
+      "bytes": 305424,
+      "checked_at": "2026-11-21T09:33:25.856Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "nbs-annual-chapter-2019",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "archive_sha256": "ed0b31f1f52ae836ab56336a747d05b14b59d2a8220143384638b3ae400012bd",
+      "bytes": 337896,
+      "checked_at": "2026-11-21T09:35:08.985Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    },
+    {
+      "source_id": "nbs-annual-chapter-2020",
+      "state": "available",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "archive_sha256": "ae150c19199c704d013ff48b3ec111a6ca643e02ec42d3a26d375b7f0e499cce",
+      "bytes": 247763,
+      "checked_at": "2026-11-21T09:35:09.934Z",
+      "content_changed": false,
+      "change_comparison": "NO_PREVIOUS_SUCCESSFUL_ORIGINAL",
+      "automatic_public_release": false
+    }
+  ]
+}
