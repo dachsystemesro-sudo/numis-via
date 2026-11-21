@@ -81,6 +81,8 @@ public static class NativeStorage {
   }finally{Release(held);}
  }
  [STAThread] static int Main(string[] args) {
+  Console.InputEncoding=new System.Text.UTF8Encoding(false);
+  Console.OutputEncoding=new System.Text.UTF8Encoding(false);
   try {
    if(args.Length==1&&args[0]=="select-photos") {
     using(var dialog=new OpenFileDialog()) {
@@ -128,7 +130,7 @@ public static class NativeStorage {
    }
    Need(args.Length>=2,"usage_mode_and_absolute_path");
    if(args[0]=="check") {Need(args.Length==2||args.Length==3&&args[2]=="protected","invalid_arguments");Check(args[1],args.Length==3);}
-   else if(args[0]=="check-source"){Need(args.Length==2,"invalid_arguments");var held=LockPath(Local(args[1]),false);Release(held);}
+   else if(args[0]=="check-source"){Need(args.Length==2,"invalid_arguments");var held=LockPath(Local(args[1]),false);Release(held);Console.WriteLine(new JavaScriptSerializer().Serialize(new {valid=true,filename=Path.GetFileName(args[1]),identity=(object)null,valuation_allowed=false}));return 0;}
    else if(args[0]=="create-root"){Need(args.Length==2,"invalid_arguments");NewObject(args[1],null,false);}
    else if(args[0]=="create-dir"){Need(args.Length==2,"invalid_arguments");NewObject(args[1],null,true);}
    else if(args[0]=="write-new"){Need(args.Length==2,"invalid_arguments");string text=Console.In.ReadToEnd();Need(text.Length<=20000000,"payload_limit");NewObject(args[1],Convert.FromBase64String(text),true);}
