@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113, evidence/task-24-source-verification, intake/first-sk-cent-2020, fix/windows-intake-diagnostics]
+    branches: [main, pilot/sk-eurocents-evidence-and-safety, integration/coinprint-safety-20261112, integration/pilot-review-20261113, evidence/task-24-source-verification, intake/first-sk-cent-2020, fix/windows-intake-diagnostics, feat/windows-one-click-helper]
   workflow_dispatch:
   # Commits made with GITHUB_TOKEN do not trigger another push workflow.
   workflow_run:
@@ -70,4 +70,4 @@ jobs:
       - name: Read-only Windows diagnosis before intake regressions
         run: node scripts/diagnose-windows-storage.mjs
       - name: Skutočné NTFS ACL a lokálny príjem syntetického exemplára
-        run: node --test test/specimen-intake.test.js test/windows-intake-diagnostics.test.js test/specimen-local-prepare.test.js test/windows-local-assistant.test.js test/windows-helper.test.js
+        run: node --test test/specimen-intake.test.js test/windows-intake-diagnostics.test.js test/specimen-local-prepare.test.js test/windows-local-assistant.test.js test/windows-helper.test.js test/private-collection.test.js

@@ -1,0 +1,57 @@
+{
+  "schema_version": "private-collection-card/1",
+  "collection_id": "NVCOL-00000000-0000-0000-0000-000000000000",
+  "coin_id": "NVC-00000000-0000-0000-0000-000000000000",
+  "revision": 1,
+  "previous_card_sha256": null,
+  "created_at": null,
+  "updated_at": null,
+  "title": "",
+  "notes": "",
+  "archive_status": "archived",
+  "identification_status": "unidentified",
+  "identity": null,
+  "valuation_allowed": false,
+  "valuation_status": "valuation_blocked",
+  "identity_proposal": null,
+  "provenance": {
+    "owner_ref": null,
+    "obtained_at": null,
+    "source_ref": null,
+    "same_specimen_attested": false
+  },
+  "rights": {
+    "local_processing_authorized": null,
+    "photographer_ref": null,
+    "retention_until": null
+  },
+  "measurements": {
+    "mass_g": {
+      "readings": [],
+      "uncertainty": null
+    },
+    "diameter_mm": {
+      "readings": [],
+      "uncertainty": null
+    },
+    "thickness_mm": {
+      "readings": [],
+      "uncertainty": null
+    }
+  },
+  "evidence_documents": [],
+  "images": [],
+  "technical_report": null,
+  "passport": {
+    "status": "not_ready",
+    "ready_for_issue": false,
+    "blockers": [
+      "identity_review_not_performed",
+      "capture_review_missing",
+      "provenance_missing",
+      "rights_missing",
+      "measurements_missing",
+      "evidence_missing"
+    ]
+  }
+}
