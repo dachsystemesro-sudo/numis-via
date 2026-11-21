@@ -3,3 +3,7 @@ node_modules/
 blind-private/
 blind-run*.json
 preflight-private*.json
+
+.local-runtime/
+private-collection/
+collection-private/

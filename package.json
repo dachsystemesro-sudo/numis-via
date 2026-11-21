@@ -17,7 +17,9 @@
     "specimen:init": "node scripts/specimen-intake.mjs init",
     "specimen:prepare": "node scripts/specimen-intake.mjs prepare",
     "specimen:import": "node scripts/specimen-intake.mjs import",
-    "specimen:audit": "node scripts/specimen-intake.mjs audit"
+    "specimen:audit": "node scripts/specimen-intake.mjs audit",
+    "collection:start": "node scripts/collection-assistant.mjs",
+    "collection:cli": "node scripts/private-collection.mjs"
   },
   "devDependencies": {
     "sharp": "0.35.5"
