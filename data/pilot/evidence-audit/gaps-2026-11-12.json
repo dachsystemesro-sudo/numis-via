@@ -1,0 +1,1373 @@
+{
+  "schema_version": "1.0",
+  "issue": 19,
+  "checked_at": "2026-11-12",
+  "base_pr": 18,
+  "base_sha": "a0f9b1d344c21a597e1b792061d07d537d0a9034",
+  "no_promotion": true,
+  "ready_for_physical_pilot": false,
+  "production_loaded": false,
+  "observation_notes": {
+    "path": "data/pilot/evidence-audit/observations-2026-11-12.json",
+    "sha256": "45eb3c8229b2cdcda30e12ef0ce7f0824bd96994c923b7c9ee5734a615a90435",
+    "hash_scope": "This hashes our paraphrased audit notes only; it is not a hash of an original source response."
+  },
+  "variants": [
+    {
+      "catalogue_id": "SK-EUR-001-2019-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "1 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-1-2019"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2019",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-1-2019"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 2.3,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 16.25,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-001-2020-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "1 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-1-2020"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2020",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-1-2020"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat",
+            "mint-set-2020"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 2.3,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 16.25,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-001-2021-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "1 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-1-2021"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2021",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-1-2021"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat",
+            "mint-set-2021"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 2.3,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 16.25,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-1"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-002-2019-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "2 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-2-2019"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2019",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-2-2019"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 3.06,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 18.75,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth with a groove",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-002-2020-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "2 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-2-2020"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2020",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-2-2020"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat",
+            "mint-set-2020"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 3.06,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 18.75,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth with a groove",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-002-2021-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "2 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-2-2021"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2021",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-2-2021"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat",
+            "mint-set-2021"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 3.06,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 18.75,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth with a groove",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-2"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-005-2019-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "5 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-5-2019"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2019",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-5-2019"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 3.92,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 21.25,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-005-2020-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "5 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-5-2020"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2020",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-5-2020"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat",
+            "mint-set-2020"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 3.92,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 21.25,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    },
+    {
+      "catalogue_id": "SK-EUR-005-2021-PILOT",
+      "verification_state": "needs_reference_review",
+      "assessment": "unverified",
+      "independently_corroborated_fields": [],
+      "rights": {
+        "metadata": "pending_application_review",
+        "source_images": "not_used_clearance_pending",
+        "user_photographs": "not_collected"
+      },
+      "expert_review": {
+        "status": "pending",
+        "reviewed_by": null,
+        "reviewed_at": null
+      },
+      "unresolved_blockers": [
+        "independent_specimen_lineage_missing",
+        "raw_source_snapshots_missing",
+        "country_year_mark_geometry_lookalikes_unresolved",
+        "circulation_vs_set_finish_unresolved",
+        "expert_and_rights_review_missing"
+      ],
+      "fields": {
+        "country_code": {
+          "asserted_value": "SK",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "No independently evidenced country-code attribution to an examined specimen."
+        },
+        "country_text": {
+          "asserted_value": "SLOVENSKO",
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact SLOVENSKO inscription has not been independently transcribed from the reference specimen."
+        },
+        "denomination": {
+          "asserted_value": "5 cent",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-5-2021"
+          ],
+          "gap": "Official denomination context is not independent specimen identification."
+        },
+        "date": {
+          "asserted_value": "2021",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-issue-5-2021"
+          ],
+          "gap": "Year exists in issuer table; photographed digits and precise variant attribution remain unverified."
+        },
+        "main_motif": {
+          "asserted_value": "Kriváň",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design",
+            "ecb-design"
+          ],
+          "gap": "Shared official design descriptions are one lineage; exact specimen relief is unreviewed."
+        },
+        "coat_of_arms": {
+          "asserted_value": "Slovenský štátny znak",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-design"
+          ],
+          "gap": "General national-emblem description does not establish exact specimen detail."
+        },
+        "mint_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Exact mint mark, punctuation and position lack two independent specimen evidence lines."
+        },
+        "engraver_mark": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Designer name must not be substituted for a readable monogram; exact mark and position are missing."
+        },
+        "micro_symbols": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Applicable symbols and their positions have not been established; absence is not proved."
+        },
+        "geometry": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [],
+          "gap": "Round nominal shape is not exact positional geometry; no audited macro images."
+        },
+        "material": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal copper-covered steel is not a measured assay or independently verified specimen composition."
+        },
+        "designer_name": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-design"
+          ],
+          "gap": "General author attribution does not verify a specimen or its monogram."
+        },
+        "finish": {
+          "asserted_value": null,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "nbs-set-caveat",
+            "mint-set-2021"
+          ],
+          "gap": "Ordinary circulation versus set/proof-like status is unresolved; mintage counts include annual sets."
+        },
+        "physical.mass_g": {
+          "asserted_value": 3.92,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal mass is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.diameter_mm": {
+          "asserted_value": 21.25,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal diameter is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "physical.thickness_mm": {
+          "asserted_value": 1.67,
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal thickness is not a specimen measurement; calibrated measurement, uncertainty and reviewed limits required."
+        },
+        "edge": {
+          "asserted_value": "smooth",
+          "exact_variant_status": "unverified",
+          "observations": [
+            "ecb-spec-5"
+          ],
+          "gap": "Nominal edge type is not a two-source examination of the actual specimen edge."
+        }
+      }
+    }
+  ]
+}

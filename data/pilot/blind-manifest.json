@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "status": "PENDING_COLLECTION",
+  "protocol": "PILOT_SK_EUROCENTS.md",
+  "locked_at": null,
+  "custodian": null,
+  "reference_specimen_ids": [],
+  "reference_image_sha256": [],
+  "cases": []
+}
