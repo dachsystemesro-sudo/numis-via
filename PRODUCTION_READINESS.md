@@ -31,7 +31,9 @@ Vyžaduje úspešný fyzický pilot, bezpečné spracovanie súkromných údajov
 
 | Kontrola | Dátum | Dôkaz / run / commit | Výsledok |
 | --- | --- | --- | --- |
-| CI na main | neoverené pre aktuálny commit | — | čaká na aktuálnu kontrolu |
-| Vercel runtime | neoverené | — | čaká |
+| CI na main | 2026-11-11 | [run 42901360841](https://github.com/dachsystemesro-sudo/numis-via/actions/runs/42901360841), commit 7a39790fd6b6f7ad3ee28259b754d263ebdd62aa | PASS: 63 testov a informatívny audit; platí iba pre uvedený commit |
+| Vercel runtime | 2026-11-11 | [deployment FCzc43SsGesypsVRJHhMi6wd74aR](https://vercel.com/dachsystemesro-1672/numis-via/FCzc43SsGesypsVRJHhMi6wd74aR) | Deployment READY pre 7a39790; HTTP smoke test nepotvrdený, sieťová politika blokuje prístup |
 | verified_reference sada | neoverené | — | čaká |
 | Fyzický pilot | nevykonaný | — | čaká |
+
+Podrobný rozsah overenia, nálezy PR #11 a limity sú v [REVIEW_2026-11-11.md](REVIEW_2026-11-11.md). Predpilotné políčka ostávajú otvorené; historický úspech CI nie je potvrdením aktuálnej pracovnej vetvy ani celkovej pripravenosti.
